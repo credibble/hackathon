@@ -1,0 +1,140 @@
+type PoolFactory @entity(immutable: false) {
+  id: ID!
+  pools: [Pool!]! @derivedFrom(field: "factory")
+}
+
+type Pool @entity(immutable: false) {
+  id: ID!
+  name: String!
+  description: String!
+  symbol: String!
+  documents: String!
+  terms: String!
+  contractAddress: Bytes!
+  asset: Bytes!
+  credit: Bytes!
+  lockPeriod: BigInt!
+  withdrawDelay: BigInt!
+  borrowAPY: BigInt!
+  totalShares: BigInt!
+  totalTVL: BigInt!
+  totalBorrowed: BigInt!
+  sharesContract: SharesContract! @derivedFrom(field: "pool")
+  positionContract: PositionContract! @derivedFrom(field: "pool")
+  transactions: [Transaction!]! @derivedFrom(field: "pool")
+  snapshots: [PoolSnapshot!]! @derivedFrom(field: "pool")
+  factory: PoolFactory!
+  createdAt: BigInt!
+  lastUpdated: BigInt!
+}
+
+type SharesContract @entity(immutable: true) {
+  id: ID! # contract address
+  pool: Pool!
+  shares: [Share!]! @derivedFrom(field: "contract")
+  listings: [MarketListing!]! @derivedFrom(field: "shares")
+  address: Bytes!
+  createdAt: BigInt!
+}
+
+type PositionContract @entity(immutable: true) {
+  id: ID! # contract address
+  pool: Pool!
+  positions: [Position!]! @derivedFrom(field: "contract")
+  address: Bytes!
+  createdAt: BigInt!
+}
+
+type Share @entity(immutable: false) {
+  id: ID!
+  contract: SharesContract!
+  owner: User!
+  tokenId: BigInt!
+  amount: BigInt!
+  lockedAmount: BigInt!
+  timestamp: BigInt!
+  listing: MarketListing @derivedFrom(field: "share")
+  withdrawalRequested: Boolean!
+  withdrawRequestTime: BigInt
+  createdAt: BigInt!
+}
+
+type Position @entity(immutable: false) {
+  id: ID!
+  contract: PositionContract!
+  borrower: User!
+  tokenId: BigInt!
+  amount: BigInt!
+  dueAmount: BigInt!
+  timestamp: BigInt!
+  createdAt: BigInt!
+}
+
+type User @entity(immutable: true) {
+  id: ID!
+  shares: [Share!]! @derivedFrom(field: "owner")
+  positions: [Position!]! @derivedFrom(field: "borrower")
+  credit: CreditInfo! @derivedFrom(field: "user")
+  transactions: [Transaction!]! @derivedFrom(field: "user")
+}
+
+type Transaction @entity(immutable: false) {
+  id: ID!
+  pool: Pool
+  user: User!
+  type: String!
+  amount: BigInt!
+  token: Bytes!
+  txHash: Bytes!
+  timestamp: BigInt!
+  blockNumber: BigInt!
+}
+
+type MarketListing @entity(immutable: false) {
+  id: ID!
+  vault: Bytes!
+  seller: User!
+  share: Share!
+  shareAmount: BigInt!
+  shares: SharesContract!
+  tokenId: BigInt!
+  paymentToken: Bytes!
+  price: BigInt!
+  expiresIn: BigInt!
+  status: String!
+  createdAt: BigInt!
+}
+
+type CreditInfo @entity(immutable: false) {
+  id: ID!
+  user: User!
+  metadata: String # Store JSON metadata
+  available: BigInt!
+  used: BigInt!
+  createdAt: BigInt!
+  lastUpdated: BigInt!
+}
+
+type PoolSnapshot @entity(immutable: false) {
+  id: ID!
+  pool: Pool!
+  date: Int! # YYYYMMDD format
+  openingTVL: BigInt!
+  closingTVL: BigInt!
+  highTVL: BigInt!
+  lowTVL: BigInt!
+  openingShares: BigInt!
+  closingShares: BigInt!
+  openingBorrowed: BigInt!
+  closingBorrowed: BigInt!
+  highBorrowed: BigInt!
+  lowBorrowed: BigInt!
+}
+
+type CreditFeed @entity(immutable: false) {
+  id: ID!
+  asset: Bytes!
+  ratio: BigInt!
+  createdAt: BigInt!
+  lastUpdated: BigInt!
+}

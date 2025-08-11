@@ -1,0 +1,336 @@
+@import url("https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap");
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Credibble Design System - Professional DeFi Platform */
+
+@layer base {
+  :root {
+    /* Core Brand Colors - Credibble Orange */
+    --background: 0 0% 100%;
+    --foreground: 0 0% 8%;
+
+    /* Card & Surface Colors */
+    --card: 0 0% 100%;
+    --card-foreground: 0 0% 8%;
+    --glass: 0 0% 100% / 0.8;
+    --glass-border: 0 0% 90%;
+
+    /* Interface Elements */
+    --popover: 0 0% 100%;
+    --popover-foreground: 0 0% 8%;
+
+    /* Primary - Black for Action Buttons */
+    --primary: 0 0% 8%; /* Black for buttons */
+    --primary-foreground: 0 0% 98%;
+    --primary-hover: 0 0% 15%; /* Dark gray hover */
+
+    /* Secondary - Sophisticated Grey */
+    --secondary: 0 0% 96%;
+    --secondary-foreground: 0 0% 15%;
+    --secondary-hover: 0 0% 92%;
+
+    /* Neutral System */
+    --muted: 0 0% 96%;
+    --muted-foreground: 0 0% 45%;
+    --muted-dark: 0 0% 89%;
+
+    /* Accent - Light Orange Tint */
+    --accent: 24 100% 97%; /* Light orange tint */
+    --accent-foreground: 0 0% 15%;
+    --accent-light: 24 100% 98%;
+
+    /* Status Colors - Orange for Success/Growth */
+    --success: 22 100% 60%; /* Credibble orange #fd8d37 */
+    --success-foreground: 0 0% 98%;
+    --warning: 38 92% 50%;
+    --warning-foreground: 0 0% 98%;
+    --destructive: 0 84% 60%;
+    --destructive-foreground: 0 0% 98%;
+
+    /* Interactive Elements */
+    --border: 0 0% 89%;
+    --input: 0 0% 89%;
+    --ring: 22 100% 60%; /* Orange focus rings for brand consistency */
+    --ring-offset: 0 0% 100%;
+
+    /* Shadows & Effects */
+    --shadow-subtle: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+    --shadow-medium: 0 4px 6px -1px rgb(0 0 0 / 0.1);
+    --shadow-large: 0 10px 15px -3px rgb(0 0 0 / 0.1);
+    --shadow-glow: 0 0 0 1px rgb(0 0 0 / 0.05);
+
+    /* Sidebar */
+    --sidebar-background: 0 0% 100%;
+    --sidebar-foreground: 0 0% 15%;
+    --sidebar-primary: 22 100% 60%; /* Orange for sidebar active states */
+    --sidebar-primary-foreground: 0 0% 98%;
+    --sidebar-accent: 24 100% 97%; /* Light orange for sidebar hover */
+    --sidebar-accent-foreground: 0 0% 15%;
+    --sidebar-border: 0 0% 89%;
+    --sidebar-ring: 22 100% 60%;
+
+    /* Geometric Properties */
+    --radius: 0.5rem;
+    --radius-sm: 0.25rem;
+    --radius-lg: 0.75rem;
+    --radius-xl: 1rem;
+
+    /* Typography Scale */
+    --font-mi-sans-latin: "Inter", "Inter Fallback", -apple-system,
+      BlinkMacSystemFont, "Segoe UI", sans-serif;
+
+    /* Spacing Scale */
+    --space-section: 6rem;
+    --space-component: 2rem;
+  }
+
+  .dark {
+    --background: 0 0% 4%;
+    --foreground: 0 0% 95%;
+
+    --card: 0 0% 6%;
+    --card-foreground: 0 0% 95%;
+    --glass: 0 0% 8% / 0.8;
+    --glass-border: 0 0% 15%;
+
+    --popover: 0 0% 6%;
+    --popover-foreground: 0 0% 95%;
+
+    --primary: 0 0% 95%; /* Light gray/white for dark mode buttons */
+    --primary-foreground: 0 0% 8%;
+    --primary-hover: 0 0% 85%;
+
+    --secondary: 0 0% 10%;
+    --secondary-foreground: 0 0% 95%;
+    --secondary-hover: 0 0% 15%;
+
+    --muted: 0 0% 10%;
+    --muted-foreground: 0 0% 60%;
+    --muted-dark: 0 0% 8%;
+
+    --accent: 22 50% 15%; /* Darker orange tint for dark mode */
+    --accent-foreground: 0 0% 95%;
+    --accent-light: 22 50% 12%;
+
+    --border: 0 0% 15%;
+    --input: 0 0% 15%;
+    --ring: 22 100% 70%; /* Orange ring for dark mode */
+    --ring-offset: 0 0% 4%;
+
+    --sidebar-background: 0 0% 4%;
+    --sidebar-foreground: 0 0% 85%;
+    --sidebar-primary: 22 100% 70%; /* Orange for dark mode sidebar */
+    --sidebar-primary-foreground: 0 0% 8%;
+    --sidebar-accent: 22 50% 12%; /* Dark orange for sidebar hover */
+    --sidebar-accent-foreground: 0 0% 85%;
+    --sidebar-border: 0 0% 15%;
+  }
+}
+
+.html_pool_terms {
+  border-radius: 8px;
+  line-height: 1.5;
+  padding-top: 30px;
+}
+
+/* headings */
+.html_pool_terms h1 {
+  margin: 0 0 10px 0;
+  font-size: 1.6rem;
+  font-weight: 700;
+}
+
+.html_pool_terms h2 {
+  margin: 20px 0 10px 0;
+  font-size: 1.1rem;
+  font-weight: 600;
+  border-left: 3px solid;
+  padding-left: 10px;
+}
+
+/* paragraph */
+.html_pool_terms p {
+  margin: 0 0 16px 0;
+  font-size: 1rem;
+}
+
+/* lists */
+.html_pool_terms ul {
+  margin: 8px 0 18px 0;
+  padding-left: 20px;
+  list-style-type: disc;
+}
+
+.html_pool_terms ul li {
+  margin: 6px 0;
+  font-size: 1rem;
+}
+
+/* responsive adjustments */
+@media (max-width: 640px) {
+  .html_pool_terms {
+    padding-top: 20px;
+    margin: 14px;
+  }
+
+  .html_pool_terms h1 {
+    font-size: 1.3rem;
+  }
+
+  .html_pool_terms h2 {
+    font-size: 1rem;
+  }
+
+  .html_pool_terms ul li {
+    font-size: 0.95rem;
+  }
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply bg-background text-foreground font-mi-sans antialiased;
+    font-feature-settings: "rlig" 1, "calt" 1;
+  }
+
+  html {
+    scroll-behavior: smooth;
+  }
+}
+
+@layer components {
+  /* Glassmorphism Effects */
+  .glass-card {
+    @apply bg-glass backdrop-blur-md border border-glass-border rounded-lg;
+  }
+
+  .glass-button {
+    @apply bg-glass backdrop-blur-sm border border-glass-border hover:bg-glass/90 transition-all duration-200;
+  }
+
+  /* Neumorphism Effects */
+  .neuro-card {
+    @apply bg-background border border-border rounded-lg;
+    box-shadow: 8px 8px 16px rgba(0, 0, 0, 0.05),
+      -8px -8px 16px rgba(255, 255, 255, 0.7);
+  }
+
+  .dark .neuro-card {
+    box-shadow: none;
+    @apply border-border;
+  }
+
+  .neuro-button {
+    @apply bg-background border border-border rounded-lg transition-all duration-200;
+    box-shadow: 4px 4px 8px rgba(0, 0, 0, 0.05),
+      -4px -4px 8px rgba(255, 255, 255, 0.7);
+  }
+
+  .dark .neuro-button {
+    box-shadow: none;
+    @apply border-border;
+  }
+
+  .neuro-button:hover {
+    box-shadow: 2px 2px 4px rgba(0, 0, 0, 0.05),
+      -2px -2px 4px rgba(255, 255, 255, 0.7);
+  }
+
+  .dark .neuro-button:hover {
+    box-shadow: none;
+    @apply bg-muted;
+  }
+
+  .neuro-button:active {
+    box-shadow: inset 2px 2px 4px rgba(0, 0, 0, 0.05),
+      inset -2px -2px 4px rgba(255, 255, 255, 0.7);
+  }
+
+  .dark .neuro-button:active {
+    box-shadow: none;
+    @apply bg-muted-dark;
+  }
+
+  /* Custom Scrollbar */
+  .custom-scrollbar::-webkit-scrollbar {
+    width: 6px;
+    height: 6px;
+  }
+
+  .custom-scrollbar::-webkit-scrollbar-track {
+    @apply bg-muted rounded-full;
+  }
+
+  .custom-scrollbar::-webkit-scrollbar-thumb {
+    @apply bg-muted-foreground/30 rounded-full hover:bg-muted-foreground/50;
+  }
+
+  /* Brand Gradient */
+  .brand-gradient {
+    background: linear-gradient(135deg, #fd8d37 0%, #ff9211 100%);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    background-clip: text;
+  }
+
+  /* Horizontal Scroll Container */
+  .horizontal-scroll {
+    scrollbar-width: none;
+    -ms-overflow-style: none;
+  }
+
+  .horizontal-scroll::-webkit-scrollbar {
+    display: none;
+  }
+
+  /* Shine Effect */
+  .shine-effect {
+    position: relative;
+    overflow: hidden;
+  }
+
+  .shine-effect::before {
+    content: "";
+    position: absolute;
+    top: 0;
+    left: -100%;
+    width: 100%;
+    height: 100%;
+    background: linear-gradient(
+      90deg,
+      transparent,
+      rgba(255, 255, 255, 0.4),
+      transparent
+    );
+    animation: shine 2s infinite;
+  }
+
+  @keyframes shine {
+    0% {
+      left: -100%;
+    }
+    50% {
+      left: 100%;
+    }
+    100% {
+      left: 100%;
+    }
+  }
+
+  /* Hide number input arrows */
+  input[type="number"]::-webkit-outer-spin-button,
+  input[type="number"]::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+  }
+
+  input[type="number"] {
+    -moz-appearance: textfield;
+  }
+}

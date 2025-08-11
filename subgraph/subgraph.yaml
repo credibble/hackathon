@@ -1,0 +1,205 @@
+specVersion: 0.0.5
+schema:
+  file: ./schema.graphql
+dataSources:
+  - kind: ethereum/contract
+    name: PoolFactory
+    network: core
+    source:
+      address: "0x1ef27bd034b1a40ce89087f4a86f5ced9f630866"
+      abi: PoolFactory
+      startBlock: 7233200
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.7
+      language: wasm/assemblyscript
+      file: ./src/poolFactory.ts
+      entities:
+        - PoolFactory
+        - Pool
+        - User
+      abis:
+        - name: PoolFactory
+          file: ../smart-contracts/artifacts/contracts/PoolFactory.sol/PoolFactory.json
+        - name: Pool
+          file: ../smart-contracts/artifacts/contracts/Pool.sol/Pool.json
+      eventHandlers:
+        - event: CreatedPool(indexed address,string,string,string,(string),(string),address,address,uint256,uint256,uint256)
+          handler: handlePoolCreated
+
+  - kind: ethereum/contract
+    name: Marketplace
+    network: core
+    source:
+      address: "0x4E114B6fda47a713a51AB2688095d67408b138ea"
+      abi: Marketplace
+      startBlock: 7233200
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.7
+      language: wasm/assemblyscript
+      file: ./src/marketplace.ts
+      entities:
+        - MarketListing
+        - User
+        - Share
+        - SharesContract
+      abis:
+        - name: Marketplace
+          file: ../smart-contracts/artifacts/contracts/Marketplace.sol/Marketplace.json
+      eventHandlers:
+        - event: Listed(indexed uint256,indexed address,address,address,uint256,uint256,address,uint256)
+          handler: handleListed
+        - event: Purchased(indexed uint256,indexed address)
+          handler: handlePurchased
+        - event: Delisted(indexed uint256)
+          handler: handleDelisted
+
+  - kind: ethereum/contract
+    name: BorrowCredit
+    network: core
+    source:
+      address: "0xe3d877e22c84a8c1a673423f2d18b122a44cc6cd"
+      abi: BorrowCredit
+      startBlock: 7233200
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.7
+      language: wasm/assemblyscript
+      file: ./src/borrowCredit.ts
+      entities:
+        - CreditInfo
+        - User
+        - Transaction
+      abis:
+        - name: BorrowCredit
+          file: ../smart-contracts/artifacts/contracts/core/BorrowCredit.sol/BorrowCredit.json
+      eventHandlers:
+        - event: CreateCredits(address,(string),uint256)
+          handler: handleCreditCreated
+        - event: CreditSpent(address,address,uint256)
+          handler: handleCreditSpent
+        - event: CreditReplenished(address,address,uint256)
+          handler: handleCreditReplenished
+        - event: IncrementedCredits(address,uint256)
+          handler: handleIncrementedCredits
+        - event: DecrementedCredits(address,uint256)
+          handler: handleDecrementedCredits
+
+  - kind: ethereum/contract
+    name: Oracle
+    network: core
+    source:
+      address: "0xe86e5abf2d0ad3bfaf43d488328f07e1066554ff"
+      abi: Oracle
+      startBlock: 7233200
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.7
+      language: wasm/assemblyscript
+      file: ./src/oracle.ts
+      entities:
+        - CreditFeed
+      abis:
+        - name: Oracle
+          file: ../smart-contracts/artifacts/contracts/core/Oracle.sol/Oracle.json
+      eventHandlers:
+        - event: CreditToAssetSet(address,uint256)
+          handler: handleCreditToAssetSet
+
+templates:
+  - name: Pool
+    kind: ethereum/contract
+    network: core
+    source:
+      abi: Pool
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.7
+      language: wasm/assemblyscript
+      file: ./src/pool.ts
+      entities:
+        - Pool
+        - User
+        - Share
+        - Position
+        - Transaction
+        - PoolSnapshot
+        - SharesContract
+        - PositionContract
+      abis:
+        - name: Pool
+          file: ../smart-contracts/artifacts/contracts/Pool.sol/Pool.json
+        - name: Shares
+          file: ../smart-contracts/artifacts/contracts/core/Shares.sol/Shares.json
+        - name: Position
+          file: ../smart-contracts/artifacts/contracts/core/Position.sol/Position.json
+      eventHandlers:
+        - event: InitializedPool(address,address)
+          handler: handlePoolInitialized
+        - event: DepositedPool(indexed address,uint256,uint256,uint256)
+          handler: handleDeposited
+        - event: BorrowedPool(indexed address,uint256,uint256,uint256)
+          handler: handleBorrowed
+        - event: RepaidPool(indexed address,uint256,uint256,uint256)
+          handler: handleRepaid
+        - event: RequestedWithdrawPool(indexed address,uint256,uint256)
+          handler: handleWithdrawRequested
+        - event: ClaimedWithdrawPool(indexed address,uint256,uint256)
+          handler: handleWithdrawClaimed
+        - event: SetBorrowApy(uint256)
+          handler: handleSetBorrowApy
+        - event: SetWithdrawDelay(uint256)
+          handler: handleSetWithdrawDelay
+        - event: SetLockPeriod(uint256)
+          handler: handleSetLockPeriod
+
+  - name: Shares
+    kind: ethereum/contract
+    network: core
+    source:
+      abi: Shares
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.7
+      language: wasm/assemblyscript
+      file: ./src/shares.ts
+      entities:
+        - Share
+        - User
+      abis:
+        - name: Shares
+          file: ../smart-contracts/artifacts/contracts/core/Shares.sol/Shares.json
+      eventHandlers:
+        - event: AddedShares(address,address,uint256,uint256)
+          handler: handleAddedShares
+        - event: RemovedShares(address,address,uint256,uint256)
+          handler: handleRemovedShares
+        - event: ClosedShares(address,address,uint256)
+          handler: handleClosedShares
+        - event: ClaimedShares(address,uint256)
+          handler: handleClaimedShares
+        - event: RevertShares(address,uint256,uint256)
+          handler: handleRevertedShares
+
+  - name: Position
+    kind: ethereum/contract
+    network: core
+    source:
+      abi: Position
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.7
+      language: wasm/assemblyscript
+      file: ./src/position.ts
+      entities:
+        - Position
+        - User
+      abis:
+        - name: Position
+          file: ../smart-contracts/artifacts/contracts/core/Position.sol/Position.json
+      eventHandlers:
+        - event: IncrementPosition(indexed address,address,uint256,uint256,uint256)
+          handler: handlePositionIncremented
+        - event: DecrementPosition(indexed address,uint256,uint256)
+          handler: handlePositionDecremented
