@@ -47,7 +47,12 @@ const CopyableAddress = ({
     <div className={cn("flex items-center gap-2", className)}>
       {label && <span className="text-muted-foreground text-sm">{label}:</span>}
       <div className="flex items-center gap-1 bg-muted/50 rounded-md px-2 py-1">
-        <code className="text-sm font-mono">{formatAddress(address)}</code>
+        <a
+          href={`ttps://scan.test2.btcs.network/address/${address}`}
+          className="hover:underline"
+        >
+          <code className="text-sm font-mono">{formatAddress(address)}</code>
+        </a>
         <Button
           variant="ghost"
           size="sm"
