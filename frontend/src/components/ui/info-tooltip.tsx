@@ -1,7 +1,12 @@
 import React, { useState } from "react";
 import { Info } from "lucide-react";
-import { Tooltip, TooltipContent, TooltipProvider, TooltipTrigger } from "./tooltip";
-import { useIsMobile } from "@/hooks/use-mobile";
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger,
+} from "./tooltip";
+import { useIsMobile } from "@/hooks/useMobile";
 import { cn } from "@/lib/utils";
 
 interface InfoTooltipProps {
@@ -17,15 +22,15 @@ export const InfoTooltip: React.FC<InfoTooltipProps> = ({
   side = "top",
   className,
   iconClassName,
-  size = "sm"
+  size = "sm",
 }) => {
   const isMobile = useIsMobile();
   const [isOpen, setIsOpen] = useState(false);
 
   const iconSizes = {
     sm: "h-3 w-3",
-    md: "h-4 w-4", 
-    lg: "h-5 w-5"
+    md: "h-4 w-4",
+    lg: "h-5 w-5",
   };
 
   const handleToggle = () => {
@@ -42,14 +47,17 @@ export const InfoTooltip: React.FC<InfoTooltipProps> = ({
 
   return (
     <TooltipProvider delayDuration={isMobile ? 0 : 300}>
-      <Tooltip open={isMobile ? isOpen : undefined} onOpenChange={isMobile ? setIsOpen : undefined}>
+      <Tooltip
+        open={isMobile ? isOpen : undefined}
+        onOpenChange={isMobile ? setIsOpen : undefined}
+      >
         <TooltipTrigger
           asChild
           onClick={handleToggle}
           onTouchStart={handleToggle}
           className={cn("cursor-pointer", className)}
         >
-          <Info 
+          <Info
             className={cn(
               iconSizes[size],
               "text-muted-foreground hover:text-foreground transition-colors",
@@ -57,7 +65,7 @@ export const InfoTooltip: React.FC<InfoTooltipProps> = ({
             )}
           />
         </TooltipTrigger>
-        <TooltipContent 
+        <TooltipContent
           side={side}
           className="max-w-[280px] sm:max-w-[320px] md:max-w-sm text-xs leading-relaxed z-[100]"
           onPointerDownOutside={handleClose}

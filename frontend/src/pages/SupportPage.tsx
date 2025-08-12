@@ -4,9 +4,21 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
-import { useToast } from "@/hooks/use-toast";
+import {
+  Card,
+  CardContent,
+  CardDescription,
+  CardHeader,
+  CardTitle,
+} from "@/components/ui/card";
+import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@/components/ui/select";
+import { useToast } from "@/hooks/useToast";
 import LandingHeader from "@/components/landing/LandingHeader";
 import LandingFooter from "@/components/landing/LandingFooter";
 import { Mail, MessageCircle, Phone } from "lucide-react";
@@ -17,7 +29,7 @@ const SupportPage = () => {
     email: "",
     category: "",
     subject: "",
-    message: ""
+    message: "",
   });
   const { toast } = useToast();
 
@@ -33,18 +45,18 @@ const SupportPage = () => {
       email: "",
       category: "",
       subject: "",
-      message: ""
+      message: "",
     });
   };
 
   const handleChange = (field: string, value: string) => {
-    setFormData(prev => ({ ...prev, [field]: value }));
+    setFormData((prev) => ({ ...prev, [field]: value }));
   };
 
   return (
     <div className="min-h-screen bg-background">
       <LandingHeader />
-      
+
       <main className="py-section">
         <div className="container mx-auto px-6">
           <motion.div
@@ -59,7 +71,8 @@ const SupportPage = () => {
                 Support Center
               </h1>
               <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-                Need help? We're here to assist you. Get in touch with our support team.
+                Need help? We're here to assist you. Get in touch with our
+                support team.
               </p>
             </div>
 
@@ -77,8 +90,8 @@ const SupportPage = () => {
                     <p className="text-muted-foreground mb-4">
                       Get help via email within 24 hours
                     </p>
-                    <a 
-                      href="mailto:support@credible.finance" 
+                    <a
+                      href="mailto:support@credible.finance"
                       className="text-primary hover:underline"
                     >
                       support@credible.finance
@@ -114,8 +127,8 @@ const SupportPage = () => {
                     <p className="text-muted-foreground mb-4">
                       Monday - Friday, 9AM - 6PM EST
                     </p>
-                    <a 
-                      href="tel:+1-555-CREDIBLE" 
+                    <a
+                      href="tel:+1-555-CREDIBLE"
                       className="text-primary hover:underline"
                     >
                       +1 (555) CREDIBLE
@@ -130,7 +143,8 @@ const SupportPage = () => {
                   <CardHeader>
                     <CardTitle>Submit a Support Request</CardTitle>
                     <CardDescription>
-                      Fill out the form below and we'll get back to you as soon as possible.
+                      Fill out the form below and we'll get back to you as soon
+                      as possible.
                     </CardDescription>
                   </CardHeader>
                   <CardContent>
@@ -141,7 +155,9 @@ const SupportPage = () => {
                           <Input
                             id="name"
                             value={formData.name}
-                            onChange={(e) => handleChange("name", e.target.value)}
+                            onChange={(e) =>
+                              handleChange("name", e.target.value)
+                            }
                             required
                           />
                         </div>
@@ -151,7 +167,9 @@ const SupportPage = () => {
                             id="email"
                             type="email"
                             value={formData.email}
-                            onChange={(e) => handleChange("email", e.target.value)}
+                            onChange={(e) =>
+                              handleChange("email", e.target.value)
+                            }
                             required
                           />
                         </div>
@@ -159,16 +177,31 @@ const SupportPage = () => {
 
                       <div className="space-y-2">
                         <Label htmlFor="category">Category *</Label>
-                        <Select value={formData.category} onValueChange={(value) => handleChange("category", value)}>
+                        <Select
+                          value={formData.category}
+                          onValueChange={(value) =>
+                            handleChange("category", value)
+                          }
+                        >
                           <SelectTrigger>
                             <SelectValue placeholder="Select a category" />
                           </SelectTrigger>
                           <SelectContent>
-                            <SelectItem value="technical">Technical Issue</SelectItem>
-                            <SelectItem value="account">Account Support</SelectItem>
-                            <SelectItem value="payments">Payments & Deposits</SelectItem>
-                            <SelectItem value="partnerships">Partnership Inquiry</SelectItem>
-                            <SelectItem value="general">General Question</SelectItem>
+                            <SelectItem value="technical">
+                              Technical Issue
+                            </SelectItem>
+                            <SelectItem value="account">
+                              Account Support
+                            </SelectItem>
+                            <SelectItem value="payments">
+                              Payments & Deposits
+                            </SelectItem>
+                            <SelectItem value="partnerships">
+                              Partnership Inquiry
+                            </SelectItem>
+                            <SelectItem value="general">
+                              General Question
+                            </SelectItem>
                           </SelectContent>
                         </Select>
                       </div>
@@ -178,7 +211,9 @@ const SupportPage = () => {
                         <Input
                           id="subject"
                           value={formData.subject}
-                          onChange={(e) => handleChange("subject", e.target.value)}
+                          onChange={(e) =>
+                            handleChange("subject", e.target.value)
+                          }
                           required
                         />
                       </div>
@@ -189,7 +224,9 @@ const SupportPage = () => {
                           id="message"
                           rows={6}
                           value={formData.message}
-                          onChange={(e) => handleChange("message", e.target.value)}
+                          onChange={(e) =>
+                            handleChange("message", e.target.value)
+                          }
                           placeholder="Please describe your issue or question in detail..."
                           required
                         />

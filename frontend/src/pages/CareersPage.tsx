@@ -1,6 +1,7 @@
 import { useEffect } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Button } from "@/components/ui/button";
+import LandingHeader from "@/components/landing/LandingHeader";
 
 const jobs = [
   {
@@ -80,7 +81,9 @@ export default function CareersPage() {
 
   return (
     <main className="min-h-screen bg-background">
-      <header className="border-b border-border bg-gradient-to-b from-muted/30 to-background">
+      <LandingHeader />
+
+      <header className="border-b border-border bg-gradient-to-b from-muted/30 to-background pt-20">
         <div className="container mx-auto px-4 py-10 md:py-14">
           <h1 className="text-3xl md:text-4xl font-bold">
             Careers at Credibble

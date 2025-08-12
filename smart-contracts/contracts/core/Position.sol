@@ -2,6 +2,7 @@
 pragma solidity 0.8.22;
 
 import {ERC721} from "@openzeppelin/contracts/token/ERC721/ERC721.sol";
+import {IPosition} from "../interfaces/IPosition.sol";
 
 /**
  * @title Position
@@ -9,7 +10,7 @@ import {ERC721} from "@openzeppelin/contracts/token/ERC721/ERC721.sol";
  *         Each borrower is associated with one tokenized position that is updated
  *         on additional borrow events. Repayments adjust the outstanding due amount.
  */
-contract Position is ERC721 {
+contract Position is ERC721, IPosition {
     address public pool;
 
     /// @dev Internal counter for generating unique token IDs.
@@ -128,8 +129,18 @@ contract Position is ERC721 {
      */
     function getPositionTokenId(
         address borrower
-    ) public view returns (uint256 tokenId) {
+    ) public view returns (uint256) {
         return borrowerToTokenId[borrower];
+    }
+
+    /**
+     * @notice Gets Position info
+     */
+    function getInfo(
+        uint256 tokenId
+    ) external view returns (uint256, uint256, uint256) {
+        BorrowInfo memory info = borrowInfo[tokenId];
+        return (info.amount, info.dueAmount, info.timestamp);
     }
 
     /**

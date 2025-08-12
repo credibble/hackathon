@@ -4,24 +4,23 @@ import { Button } from "@/components/ui/button";
 import { Link } from "react-router-dom";
 import { ArrowRight, Coins, Heart, TrendingUp } from "lucide-react";
 
-
 const HeroSection = () => {
   const [currentWordIndex, setCurrentWordIndex] = useState(0);
   const [currentCharIndex, setCurrentCharIndex] = useState(0);
   const [isDeleting, setIsDeleting] = useState(false);
   const [displayText, setDisplayText] = useState("");
-  
+
   const words = ["Confidence", "Purpose", "Security", "Trust", "Excellence"];
-  
+
   useEffect(() => {
     const currentWord = words[currentWordIndex];
-    
+
     const typeWriter = () => {
       if (!isDeleting) {
         // Typing
         if (currentCharIndex < currentWord.length) {
           setDisplayText(currentWord.substring(0, currentCharIndex + 1));
-          setCurrentCharIndex(prev => prev + 1);
+          setCurrentCharIndex((prev) => prev + 1);
         } else {
           // Finished typing, wait before deleting
           setTimeout(() => setIsDeleting(true), 1500);
@@ -30,28 +29,28 @@ const HeroSection = () => {
         // Deleting
         if (currentCharIndex > 0) {
           setDisplayText(currentWord.substring(0, currentCharIndex - 1));
-          setCurrentCharIndex(prev => prev - 1);
+          setCurrentCharIndex((prev) => prev - 1);
         } else {
           // Finished deleting, move to next word
           setIsDeleting(false);
-          setCurrentWordIndex(prev => (prev + 1) % words.length);
+          setCurrentWordIndex((prev) => (prev + 1) % words.length);
         }
       }
     };
-    
+
     const speed = isDeleting ? 50 : 100; // Faster when deleting
     const timeout = setTimeout(typeWriter, speed);
-    
+
     return () => clearTimeout(timeout);
   }, [currentCharIndex, isDeleting, currentWordIndex, words]);
   return (
     <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
       {/* Video Background */}
       <div className="absolute inset-0 pointer-events-none">
-        <video 
-          autoPlay 
-          muted 
-          loop 
+        <video
+          autoPlay
+          muted
+          loop
           playsInline
           preload="auto"
           className="absolute top-1/2 -translate-y-1/2 -right-20 md:-right-32 w-[500px] md:w-[800px] lg:w-[1000px] h-auto opacity-10 object-cover hidden sm:block"
@@ -74,7 +73,7 @@ const HeroSection = () => {
           >
             <div className="w-1.5 h-1.5 md:w-2 md:h-2 bg-success rounded-full animate-pulse" />
             <span className="text-xs md:text-sm font-medium text-accent-foreground">
-              Live on Core DAO Testnet
+              Live on Core DAO Testnet 2
             </span>
           </motion.div>
 
@@ -92,7 +91,11 @@ const HeroSection = () => {
                 {displayText}
                 <motion.span
                   animate={{ opacity: [1, 0] }}
-                  transition={{ duration: 0.8, repeat: Infinity, repeatType: "reverse" }}
+                  transition={{
+                    duration: 0.8,
+                    repeat: Infinity,
+                    repeatType: "reverse",
+                  }}
                   className="inline-block w-0.5 h-[1em] bg-current ml-1 align-middle"
                 />
               </span>
@@ -107,8 +110,9 @@ const HeroSection = () => {
             transition={{ duration: 0.6, delay: 0.2 }}
             className="text-base md:text-xl lg:text-2xl text-muted-foreground mb-8 md:mb-12 max-w-3xl mx-auto leading-relaxed px-2"
           >
-            Connect DeFi yields with real-world lending. Fund students, farmers, and 
-            entrepreneurs while earning sustainable returns through tokenized loan shares.
+            Connect DeFi yields with real-world lending. Fund students, farmers,
+            and entrepreneurs while earning sustainable returns through
+            tokenized loan shares.
           </motion.p>
 
           {/* CTA Buttons */}
@@ -119,13 +123,20 @@ const HeroSection = () => {
             className="flex flex-col sm:flex-row gap-3 md:gap-4 justify-center items-center mb-10 md:mb-16"
           >
             <Link to="/app">
-              <Button size="lg" className="w-full sm:w-auto font-semibold px-6 md:px-8 py-2.5 md:py-3 text-sm md:text-base group">
+              <Button
+                size="lg"
+                className="w-full sm:w-auto font-semibold px-6 md:px-8 py-2.5 md:py-3 text-sm md:text-base group"
+              >
                 Launch App
                 <ArrowRight className="ml-1.5 md:ml-2 h-3.5 w-3.5 md:h-4 md:w-4 group-hover:translate-x-1 transition-transform" />
               </Button>
             </Link>
             <Link to="/partners">
-              <Button variant="outline" size="lg" className="w-full sm:w-auto font-semibold px-6 md:px-8 py-2.5 md:py-3 text-sm md:text-base">
+              <Button
+                variant="outline"
+                size="lg"
+                className="w-full sm:w-auto font-semibold px-6 md:px-8 py-2.5 md:py-3 text-sm md:text-base"
+              >
                 Partner With Us
               </Button>
             </Link>
@@ -142,7 +153,9 @@ const HeroSection = () => {
               <div className="w-10 h-10 md:w-12 md:h-12 bg-accent rounded-xl flex items-center justify-center mx-auto mb-3 md:mb-4 group-hover:bg-primary group-hover:text-primary-foreground transition-colors">
                 <TrendingUp className="w-5 h-5 md:w-6 md:h-6" />
               </div>
-              <h3 className="font-semibold text-foreground mb-1.5 md:mb-2 text-sm md:text-base">Earn Real Yields</h3>
+              <h3 className="font-semibold text-foreground mb-1.5 md:mb-2 text-sm md:text-base">
+                Earn Real Yields
+              </h3>
               <p className="text-xs md:text-sm text-muted-foreground">
                 8-16% APY from transparent, real-world loan portfolios
               </p>
@@ -152,7 +165,9 @@ const HeroSection = () => {
               <div className="w-10 h-10 md:w-12 md:h-12 bg-accent rounded-xl flex items-center justify-center mx-auto mb-3 md:mb-4 group-hover:bg-primary group-hover:text-primary-foreground transition-colors">
                 <Heart className="w-5 h-5 md:w-6 md:h-6" />
               </div>
-              <h3 className="font-semibold text-foreground mb-1.5 md:mb-2 text-sm md:text-base">Create Impact</h3>
+              <h3 className="font-semibold text-foreground mb-1.5 md:mb-2 text-sm md:text-base">
+                Create Impact
+              </h3>
               <p className="text-xs md:text-sm text-muted-foreground">
                 Fund education, agriculture, and small businesses globally
               </p>
@@ -162,7 +177,9 @@ const HeroSection = () => {
               <div className="w-10 h-10 md:w-12 md:h-12 bg-accent rounded-xl flex items-center justify-center mx-auto mb-3 md:mb-4 group-hover:bg-primary group-hover:text-primary-foreground transition-colors">
                 <Coins className="w-5 h-5 md:w-6 md:h-6" />
               </div>
-              <h3 className="font-semibold text-foreground mb-1.5 md:mb-2 text-sm md:text-base">Trade Freely</h3>
+              <h3 className="font-semibold text-foreground mb-1.5 md:mb-2 text-sm md:text-base">
+                Trade Freely
+              </h3>
               <p className="text-xs md:text-sm text-muted-foreground">
                 NFT shares are tradeable on our integrated marketplace
               </p>

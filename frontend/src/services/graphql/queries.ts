@@ -55,8 +55,13 @@ export const QUERY_ALL_POOLS = `
       positionContract { 
         id address createdAt 
         positions { 
-          id borrower { id credit { metadata } } 
-          amount dueAmount timestamp createdAt 
+          id 
+          borrower { id credit { metadata } }
+          tokenId 
+          amount 
+          dueAmount 
+          timestamp 
+          createdAt 
         }
       }
       snapshots(first: 5, orderBy: date, orderDirection: asc) {
@@ -214,6 +219,37 @@ export const QUERY_USER_SHARES = `
       createdAt
     }
     sharesCount: shares(where: $where) {
+      id
+    }
+  }
+`;
+
+export const QUERY_USER_POSITIONS = `
+  query UserPositions($first: Int!, $skip: Int!, $where: Position_filter) {
+    positions(first: $first, skip: $skip, where: $where) {
+      id
+      contract {
+        address
+        pool { 
+          id 
+          contractAddress
+          name 
+          asset 
+          symbol 
+          totalTVL
+          totalBorrowed
+          totalShares
+          lockPeriod
+          borrowAPY
+        }
+      }
+      tokenId
+      amount
+      dueAmount
+      timestamp
+      createdAt
+    }
+    positionsCount: positions(where: $where) {
       id
     }
   }

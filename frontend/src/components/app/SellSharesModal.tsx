@@ -11,7 +11,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Badge } from "@/components/ui/badge";
 import { TrendingDown } from "lucide-react";
-import { useToast } from "@/hooks/use-toast";
+import { useToast } from "@/hooks/useToast";
 import { Pool, Share } from "@/types/graph";
 import { erc721Abi, formatEther, Hex, parseUnits } from "viem";
 import { dataService } from "@/services/dataService";
@@ -215,11 +215,13 @@ const SellSharesModal = ({
                 {tokens.map((token) => {
                   return (
                     <SelectItem key={token?.symbol} value={token?.address}>
-                      <div className="flex items-center">
-                        <div className="w-6 h-6 bg-muted rounded-full flex items-center justify-center mr-2">
-                          <span className="text-xs font-semibold">
-                            {token?.symbol.charAt(0)}
-                          </span>
+                      <div className="flex items-center space-x-3">
+                        <div className="w-6 h-6 rounded-full overflow-hidden flex items-center justify-center bg-muted">
+                          <img
+                            src={token.image}
+                            alt={token.symbol}
+                            className="w-full h-full object-cover"
+                          />
                         </div>
                         <div>
                           <div className="font-medium">{token?.symbol}</div>

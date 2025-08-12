@@ -18,7 +18,7 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import { TrendingUp, DollarSign } from "lucide-react";
-import { useToast } from "@/hooks/use-toast";
+import { useToast } from "@/hooks/useToast";
 import { MarketListing } from "@/types/graph";
 import { computePoolShareValue } from "@/lib/typeslibs";
 import { dataService } from "@/services/dataService";
@@ -124,9 +124,9 @@ const BuySharesModal = ({ isOpen, onClose, listing }: BuySharesModalProps) => {
                         className="w-full h-full object-cover"
                       />
                     </div>
-                    <div>
+                    <div className="flex gap-2 items-center">
                       <span className="font-medium">{paymentToken.symbol}</span>
-                      <span className="text-xs text-muted-foreground ml-2">
+                      <span className="text-xs text-muted-foreground">
                         Balance:{" "}
                         {formatLargeNumber(
                           Number(

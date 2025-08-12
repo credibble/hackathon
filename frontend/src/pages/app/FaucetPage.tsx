@@ -36,7 +36,7 @@ export default function FaucetPage() {
     if (metaDesc)
       metaDesc.setAttribute(
         "content",
-        `Request test ${token.symbol} tokens (Max 1000) on Core Testnet.`
+        `Request test ${token.symbol} tokens (Max 1000) on Core Testnet 2.`
       );
     const canonical = document.querySelector('link[rel="canonical"]');
     if (canonical)
@@ -106,7 +106,7 @@ export default function FaucetPage() {
             {token.symbol} Faucet
           </h1>
           <p className="text-sm text-muted-foreground mt-1">
-            Request testnet {token.symbol} on Core Testnet. Maximum 1000{" "}
+            Request testnet {token.symbol} on Core Testnet 2. Maximum 1000{" "}
             {token.symbol} per request.
           </p>
         </header>

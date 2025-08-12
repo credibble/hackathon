@@ -2,7 +2,7 @@ import { useState } from "react";
 import { Copy, Check } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { cn } from "@/lib/utils";
-import { useToast } from "@/hooks/use-toast";
+import { useToast } from "@/hooks/useToast";
 
 interface CopyableAddressProps {
   address: string;
@@ -11,11 +11,11 @@ interface CopyableAddressProps {
   showFullAddress?: boolean;
 }
 
-const CopyableAddress = ({ 
-  address, 
-  label, 
+const CopyableAddress = ({
+  address,
+  label,
   className,
-  showFullAddress = false 
+  showFullAddress = false,
 }: CopyableAddressProps) => {
   const [copied, setCopied] = useState(false);
   const { toast } = useToast();
@@ -45,13 +45,9 @@ const CopyableAddress = ({
 
   return (
     <div className={cn("flex items-center gap-2", className)}>
-      {label && (
-        <span className="text-muted-foreground text-sm">{label}:</span>
-      )}
+      {label && <span className="text-muted-foreground text-sm">{label}:</span>}
       <div className="flex items-center gap-1 bg-muted/50 rounded-md px-2 py-1">
-        <code className="text-sm font-mono">
-          {formatAddress(address)}
-        </code>
+        <code className="text-sm font-mono">{formatAddress(address)}</code>
         <Button
           variant="ghost"
           size="sm"

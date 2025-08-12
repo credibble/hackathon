@@ -1,10 +1,9 @@
 // SPDX-License-Identifier: UNLICENSED
 pragma solidity 0.8.22;
 
-import {IERC721} from "@openzeppelin/contracts/token/ERC721/IERC721.sol";
 import {IERC20} from "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 import {Ownable} from "@openzeppelin/contracts/access/Ownable.sol";
-import {IShares} from "./interfaces/IShares.sol";
+import {Shares} from "./core/Shares.sol";
 import {Vault} from "./core/Vault.sol";
 
 /**
@@ -61,7 +60,8 @@ contract MarketPlace is Ownable {
 
         address vault = address(new Vault(_shares, _tokenId));
 
-        IERC721(_shares).transferFrom(msg.sender, vault, _tokenId);
+        Shares(_shares).transferFrom(msg.sender, vault, _tokenId);
+        uint256 vaultTokenId = Shares(_shares).ownerToTokenId(vault);
 
         listings.push(
             Listing({
@@ -74,8 +74,6 @@ contract MarketPlace is Ownable {
                 expiresIn: block.timestamp + _expiresIn
             })
         );
-
-        uint256 vaultTokenId = IShares(_shares).tokenIdOf(vault);
 
         emit Listed(
             listings.length - 1,

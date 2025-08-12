@@ -42,7 +42,6 @@ const LoanPoolCards = () => {
             : featuredPools.data.data?.map((pool, index) => {
                 const token = dataService.getToken(pool.asset);
                 const expectedAPY = computeExpectedAPY(pool);
-                const utilizationRate = computeUtilizationRate(pool);
 
                 return (
                   <motion.div
@@ -115,10 +114,7 @@ const LoanPoolCards = () => {
                               Borrowers
                             </span>
                             <span className="font-medium text-foreground">
-                              {pool.positionContract.positions.length} org
-                              {pool.positionContract.positions.length !== 1
-                                ? "s"
-                                : ""}
+                              {pool.positionContract.positions.length}
                             </span>
                           </div>
 

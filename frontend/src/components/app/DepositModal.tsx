@@ -18,7 +18,7 @@ import {
 } from "@/components/ui/select";
 import { Badge } from "@/components/ui/badge";
 import { Token } from "@/types";
-import { DollarSign, Info } from "lucide-react";
+import { Info } from "lucide-react";
 import { Pool } from "@/types/graph";
 import { computeExpectedAPY, computePoolShareValue } from "@/lib/typeslibs";
 import { formatLargeNumber } from "@/lib/utils";
@@ -48,17 +48,6 @@ const DepositModal = ({ isOpen, onClose, pool }: DepositModalProps) => {
     dataService.getToken(pool.asset)
   );
 
-  const {
-    writeContractAsync: approveAsync,
-    data: approveHash,
-    isPending,
-  } = useWriteContract();
-  const {
-    writeContractAsync: depositAsync,
-    data: depositHash,
-    isPending: isPending2,
-  } = useWriteContract();
-
   const shareValue = computePoolShareValue(pool);
   const expectedAPY = computeExpectedAPY(pool);
   const estimatedShares = amount
@@ -73,6 +62,17 @@ const DepositModal = ({ isOpen, onClose, pool }: DepositModalProps) => {
         ? undefined
         : selectedToken?.address,
   });
+
+  const {
+    writeContractAsync: approveAsync,
+    data: approveHash,
+    isPending,
+  } = useWriteContract();
+  const {
+    writeContractAsync: depositAsync,
+    data: depositHash,
+    isPending: isPending2,
+  } = useWriteContract();
 
   const { isPending: isApprovePending, isSuccess: isApproveSuccess } =
     useWaitForTransactionReceipt({
@@ -189,6 +189,7 @@ const DepositModal = ({ isOpen, onClose, pool }: DepositModalProps) => {
                   setSelectedToken(selectedToken);
                 }
               }}
+              defaultValue={selectedToken?.symbol}
             >
               <SelectTrigger>
                 <SelectValue placeholder="Choose a token to deposit" />
@@ -198,15 +199,17 @@ const DepositModal = ({ isOpen, onClose, pool }: DepositModalProps) => {
                   key={selectedToken?.symbol}
                   value={selectedToken?.symbol}
                 >
-                  <div className="flex items-center">
-                    <div className="w-6 h-6 bg-muted rounded-full flex items-center justify-center mr-2">
-                      <span className="text-xs font-semibold">
-                        {selectedToken?.symbol.charAt(0)}
-                      </span>
+                  <div className="flex items-center space-x-3">
+                    <div className="w-6 h-6 rounded-full overflow-hidden flex items-center justify-center bg-muted">
+                      <img
+                        src={selectedToken.image}
+                        alt={selectedToken.symbol}
+                        className="w-full h-full object-cover"
+                      />
                     </div>
-                    <div>
+                    <div className="flex gap-2 items-center">
                       <div className="font-medium">{selectedToken?.symbol}</div>
-                      <div className="text-xs text-muted-foreground">
+                      <div className="text-xs text-muted-foreground ">
                         Balance:{" "}
                         {formatLargeNumber(
                           Number(
@@ -228,14 +231,12 @@ const DepositModal = ({ isOpen, onClose, pool }: DepositModalProps) => {
           <div className="space-y-2">
             <Label htmlFor="amount">Deposit Amount</Label>
             <div className="relative">
-              <DollarSign className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground" />
               <Input
                 id="amount"
                 type="number"
                 placeholder="0.00"
                 value={amount}
                 onChange={(e) => setAmount(e.target.value)}
-                className="pl-10"
               />
             </div>
             {selectedToken && amount && (

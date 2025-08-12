@@ -156,17 +156,6 @@ contract Shares is ERC721, IShares {
     }
 
     /**
-     * @notice Returns the shares's  token ID.
-     * @param owner Address of the shares.
-     * @return tokenId Token ID linked to the shares.
-     */
-    function getSharesTokenId(
-        address owner
-    ) public view returns (uint256 tokenId) {
-        return ownerToTokenId[owner];
-    }
-
-    /**
      * @notice Override of transferFrom to add custom logic (e.g., time locks).
      * @dev Prevents transfer if token is still locked.
      * @param from The current owner of the NFT.
@@ -222,8 +211,31 @@ contract Shares is ERC721, IShares {
         info.withdrawRequestTime = 0;
     }
 
-    function tokenIdOf(address owner) external view returns (uint256) {
+    /**
+     * @notice Returns the shares's  token ID.
+     * @param owner Address of the shares.
+     * @return tokenId Token ID linked to the shares.
+     */
+    function getSharesTokenId(
+        address owner
+    ) public view returns (uint256 tokenId) {
         return ownerToTokenId[owner];
+    }
+
+    /**
+     * @notice Gets Shares info
+     */
+    function getInfo(
+        uint256 tokenId
+    ) external view returns (uint256, uint256, uint256, bool, uint256) {
+        SharesInfo memory info = sharesInfo[tokenId];
+        return (
+            info.amount,
+            info.lockedAmount,
+            info.timestamp,
+            info.withdrawalRequested,
+            info.withdrawRequestTime
+        );
     }
 
     /**

@@ -4,7 +4,7 @@ import { SidebarProvider } from "@/components/ui/sidebar";
 import AppSidebar from "@/components/app/AppSidebar";
 import AppHeader from "@/components/app/AppHeader";
 import { TermsOfUseModal } from "@/components/app/TermsOfUseModal";
-import { useIsMobile } from "@/hooks/use-mobile";
+import { useIsMobile } from "@/hooks/useMobile";
 
 const AppLayout = () => {
   const isMobile = useIsMobile();

@@ -47,6 +47,7 @@ export function useFeaturedLoanPools(limit: number = 3) {
     queryFn: () =>
       dataService.getPools(1, limit, {
         sortBy: "totalTVL",
+        sortOrder: "desc",
       }),
   });
 }

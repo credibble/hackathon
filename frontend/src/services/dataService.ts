@@ -16,6 +16,7 @@ import {
   QUERY_POOLS,
   QUERY_POOL_BY_SYMBOL,
   QUERY_USER_SHARES,
+  QUERY_USER_POSITIONS,
   QUERY_CREDIT_RATE,
   QUERY_MARKET_LISTINGS,
   QUERY_TRANSACTIONS,
@@ -28,6 +29,7 @@ import {
   MarketListing,
   Transaction,
   CreditFeed,
+  Position,
 } from "@/types/graph";
 import { mockTokens } from "@/data/mockData";
 export class DataService {
@@ -55,8 +57,8 @@ export class DataService {
       creditInfos: CreditInfo[];
       creditInfosCount: { id: Hex }[];
     }>(QUERY_CREDIT_INFOS, {
-      first: first.toString(),
-      skip: skip.toString(),
+      first,
+      skip,
       orderBy: sortBy,
       orderDirection: sortOrder,
     });
@@ -225,6 +227,35 @@ export class DataService {
     };
   }
 
+  // User Positions
+  async getUserPositions(
+    page: number,
+    limit: number,
+    where?: Record<string, string | number | boolean | object>
+  ): Promise<ApiResponse<PaginatedResponse<Position>>> {
+    const { positions, positionsCount } = await graphRequest<{
+      positions: Position[];
+      positionsCount: { id: Hex }[];
+    }>(QUERY_USER_POSITIONS, {
+      first: limit,
+      skip: (page - 1) * limit,
+      where,
+    });
+
+    const total = positionsCount.length;
+
+    return {
+      success: true,
+      data: {
+        data: positions,
+        total,
+        page,
+        limit,
+        hasMore: page * limit < total,
+      },
+    };
+  }
+
   // Marketplace
   async getMarketplaceListings(
     page: number,
@@ -315,53 +346,23 @@ export class DataService {
       partnerOrgsOnboarded: 0,
       loansOriginated: 0,
       averageLoanAmount: 0,
-      impactStories: [],
+      impactStories: [
+        {
+          title: "Fueling Tech Education for Women",
+          description:
+            "A microloan funded via Credible allowed a group of young women to enroll in a six-month software development bootcamp.",
+          location: "Nairobi, Kenya",
+          amount: 3000,
+        },
+        {
+          title: "Supporting Rural Solar Power Projects",
+          description:
+            "Funds raised through Credibble's platform helped install solar panels in an off-grid village, providing reliable electricity for homes and a small health clinic.",
+          location: "Bamako, Mali",
+          amount: 4500,
+        },
+      ],
     };
-  }
-
-  // Mutations (for future API integration)
-  async depositToPool(
-    poolId: string,
-    amount: number,
-    tokenSymbol: string
-  ): Promise<boolean> {
-    await new Promise((resolve) => setTimeout(resolve, 1000));
-    // Mock success
-    return true;
-  }
-
-  async withdrawFromPool(shareId: string, amount: number): Promise<boolean> {
-    await new Promise((resolve) => setTimeout(resolve, 1000));
-    return true;
-  }
-
-  async claimRewards(shareId: string): Promise<boolean> {
-    await new Promise((resolve) => setTimeout(resolve, 800));
-    return true;
-  }
-
-  async buyShares(poolId: string, amount: number): Promise<boolean> {
-    await new Promise((resolve) => setTimeout(resolve, 1000));
-    return true;
-  }
-
-  async sellShares(
-    shareId: string,
-    amount: number,
-    pricePerShare: number
-  ): Promise<boolean> {
-    await new Promise((resolve) => setTimeout(resolve, 1000));
-    return true;
-  }
-
-  async borrowFromPool(poolId: string, amount: number): Promise<boolean> {
-    await new Promise((resolve) => setTimeout(resolve, 1200));
-    return true;
-  }
-
-  async repayLoan(loanId: string, amount: number): Promise<boolean> {
-    await new Promise((resolve) => setTimeout(resolve, 1000));
-    return true;
   }
 }
 

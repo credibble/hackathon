@@ -9,7 +9,9 @@ import {Pausable} from "@openzeppelin/contracts/utils/Pausable.sol";
 import {Math} from "@openzeppelin/contracts/utils/math/Math.sol";
 import {Ownable} from "@openzeppelin/contracts/access/Ownable.sol";
 import {Shares} from "./core/Shares.sol";
+import {IShares} from "./interfaces/IShares.sol";
 import {Position} from "./core/Position.sol";
+import {IPosition} from "./interfaces/IPosition.sol";
 
 /**
  * @title Pool Contract
@@ -30,8 +32,8 @@ contract Pool is ReentrancyGuard, Ownable, Pausable, PoolHelper {
     uint256 public borrowAPY;
     uint256 public constant YEAR = 365 days;
 
-    Shares public sharesToken;
-    Position public positionToken;
+    IShares public sharesToken;
+    IPosition public positionToken;
 
     uint256 public constant INITIAL_LP = 1_000 * 1e18;
 
@@ -146,7 +148,7 @@ contract Pool is ReentrancyGuard, Ownable, Pausable, PoolHelper {
             uint256 timestamp,
             bool withdrawalRequested,
             uint256 withdrawRequestTime
-        ) = sharesToken.sharesInfo(tokenId);
+        ) = sharesToken.getInfo(tokenId);
         require(withdrawalRequested, "No withdrawal requested");
         require(
             block.timestamp >= withdrawRequestTime + withdrawDelay,
@@ -190,10 +192,11 @@ contract Pool is ReentrancyGuard, Ownable, Pausable, PoolHelper {
         require(amount <= availableLiquidity(), "Exceeds liquidity");
 
         uint256 __dueAmount;
-        uint256 __tokenId = positionToken.borrowerToTokenId(msg.sender);
+        uint256 __tokenId = positionToken.getPositionTokenId(msg.sender);
         if (__tokenId != 0) {
-            (uint256 __amount, , uint256 __timestamp) = positionToken
-                .borrowInfo(__tokenId);
+            (uint256 __amount, , uint256 __timestamp) = positionToken.getInfo(
+                __tokenId
+            );
             __dueAmount = _calculateInterest(__amount, __timestamp);
         }
 
@@ -224,10 +227,28 @@ contract Pool is ReentrancyGuard, Ownable, Pausable, PoolHelper {
         uint256 tokenId,
         uint256 amount
     ) external payable nonReentrant whenNotPaused {
+        _repay(tokenId, amount);
+    }
+
+    function repayAll(uint256 tokenId) external payable whenNotPaused {
+        (uint256 positionPrincipal, , uint256 since) = positionToken.getInfo(
+            tokenId
+        );
+        uint256 interest = _calculateInterest(positionPrincipal, since);
+        uint256 principalToApply = positionPrincipal > totalBorrowed
+            ? totalBorrowed
+            : positionPrincipal;
+
+        uint256 totalDue = principalToApply + interest;
+
+        _repay(tokenId, totalDue);
+    }
+
+    function _repay(uint256 tokenId, uint256 amount) internal {
         uint256 repayPrincipal = _isNative() ? msg.value : amount;
         require(repayPrincipal > 0, "Amount = 0");
 
-        (uint256 positionPrincipal, , uint256 since) = positionToken.borrowInfo(
+        (uint256 positionPrincipal, , uint256 since) = positionToken.getInfo(
             tokenId
         );
         uint256 interest = _calculateInterest(positionPrincipal, since);

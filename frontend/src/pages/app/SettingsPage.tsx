@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Switch } from "@/components/ui/switch";
-import { useToast } from "@/hooks/use-toast";
+import { useToast } from "@/hooks/useToast";
 import { Badge } from "@/components/ui/badge";
 import { Shimmer } from "@/components/ui/shimmer";
 import { useTheme } from "@/contexts/ThemeContext";
@@ -32,7 +32,7 @@ const SettingsPage = () => {
     toast({
       title: `Switched to ${checked ? "Mainnet" : "Testnet"}`,
       description: `You are now connected to ${
-        checked ? "Core DAO Mainnet" : "Core DAO Testnet"
+        checked ? "Core DAO Mainnet" : "Core DAO Testnet 2"
       }`,
     });
   };
