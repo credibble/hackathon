@@ -586,11 +586,11 @@ const PoolDetailPage = () => {
                 <Card key={position.id} className="neuro-card">
                   <CardHeader>
                     <div className="flex items-center space-x-4">
-                      <div className="w-12 h-12 bg-accent rounded-lg flex items-center justify-center">
-                        <span className="text-lg font-bold">
-                          {meta.name?.charAt(0)}
-                        </span>
-                      </div>
+                      <img
+                        src={meta.logo}
+                        className="w-12 h-12 bg-accent rounded-lg object-cover"
+                      />
+
                       <div>
                         <CardTitle>{meta.name}</CardTitle>
                         <Badge variant="outline" className="mt-1">
