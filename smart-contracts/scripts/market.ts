@@ -11,7 +11,7 @@ async function whiteListShares(market: Hex, shares: Hex[]) {
   }
 }
 
-whiteListShares("0xd55654e62f6a839619a50c5f333b80e573ff2d36", [
+whiteListShares("0xb4b9156de6dcd0d3cfdcb4f6d17ac513e2109fd3", [
   "0x3c79877a788db228332bcca268f6d0e00b993a97",
   "0xc57cf8960678bb6c1e55dd47cbec590b4b64b8b6",
   "0xf042a6174ae9405b420c309e5564e913266c586f",

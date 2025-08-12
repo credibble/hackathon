@@ -202,8 +202,8 @@ const DepositModal = ({ isOpen, onClose, pool }: DepositModalProps) => {
                   <div className="flex items-center space-x-3">
                     <div className="w-6 h-6 rounded-full overflow-hidden flex items-center justify-center bg-muted">
                       <img
-                        src={selectedToken.image}
-                        alt={selectedToken.symbol}
+                        src={selectedToken?.image}
+                        alt={selectedToken?.symbol}
                         className="w-full h-full object-cover"
                       />
                     </div>

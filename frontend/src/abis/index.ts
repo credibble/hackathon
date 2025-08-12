@@ -788,12 +788,6 @@ export const marketAbi = [
       },
       {
         indexed: false,
-        internalType: "uint256",
-        name: "tokenId",
-        type: "uint256",
-      },
-      {
-        indexed: false,
         internalType: "address",
         name: "paymentToken",
         type: "address",
@@ -815,6 +809,12 @@ export const marketAbi = [
         internalType: "address",
         name: "vault",
         type: "address",
+      },
+      {
+        indexed: false,
+        internalType: "uint256",
+        name: "vaultTokenId",
+        type: "uint256",
       },
     ],
     name: "Listed",
@@ -1046,4 +1046,4 @@ export const marketAbi = [
   },
 ] as const;
 
-export const marketAddress: Hex = "0xd55654e62f6a839619a50c5f333b80e573ff2d36";
+export const marketAddress: Hex = "0xb4b9156de6dcd0d3cfdcb4f6d17ac513e2109fd3";

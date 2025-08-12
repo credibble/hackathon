@@ -25,10 +25,10 @@ async function listShares(
 }
 
 listShares(
-  "0xd55654e62f6a839619a50c5f333b80e573ff2d36",
-  "0x88d405e2289ce7bc37434f5e6237d66106f90a7b",
+  "0xb4b9156de6dcd0d3cfdcb4f6d17ac513e2109fd3",
+  "0xde76dad8f3ff254a738564deca16f2d11fc0f681",
   1n,
   zeroAddress,
   parseEther("50"),
-  738784n
+  7n * 86400n
 );

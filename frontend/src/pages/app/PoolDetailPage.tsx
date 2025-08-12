@@ -204,10 +204,10 @@ const PoolDetailPage = () => {
                 <div className="flex items-center gap-2">
                   <span className="text-xl sm:text-2xl font-bold text-foreground">
                     {formatLargeNumber(
-                      Number(formatUnits(pool.data.totalTVL, token.decimals))
+                      Number(formatUnits(pool.data.totalTVL, token?.decimals))
                     )}{" "}
                     <span className="text-base sm:text-lg text-muted-foreground">
-                      {token.symbol}
+                      {token?.symbol}
                     </span>
                   </span>
                   <Tooltip>
@@ -419,7 +419,7 @@ const PoolDetailPage = () => {
                       formatter={(value: number) => [
                         chartPeriod === "apy"
                           ? `${value.toFixed(2)}%`
-                          : `${formatLargeNumber(value)} ${token.symbol}`,
+                          : `${formatLargeNumber(value)} ${token?.symbol}`,
                         chartPeriod === "apy" ? "APY" : "TVL",
                       ]}
                     />
@@ -465,9 +465,9 @@ const PoolDetailPage = () => {
                   </span>
                   <span className="font-medium">
                     {formatLargeNumber(
-                      Number(formatUnits(pool?.data?.totalTVL, token.decimals))
+                      Number(formatUnits(pool?.data?.totalTVL, token?.decimals))
                     )}{" "}
-                    {token.symbol}
+                    {token?.symbol}
                   </span>
                 </div>
                 <div className="flex justify-between">
@@ -477,7 +477,7 @@ const PoolDetailPage = () => {
                 <div className="flex justify-between">
                   <span className="text-muted-foreground">Token Value</span>
                   <span className="font-medium">
-                    {formatLargeNumber(shareValue)} {token.symbol}
+                    {formatLargeNumber(shareValue)} {token?.symbol}
                   </span>
                 </div>
                 <div className="flex justify-between">
@@ -555,18 +555,18 @@ const PoolDetailPage = () => {
                   <div className="flex items-center space-x-3">
                     <div className="w-8 h-8 rounded-full overflow-hidden flex items-center justify-center bg-muted">
                       <span className="text-xs font-semibold">
-                        {token.symbol.charAt(0)}
+                        {token?.symbol?.charAt(0)}
                       </span>
                     </div>
                     <div>
-                      <div className="font-medium">{token.symbol}</div>
+                      <div className="font-medium">{token?.symbol}</div>
                       <div className="text-xs text-muted-foreground">
-                        {token.name}
+                        {token?.name}
                       </div>
                     </div>
                   </div>
                   <CopyableAddress
-                    address={token.address}
+                    address={token?.address}
                     className="text-xs"
                   />
                 </div>
@@ -599,7 +599,7 @@ const PoolDetailPage = () => {
                               formatEther(position.amount + position.dueAmount)
                             )
                           )}{" "}
-                          {token.symbol}
+                          {token?.symbol}
                         </Badge>
                       </div>
                     </div>

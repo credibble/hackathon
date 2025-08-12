@@ -58,10 +58,10 @@ contract MarketPlace is Ownable {
     ) external {
         require(allowedShares[_shares], "NFT not allowed");
 
-        address vault = address(new Vault(_shares, _tokenId));
+        address vault = address(new Vault(_shares));
 
         Shares(_shares).transferFrom(msg.sender, vault, _tokenId);
-        uint256 vaultTokenId = Shares(_shares).ownerToTokenId(vault);
+        uint256 vaultTokenId = Shares(_shares).getSharesTokenId(vault);
 
         listings.push(
             Listing({
