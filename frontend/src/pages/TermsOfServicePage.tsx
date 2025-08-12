@@ -152,7 +152,7 @@ const TermsOfServicePage = () => {
                   </h2>
                   <p className="text-muted-foreground leading-relaxed">
                     For questions about these Terms of Service, please contact
-                    us at legal@credible.finance.
+                    us at credibble.xyz@gmail.com.
                   </p>
                 </section>
               </div>

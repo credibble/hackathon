@@ -129,7 +129,7 @@ export default function CareersPage() {
                   <div className="pt-2">
                     <Button asChild>
                       <a
-                        href={`mailto:careers@credible.app?subject=${encodeURIComponent(
+                        href={`mailto:credibble.xyz@gmail.com?subject=${encodeURIComponent(
                           job.title
                         )}%20Application`}
                       >

@@ -91,10 +91,10 @@ const SupportPage = () => {
                       Get help via email within 24 hours
                     </p>
                     <a
-                      href="mailto:support@credible.finance"
+                      href="mailto:credibble.xyz@gmail.com"
                       className="text-primary hover:underline"
                     >
-                      support@credible.finance
+                      credibble.xyz@gmail.com
                     </a>
                   </CardContent>
                 </Card>

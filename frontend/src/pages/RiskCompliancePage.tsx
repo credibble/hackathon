@@ -243,10 +243,10 @@ const RiskCompliancePage = () => {
                     If you have any questions about risks or compliance matters,
                     please contact our legal team at
                     <a
-                      href="mailto:compliance@credible.finance"
+                      href="mailto:credibble.xyz@gmail.com"
                       className="text-primary hover:underline ml-1"
                     >
-                      compliance@credible.finance
+                      credibble.xyz@gmail.com
                     </a>
                   </p>
                 </section>
