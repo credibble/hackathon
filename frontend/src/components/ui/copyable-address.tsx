@@ -49,6 +49,8 @@ const CopyableAddress = ({
       <div className="flex items-center gap-1 bg-muted/50 rounded-md px-2 py-1">
         <a
           href={`ttps://scan.test2.btcs.network/address/${address}`}
+          target="_blank"
+          rel="noopener noreferrer"
           className="hover:underline"
         >
           <code className="text-sm font-mono">{formatAddress(address)}</code>
