@@ -53,7 +53,7 @@ const HeroSection = () => {
           loop
           playsInline
           preload="auto"
-          className="absolute top-1/2 -translate-y-1/2 -right-20 md:-right-32 w-[500px] md:w-[800px] lg:w-[1000px] h-auto opacity-10 object-cover hidden sm:block"
+          className="absolute top-1/2 -translate-y-1/2 -right-20 md:-right-32 w-[500px] md:w-[800px] lg:w-[1000px] h-auto opacity-5 object-cover hidden sm:block"
         >
           <source src="/videos/ecosystem_mobile_v2.webm" type="video/webm" />
           Your browser does not support the video tag.
