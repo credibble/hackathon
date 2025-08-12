@@ -129,7 +129,7 @@ const LoanPoolCards = () => {
                         </div>
 
                         {/* CTA */}
-                        <Link to={`/pools/${pool.symbol.toLowerCase()}`}>
+                        <Link to={`/app/pools/${pool.symbol.toLowerCase()}`}>
                           <Button
                             className="w-full text-xs md:text-sm mt-4"
                             variant="outline"

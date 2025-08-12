@@ -65,7 +65,7 @@ const AppHeader = () => {
       case "/app/partner/positions":
         return "Loan Positions";
       default:
-        if (path.startsWith("/pools/")) {
+        if (path.startsWith("/app/pools/")) {
           return "Pool Details";
         }
         return "Dashboard";

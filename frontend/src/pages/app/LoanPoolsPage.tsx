@@ -320,7 +320,7 @@ const LoanPoolsPage = () => {
                               {/* CTA */}
                               <div className="mt-auto">
                                 <Link
-                                  to={`/pools/${pool.symbol.toLowerCase()}`}
+                                  to={`/app/pools/${pool.symbol.toLowerCase()}`}
                                 >
                                   <Button
                                     className="w-full group text-sm"
@@ -397,7 +397,9 @@ const LoanPoolsPage = () => {
                                   Lock Period
                                 </div>
                               </div>
-                              <Link to={`/pools/${pool.symbol.toLowerCase()}`}>
+                              <Link
+                                to={`/app/pools/${pool.symbol.toLowerCase()}`}
+                              >
                                 <Button
                                   className="group text-sm"
                                   variant="outline"
@@ -408,7 +410,9 @@ const LoanPoolsPage = () => {
                               </Link>
                             </div>
                             <div className="md:hidden ml-4">
-                              <Link to={`/pools/${pool.symbol.toLowerCase()}`}>
+                              <Link
+                                to={`/app/pools/${pool.symbol.toLowerCase()}`}
+                              >
                                 <Button
                                   className="group text-sm"
                                   size="sm"

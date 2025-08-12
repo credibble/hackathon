@@ -377,7 +377,7 @@ const DashboardPage = () => {
                           Sell
                         </Button>
                         <Link
-                          to={`/pools/${share.contract.pool.symbol.toLowerCase()}`}
+                          to={`/app/pools/${share.contract.pool.symbol.toLowerCase()}`}
                         >
                           <Button
                             size="sm"

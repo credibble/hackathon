@@ -318,7 +318,7 @@ const PositionsPage = () => {
                       size="sm"
                       onClick={() =>
                         navigate(
-                          `/pools/${position.contract.pool.symbol.toLowerCase()}`
+                          `/app/pools/${position.contract.pool.symbol.toLowerCase()}`
                         )
                       }
                     >

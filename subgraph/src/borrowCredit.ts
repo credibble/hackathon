@@ -9,7 +9,7 @@ import {
 } from "../generated/BorrowCredit/BorrowCredit";
 import { CreditInfo, Transaction } from "../generated/schema";
 import { getOrCreateUser } from "./utils";
-import { Bytes, BigInt } from "@graphprotocol/graph-ts";
+import { BigInt } from "@graphprotocol/graph-ts";
 
 export function handleCreditCreated(event: CreateCreditsEvent): void {
   // Create user if doesn't exist
