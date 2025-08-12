@@ -7,7 +7,7 @@ export const mockTokens: Token[] = [
     symbol: "USDT",
     image: "/tokens/usdt.png",
     decimals: 6,
-    address: "0x882e4294cc7270fc91d523e413cd94da3a3cddfa",
+    address: "0xcd8de66e0ab126d008d0c7ab824d2b27c0cf6e70",
   },
   {
     name: "Core DAO",

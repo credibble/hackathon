@@ -2,6 +2,8 @@
 pragma solidity 0.8.22;
 
 import {ERC721} from "@openzeppelin/contracts/token/ERC721/ERC721.sol";
+import {Math} from "@openzeppelin/contracts/utils/math/Math.sol";
+
 import {IShares} from "../interfaces/IShares.sol";
 
 /**
@@ -23,20 +25,15 @@ contract Shares is ERC721, IShares {
     mapping(address => uint256) public ownerToTokenId;
 
     event AddedShares(
-        address shares,
         address owner,
         uint256 tokenId,
-        uint256 amount
+        uint256 amount,
+        uint256 timestamp
     );
-    event RemovedShares(
-        address shares,
-        address owner,
-        uint256 tokenId,
-        uint256 amount
-    );
-    event ClosedShares(address shares, address owner, uint256 tokenId);
-    event RevertShares(address shares, uint256 tokenId, uint256 lockedAmount);
-    event ClaimedShares(address shares, uint256 tokenId);
+    event RemovedShares(address owner, uint256 tokenId, uint256 amount);
+    event ClosedShares(address owner, uint256 tokenId);
+    event RevertShares(uint256 tokenId, uint256 lockedAmount);
+    event ClaimedShares(uint256 tokenId);
 
     /**
      * @dev Struct to store details of each share position
@@ -90,14 +87,23 @@ contract Shares is ERC721, IShares {
             });
 
             _safeMint(to, tokenId);
+
+            emit AddedShares(to, tokenId, amount, block.timestamp);
         } else {
             // Update existing position
             SharesInfo storage info = sharesInfo[tokenId];
-            info.amount += amount;
-            info.timestamp = block.timestamp;
-        }
 
-        emit AddedShares(address(this), to, tokenId, amount);
+            uint256 weightedTimestamp = Math.mulDiv(
+                info.amount,
+                info.timestamp,
+                info.amount + amount
+            ) + Math.mulDiv(amount, block.timestamp, info.amount + amount);
+
+            info.amount += amount;
+            info.timestamp = weightedTimestamp;
+
+            emit AddedShares(to, tokenId, amount, weightedTimestamp);
+        }
     }
 
     /**
@@ -112,7 +118,7 @@ contract Shares is ERC721, IShares {
         SharesInfo storage info = sharesInfo[tokenId];
         require(info.amount >= amount, "Shares: insufficient balance");
 
-        emit RemovedShares(address(this), owner, tokenId, amount);
+        emit RemovedShares(owner, tokenId, amount);
 
         info.amount -= amount;
         info.lockedAmount += amount;
@@ -131,7 +137,7 @@ contract Shares is ERC721, IShares {
         require(info.lockedAmount > 0, "Shares: no locked amount");
 
         shares = info.lockedAmount;
-        emit RevertShares(address(this), tokenId, info.lockedAmount);
+        emit RevertShares(tokenId, info.lockedAmount);
 
         info.amount += info.lockedAmount;
         info.lockedAmount = 0;
@@ -147,7 +153,7 @@ contract Shares is ERC721, IShares {
         SharesInfo storage info = sharesInfo[tokenId];
         require(info.lockedAmount > 0, "Shares: no shares to claim");
 
-        emit ClaimedShares(address(this), tokenId);
+        emit ClaimedShares(tokenId);
 
         info.lockedAmount = 0;
         info.timestamp = block.timestamp;
@@ -193,17 +199,29 @@ contract Shares is ERC721, IShares {
 
             _safeMint(to, newTokenId);
 
-            emit AddedShares(address(this), to, newTokenId, info.amount);
+            emit AddedShares(to, newTokenId, info.amount, block.timestamp);
         } else {
             // Merge with existing token
             SharesInfo storage destInfo = sharesInfo[destTokenId];
-            destInfo.amount += info.amount;
-            destInfo.timestamp = block.timestamp;
 
-            emit AddedShares(address(this), to, destTokenId, info.amount);
+            uint256 weightedTimestamp = Math.mulDiv(
+                info.amount,
+                info.timestamp,
+                destInfo.amount + info.amount
+            ) +
+                Math.mulDiv(
+                    info.amount,
+                    block.timestamp,
+                    destInfo.amount + info.amount
+                );
+
+            destInfo.amount += info.amount;
+            destInfo.timestamp = weightedTimestamp;
+
+            emit AddedShares(to, destTokenId, info.amount, weightedTimestamp);
         }
 
-        emit ClosedShares(address(this), from, tokenId);
+        emit ClosedShares(from, tokenId);
 
         info.amount = 0;
         info.timestamp = block.timestamp;

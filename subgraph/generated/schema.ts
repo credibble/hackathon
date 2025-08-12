@@ -1342,6 +1342,19 @@ export class CreditInfo extends Entity {
     this.set("used", Value.fromBigInt(value));
   }
 
+  get accessiblePools(): Array<string> {
+    let value = this.get("accessiblePools");
+    if (!value || value.kind == ValueKind.NULL) {
+      throw new Error("Cannot return null for a required field.");
+    } else {
+      return value.toStringArray();
+    }
+  }
+
+  set accessiblePools(value: Array<string>) {
+    this.set("accessiblePools", Value.fromStringArray(value));
+  }
+
   get createdAt(): BigInt {
     let value = this.get("createdAt");
     if (!value || value.kind == ValueKind.NULL) {

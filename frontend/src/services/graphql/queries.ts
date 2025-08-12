@@ -21,6 +21,19 @@ export const QUERY_CREDIT_INFOS = `
       user { id }
       metadata
       available
+      accessiblePools {
+        id
+        name
+        symbol
+        totalTVL
+        totalBorrowed
+        borrowAPY
+        status
+        lockPeriod
+        withdrawDelay
+        asset
+        totalShares
+      }
       used
       createdAt
       lastUpdated

@@ -9,10 +9,8 @@ import { Shimmer, ShimmerCard } from "@/components/ui/shimmer";
 import { Pool } from "@/types/graph";
 import { useBorrower } from "@/hooks/useBorrowers";
 import { useAccount } from "wagmi";
-import { BorrowerMetadata } from "@/types";
 import { formatLargeNumber } from "@/lib/utils";
 import { formatEther, formatUnits } from "viem";
-import { useAllPools } from "@/hooks/useLoans";
 import { computeExpectedAPY } from "@/lib/typeslibs";
 import { dataService } from "@/services/dataService";
 
@@ -21,7 +19,6 @@ const BorrowPage = () => {
   const [isBorrowModalOpen, setIsBorrowModalOpen] = useState(false);
   const [selectedPool, setSelectedPool] = useState<Pool | null>(null);
 
-  const { data: allPools } = useAllPools();
   const { data: borrowerData, isLoading: loading } = useBorrower(address);
 
   if (loading) {
@@ -160,7 +157,7 @@ const BorrowPage = () => {
           flexible terms. Each pool is designed to meet specific funding needs.
         </p>
         <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-4 sm:gap-6">
-          {allPools?.data?.map((pool) => {
+          {borrowerData?.data.accessiblePools?.map((pool) => {
             const expectedAPY = computeExpectedAPY(pool);
             const token = dataService.getToken(pool.asset);
             return (
@@ -265,11 +262,11 @@ const BorrowPage = () => {
           })}
         </div>
 
-        {(allPools?.data?.length || 0) === 0 && (
+        {(borrowerData?.data?.accessiblePools?.length || 0) === 0 && (
           <div className="text-center py-12">
             <div className="text-muted-foreground mb-2">No pools found</div>
             <p className="text-sm text-muted-foreground">
-              Come back later and try again.
+              Contact us to request for access to loan pools.
             </p>
           </div>
         )}

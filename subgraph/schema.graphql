@@ -112,6 +112,7 @@ type CreditInfo @entity(immutable: false) {
   metadata: String # Store JSON metadata
   available: BigInt!
   used: BigInt!
+  accessiblePools: [Pool!]!
   createdAt: BigInt!
   lastUpdated: BigInt!
 }

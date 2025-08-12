@@ -4,6 +4,8 @@ import {
   CreditReplenished as CreditReplenishedEvent,
   IncrementedCredits as IncrementedCreditsEvent,
   DecrementedCredits as DecrementedCreditsEvent,
+  AddedAccessiblePool as AddedAccessiblePoolEvent,
+  RemovedAccessiblePool as RemovedAccessiblePoolEvent,
 } from "../generated/BorrowCredit/BorrowCredit";
 import { CreditInfo, Transaction } from "../generated/schema";
 import { getOrCreateUser } from "./utils";
@@ -20,7 +22,11 @@ export function handleCreditCreated(event: CreateCreditsEvent): void {
   credit.used = BigInt.fromI32(0);
   credit.metadata = event.params.metadata.value;
   credit.available = event.params.credits;
-
+  let pools: string[] = [];
+  for (let i = 0; i < event.params.pools.length; i++) {
+    pools.push(event.params.pools[i].toHexString());
+  }
+  credit.accessiblePools = pools;
   credit.createdAt = event.block.timestamp;
   credit.lastUpdated = event.block.timestamp;
   credit.save();
@@ -147,4 +153,32 @@ export function handleDecrementedCredits(event: DecrementedCreditsEvent): void {
   tx.timestamp = event.block.timestamp;
   tx.blockNumber = event.block.number;
   tx.save();
+}
+
+export function handleAddedAccessiblePool(
+  event: AddedAccessiblePoolEvent
+): void {
+  let user = getOrCreateUser(event.params.to);
+  let credit = CreditInfo.load(user.id);
+  if (!credit) return;
+
+  credit.accessiblePools.push(event.params.pool.toHex());
+  credit.lastUpdated = event.block.timestamp;
+  credit.save();
+}
+
+export function handleRemovedAccessiblePool(
+  event: RemovedAccessiblePoolEvent
+): void {
+  let user = getOrCreateUser(event.params.to);
+  let credit = CreditInfo.load(user.id);
+  if (!credit) return;
+
+  let index = credit.accessiblePools.indexOf(event.params.pool.toHex());
+  if (index >= 0) {
+    credit.accessiblePools.splice(index, 1);
+  }
+
+  credit.lastUpdated = event.block.timestamp;
+  credit.save();
 }

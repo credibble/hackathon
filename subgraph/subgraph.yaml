@@ -6,9 +6,9 @@ dataSources:
     name: PoolFactory
     network: core
     source:
-      address: "0x1ef27bd034b1a40ce89087f4a86f5ced9f630866"
+      address: "0xe51bf3555bb2d2be89ca58b994f0826f040c6f8a"
       abi: PoolFactory
-      startBlock: 7233200
+      startBlock: 7259922
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.7
@@ -31,9 +31,9 @@ dataSources:
     name: Marketplace
     network: core
     source:
-      address: "0x4E114B6fda47a713a51AB2688095d67408b138ea"
+      address: "0xd55654e62f6a839619a50c5f333b80e573ff2d36"
       abi: Marketplace
-      startBlock: 7233200
+      startBlock: 7259922
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.7
@@ -59,9 +59,9 @@ dataSources:
     name: BorrowCredit
     network: core
     source:
-      address: "0xe3d877e22c84a8c1a673423f2d18b122a44cc6cd"
+      address: "0x9a2f9b67e31f90dcf2b1bf8458220da1b4568c5b"
       abi: BorrowCredit
-      startBlock: 7233200
+      startBlock: 7259922
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.7
@@ -75,7 +75,7 @@ dataSources:
         - name: BorrowCredit
           file: ../smart-contracts/artifacts/contracts/core/BorrowCredit.sol/BorrowCredit.json
       eventHandlers:
-        - event: CreateCredits(address,(string),uint256)
+        - event: CreateCredits(address,(string),uint256,address[])
           handler: handleCreditCreated
         - event: CreditSpent(address,address,uint256)
           handler: handleCreditSpent
@@ -85,14 +85,18 @@ dataSources:
           handler: handleIncrementedCredits
         - event: DecrementedCredits(address,uint256)
           handler: handleDecrementedCredits
+        - event: AddedAccessiblePool(address,address)
+          handler: handleAddedAccessiblePool
+        - event: RemovedAccessiblePool(address,address)
+          handler: handleRemovedAccessiblePool
 
   - kind: ethereum/contract
     name: Oracle
     network: core
     source:
-      address: "0xe86e5abf2d0ad3bfaf43d488328f07e1066554ff"
+      address: "0x1d989d28d206a777a055a4017a6be2296649fffd"
       abi: Oracle
-      startBlock: 7233200
+      startBlock: 7259922
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.7
@@ -175,15 +179,15 @@ templates:
         - name: Shares
           file: ../smart-contracts/artifacts/contracts/core/Shares.sol/Shares.json
       eventHandlers:
-        - event: AddedShares(address,address,uint256,uint256)
+        - event: AddedShares(address,uint256,uint256,uint256)
           handler: handleAddedShares
-        - event: RemovedShares(address,address,uint256,uint256)
+        - event: RemovedShares(address,uint256,uint256)
           handler: handleRemovedShares
-        - event: ClosedShares(address,address,uint256)
+        - event: ClosedShares(address,uint256)
           handler: handleClosedShares
-        - event: ClaimedShares(address,uint256)
+        - event: ClaimedShares(uint256)
           handler: handleClaimedShares
-        - event: RevertShares(address,uint256,uint256)
+        - event: RevertShares(uint256,uint256)
           handler: handleRevertedShares
 
   - name: Position

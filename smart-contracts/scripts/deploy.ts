@@ -108,6 +108,7 @@ async function main() {
       p.address,
       { value: JSON.stringify(p.meta) },
       p.credits,
+      [],
     ]);
     console.log("Credits created for partner:", p.meta.name);
   }

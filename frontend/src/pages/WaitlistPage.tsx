@@ -217,7 +217,7 @@ const WaitlistPage = () => {
           <div className="flex flex-col sm:flex-row gap-3 pt-2">
             <Button asChild className="flex-1">
               <a
-                href="https://twitter.com/intent/follow?screen_name=credibble"
+                href="https://x.com/intent/follow?screen_name=credibble_fi"
                 target="_blank"
                 rel="noopener noreferrer"
               >

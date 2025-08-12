@@ -110,6 +110,7 @@ export interface CreditInfo {
   metadata: string;
   available: bigint;
   used: bigint;
+  accessiblePools: Pool[];
   createdAt: number;
   lastUpdated: number;
 }

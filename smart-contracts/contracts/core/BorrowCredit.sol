@@ -38,6 +38,8 @@ contract BorrowCredit is Ownable, IBorrowCredit {
      * @param amount The amount of assets being borrowed.
      */
     function spend(address borrower, uint256 amount) external onlyWhitelisted {
+        _isPoolAccessible(msg.sender, borrower);
+
         IPool pool = IPool(msg.sender);
         uint256 credit = oracle.getCredits(pool.asset(), amount);
 
@@ -85,7 +87,8 @@ contract BorrowCredit is Ownable, IBorrowCredit {
     function createCredits(
         address _to,
         Types.JSON memory _metadata,
-        uint256 _available
+        uint256 _available,
+        address[] memory _accessiblePools
     ) external onlyOwner {
         require(
             creditInfo[_to].updatedAt == 0,
@@ -96,10 +99,11 @@ contract BorrowCredit is Ownable, IBorrowCredit {
             metadata: _metadata,
             available: _available,
             used: 0,
-            updatedAt: block.timestamp
+            updatedAt: block.timestamp,
+            accessiblePools: _accessiblePools
         });
 
-        emit CreateCredits(_to, _metadata, _available);
+        emit CreateCredits(_to, _metadata, _available, _accessiblePools);
     }
 
     /**
@@ -131,6 +135,40 @@ contract BorrowCredit is Ownable, IBorrowCredit {
     }
 
     /**
+     * @notice Adds an accessible pool to the borrower's list.
+     * @dev Only callable by the contract owner.
+     * @param to The address of the borrower.
+     * @param pool The address of the pool to add to the borrower's list.
+     */
+    function addAccessiblePool(address to, address pool) external onlyOwner {
+        creditInfo[to].accessiblePools.push(pool);
+
+        emit AddedAccessiblePool(to, pool);
+    }
+
+    /**
+     * @notice Removes an accessible pool from the borrower's list.
+     * @dev Only callable by the contract owner.
+     * @param to The address of the borrower.
+     * @param pool The address of the pool to remove from the borrower's list.
+     */
+    function removeAccessiblePool(address to, address pool) external onlyOwner {
+        address[] storage pools = creditInfo[to].accessiblePools;
+        uint256 length = pools.length;
+
+        for (uint256 i = 0; i < length; i++) {
+            if (pools[i] == pool) {
+                pools[i] = pools[length - 1];
+                pools.pop();
+                emit RemovedAccessiblePool(to, pool);
+                return;
+            }
+        }
+
+        revert("Pool not found");
+    }
+
+    /**
      * @notice Adds a new pool to the whitelist.
      * @dev Only callable by the contract owner.
      * @param pool The address of the pool to whitelist.
@@ -140,12 +178,44 @@ contract BorrowCredit is Ownable, IBorrowCredit {
     }
 
     /**
+     * @notice Removes a pool from the whitelist.
+     * @dev Only callable by the contract owner.
+     * @param pool The address of the pool to remove from the whitelist.
+     */
+    function removeFromWhitelist(address pool) external onlyOwner {
+        uint256 length = whitelisted.length;
+        for (uint256 i = 0; i < length; i++) {
+            if (whitelisted[i] == pool) {
+                whitelisted[i] = whitelisted[length - 1];
+                whitelisted.pop();
+                return;
+            }
+        }
+        revert("Pool not found");
+    }
+
+    /**
      * @notice Updates the Oracle contract used for credit calculations.
      * @dev Only callable by the contract owner.
      * @param _oracle The address of the new Oracle contract.
      */
     function setOracle(address _oracle) external onlyOwner {
         oracle = IOracle(_oracle);
+    }
+
+    /**
+     * @notice Checks if a pool is accessible for a given borrower.
+     * @param pool The address of the pool to check.
+     * @param borrower The address of the borrower.
+     */
+    function _isPoolAccessible(address pool, address borrower) internal view {
+        CreditInfo memory info = creditInfo[borrower];
+        for (uint256 i = 0; i < info.accessiblePools.length; i++) {
+            if (info.accessiblePools[i] == pool) {
+                return;
+            }
+        }
+        revert("Pool not accessible");
     }
 
     /**

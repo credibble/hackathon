@@ -1046,4 +1046,4 @@ export const marketAbi = [
   },
 ] as const;
 
-export const marketAddress: Hex = "0x4E114B6fda47a713a51AB2688095d67408b138ea";
+export const marketAddress: Hex = "0xd55654e62f6a839619a50c5f333b80e573ff2d36";

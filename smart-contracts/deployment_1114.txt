@@ -1,0 +1,54 @@
+Deploying contracts with account: 0xae1023bf9b9dd69bdf1f5fee8389a5680eb2fb68
+USDT deployed at: 0xcd8de66e0ab126d008d0c7ab824d2b27c0cf6e70
+Oracle deployed at: 0x1d989d28d206a777a055a4017a6be2296649fffd
+BorrowCredit deployed at: 0x9a2f9b67e31f90dcf2b1bf8458220da1b4568c5b
+Credits created for partner: EduFund Africa
+Credits created for partner: Green Harvest Co-op
+Credits created for partner: Micro Enterprise Network
+PoolFactory deployed at: 0xe51bf3555bb2d2be89ca58b994f0826f040c6f8a
+Pool created: Student Education Fund - Series A
+Pool created: Agricultural Development Pool
+Pool created: Micro Enterprise Growth
+Pool created: Infrastructure Development Bond
+Pool created: Green Energy Initiative
+MarketPlace deployed at: 0xd55654e62f6a839619a50c5f333b80e573ff2d36
+Verifying contract at 0xcd8de66e0ab126d008d0c7ab824d2b27c0cf6e70...
+[WARNING] Network and explorer-specific api keys are deprecated in favour of the new Etherscan v2 api. Support for v1 is expected to end by May 31st, 2025. To migrate, please specify a single Etherscan.io api key the apiKey config value.
+The contract 0xcd8de66e0ab126d008d0c7ab824d2b27c0cf6e70 has already been verified on the block explorer. If you're trying to verify a partially verified contract, please use the --force flag.
+https://scan.test2.btcs.network/address/0xcd8de66e0ab126d008d0c7ab824d2b27c0cf6e70#code
+
+Verifying contract at 0x1d989d28d206a777a055a4017a6be2296649fffd...
+[WARNING] Network and explorer-specific api keys are deprecated in favour of the new Etherscan v2 api. Support for v1 is expected to end by May 31st, 2025. To migrate, please specify a single Etherscan.io api key the apiKey config value.
+The contract 0x1d989d28d206a777a055a4017a6be2296649fffd has already been verified on the block explorer. If you're trying to verify a partially verified contract, please use the --force flag.
+https://scan.test2.btcs.network/address/0x1d989d28d206a777a055a4017a6be2296649fffd#code
+
+Verifying contract at 0x9a2f9b67e31f90dcf2b1bf8458220da1b4568c5b...
+[WARNING] Network and explorer-specific api keys are deprecated in favour of the new Etherscan v2 api. Support for v1 is expected to end by May 31st, 2025. To migrate, please specify a single Etherscan.io api key the apiKey config value.
+NetworkRequestError: A network request failed. This is an error from the block explorer, not Hardhat. Error: 
+    at Etherscan.verify (C:\Users\devar\Documents\credibble\smart-contracts\node_modules\@nomicfoundation\hardhat-verify\src\internal\etherscan.ts:208:13)
+    at processTicksAndRejections (node:internal/process/task_queues:105:5)
+    at async SimpleTaskDefinition.action (C:\Users\devar\Documents\credibble\smart-contracts\node_modules\@nomicfoundation\hardhat-verify\src\internal\tasks\etherscan.ts:315:33)
+    at async Environment._runTaskDefinition (C:\Users\devar\Documents\credibble\smart-contracts\node_modules\hardhat\src\internal\core\runtime-environment.ts:351:14)
+    at async Environment.run (C:\Users\devar\Documents\credibble\smart-contracts\node_modules\hardhat\src\internal\core\runtime-environment.ts:184:14)
+    at async SimpleTaskDefinition.action (C:\Users\devar\Documents\credibble\smart-contracts\node_modules\@nomicfoundation\hardhat-verify\src\internal\tasks\etherscan.ts:169:7)
+    at async Environment._runTaskDefinition (C:\Users\devar\Documents\credibble\smart-contracts\node_modules\hardhat\src\internal\core\runtime-environment.ts:351:14)
+    at async Environment.run (C:\Users\devar\Documents\credibble\smart-contracts\node_modules\hardhat\src\internal\core\runtime-environment.ts:184:14)
+    at async SimpleTaskDefinition.action (C:\Users\devar\Documents\credibble\smart-contracts\node_modules\@nomicfoundation\hardhat-verify\src\index.ts:313:9)
+    at async Environment._runTaskDefinition (C:\Users\devar\Documents\credibble\smart-contracts\node_modules\hardhat\src\internal\core\runtime-environment.ts:351:14)
+Verifying contract at 0xe51bf3555bb2d2be89ca58b994f0826f040c6f8a...
+[WARNING] Network and explorer-specific api keys are deprecated in favour of the new Etherscan v2 api. Support for v1 is expected to end by May 31st, 2025. To migrate, please specify a single Etherscan.io api key the apiKey config value.
+Successfully submitted source code for contract
+contracts/PoolFactory.sol:PoolFactory at 0xe51bf3555bb2d2be89ca58b994f0826f040c6f8a
+for verification on the block explorer. Waiting for verification result...
+
+Successfully verified contract PoolFactory on the block explorer.
+https://scan.test2.btcs.network/address/0xe51bf3555bb2d2be89ca58b994f0826f040c6f8a#code
+
+Verifying contract at 0xd55654e62f6a839619a50c5f333b80e573ff2d36...
+[WARNING] Network and explorer-specific api keys are deprecated in favour of the new Etherscan v2 api. Support for v1 is expected to end by May 31st, 2025. To migrate, please specify a single Etherscan.io api key the apiKey config value.
+Successfully submitted source code for contract
+contracts/MarketPlace.sol:MarketPlace at 0xd55654e62f6a839619a50c5f333b80e573ff2d36
+for verification on the block explorer. Waiting for verification result...
+
+Successfully verified contract MarketPlace on the block explorer.
+https://scan.test2.btcs.network/address/0xd55654e62f6a839619a50c5f333b80e573ff2d36#code

@@ -10,6 +10,28 @@ import {
   BigInt,
 } from "@graphprotocol/graph-ts";
 
+export class AddedAccessiblePool extends ethereum.Event {
+  get params(): AddedAccessiblePool__Params {
+    return new AddedAccessiblePool__Params(this);
+  }
+}
+
+export class AddedAccessiblePool__Params {
+  _event: AddedAccessiblePool;
+
+  constructor(event: AddedAccessiblePool) {
+    this._event = event;
+  }
+
+  get to(): Address {
+    return this._event.parameters[0].value.toAddress();
+  }
+
+  get pool(): Address {
+    return this._event.parameters[1].value.toAddress();
+  }
+}
+
 export class CreateCredits extends ethereum.Event {
   get params(): CreateCredits__Params {
     return new CreateCredits__Params(this);
@@ -35,6 +57,10 @@ export class CreateCredits__Params {
 
   get credits(): BigInt {
     return this._event.parameters[2].value.toBigInt();
+  }
+
+  get pools(): Array<Address> {
+    return this._event.parameters[3].value.toAddressArray();
   }
 }
 
@@ -158,6 +184,28 @@ export class OwnershipTransferred__Params {
   }
 
   get newOwner(): Address {
+    return this._event.parameters[1].value.toAddress();
+  }
+}
+
+export class RemovedAccessiblePool extends ethereum.Event {
+  get params(): RemovedAccessiblePool__Params {
+    return new RemovedAccessiblePool__Params(this);
+  }
+}
+
+export class RemovedAccessiblePool__Params {
+  _event: RemovedAccessiblePool;
+
+  constructor(event: RemovedAccessiblePool) {
+    this._event = event;
+  }
+
+  get to(): Address {
+    return this._event.parameters[0].value.toAddress();
+  }
+
+  get pool(): Address {
     return this._event.parameters[1].value.toAddress();
   }
 }
@@ -344,6 +392,40 @@ export class ConstructorCall__Outputs {
   }
 }
 
+export class AddAccessiblePoolCall extends ethereum.Call {
+  get inputs(): AddAccessiblePoolCall__Inputs {
+    return new AddAccessiblePoolCall__Inputs(this);
+  }
+
+  get outputs(): AddAccessiblePoolCall__Outputs {
+    return new AddAccessiblePoolCall__Outputs(this);
+  }
+}
+
+export class AddAccessiblePoolCall__Inputs {
+  _call: AddAccessiblePoolCall;
+
+  constructor(call: AddAccessiblePoolCall) {
+    this._call = call;
+  }
+
+  get to(): Address {
+    return this._call.inputValues[0].value.toAddress();
+  }
+
+  get pool(): Address {
+    return this._call.inputValues[1].value.toAddress();
+  }
+}
+
+export class AddAccessiblePoolCall__Outputs {
+  _call: AddAccessiblePoolCall;
+
+  constructor(call: AddAccessiblePoolCall) {
+    this._call = call;
+  }
+}
+
 export class AddToWhitelistCall extends ethereum.Call {
   get inputs(): AddToWhitelistCall__Inputs {
     return new AddToWhitelistCall__Inputs(this);
@@ -403,6 +485,10 @@ export class CreateCreditsCall__Inputs {
 
   get _available(): BigInt {
     return this._call.inputValues[2].value.toBigInt();
+  }
+
+  get _accessiblePools(): Array<Address> {
+    return this._call.inputValues[3].value.toAddressArray();
   }
 }
 
@@ -484,6 +570,70 @@ export class IncrementCreditsCall__Outputs {
   _call: IncrementCreditsCall;
 
   constructor(call: IncrementCreditsCall) {
+    this._call = call;
+  }
+}
+
+export class RemoveAccessiblePoolCall extends ethereum.Call {
+  get inputs(): RemoveAccessiblePoolCall__Inputs {
+    return new RemoveAccessiblePoolCall__Inputs(this);
+  }
+
+  get outputs(): RemoveAccessiblePoolCall__Outputs {
+    return new RemoveAccessiblePoolCall__Outputs(this);
+  }
+}
+
+export class RemoveAccessiblePoolCall__Inputs {
+  _call: RemoveAccessiblePoolCall;
+
+  constructor(call: RemoveAccessiblePoolCall) {
+    this._call = call;
+  }
+
+  get to(): Address {
+    return this._call.inputValues[0].value.toAddress();
+  }
+
+  get pool(): Address {
+    return this._call.inputValues[1].value.toAddress();
+  }
+}
+
+export class RemoveAccessiblePoolCall__Outputs {
+  _call: RemoveAccessiblePoolCall;
+
+  constructor(call: RemoveAccessiblePoolCall) {
+    this._call = call;
+  }
+}
+
+export class RemoveFromWhitelistCall extends ethereum.Call {
+  get inputs(): RemoveFromWhitelistCall__Inputs {
+    return new RemoveFromWhitelistCall__Inputs(this);
+  }
+
+  get outputs(): RemoveFromWhitelistCall__Outputs {
+    return new RemoveFromWhitelistCall__Outputs(this);
+  }
+}
+
+export class RemoveFromWhitelistCall__Inputs {
+  _call: RemoveFromWhitelistCall;
+
+  constructor(call: RemoveFromWhitelistCall) {
+    this._call = call;
+  }
+
+  get pool(): Address {
+    return this._call.inputValues[0].value.toAddress();
+  }
+}
+
+export class RemoveFromWhitelistCall__Outputs {
+  _call: RemoveFromWhitelistCall;
+
+  constructor(call: RemoveFromWhitelistCall) {
     this._call = call;
   }
 }

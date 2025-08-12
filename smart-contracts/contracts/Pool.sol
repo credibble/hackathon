@@ -230,7 +230,9 @@ contract Pool is ReentrancyGuard, Ownable, Pausable, PoolHelper {
         _repay(tokenId, amount);
     }
 
-    function repayAll(uint256 tokenId) external payable whenNotPaused {
+    function repayAll(
+        uint256 tokenId
+    ) external payable nonReentrant whenNotPaused {
         (uint256 positionPrincipal, , uint256 since) = positionToken.getInfo(
             tokenId
         );

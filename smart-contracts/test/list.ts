@@ -25,7 +25,7 @@ async function listShares(
 }
 
 listShares(
-  "0x4E114B6fda47a713a51AB2688095d67408b138ea",
+  "0xd55654e62f6a839619a50c5f333b80e573ff2d36",
   "0x88d405e2289ce7bc37434f5e6237d66106f90a7b",
   1n,
   zeroAddress,
