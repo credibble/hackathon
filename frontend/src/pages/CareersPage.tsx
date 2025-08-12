@@ -83,20 +83,19 @@ export default function CareersPage() {
   return (
     <main className="min-h-screen bg-background">
       <LandingHeader />
-
-      <header className="border-b border-border bg-gradient-to-b from-muted/30 to-background pt-20">
-        <div className="container mx-auto py-10 md:py-14">
+      <header className="border-b border-border bg-gradient-to-b from-muted/30 to-background pt-10">
+        <div className="container mx-auto px-4 py-10 md:py-section">
           <h1 className="text-3xl md:text-4xl font-bold">
             Careers at Credibble
           </h1>
           <p className="text-sm md:text-base text-muted-foreground mt-2 max-w-2xl">
-            Help build the future of real-world assets in DeFi. We’re a
+            Help build the future of real-world assets in DeFi. We're a
             remote-first team looking for talented individuals.
           </p>
         </div>
       </header>
 
-      <section className="container mx-auto py-8 md:py-12">
+      <section className="container mx-auto px-4 py-8 md:py-section">
         <div className="grid gap-6 md:grid-cols-2">
           {jobs.map((job) => (
             <article key={job.id} className="contents">
@@ -128,9 +127,9 @@ export default function CareersPage() {
                     </li>
                   </ul>
                   <div className="pt-2">
-                    <Button asChild>
+                    <Button asChild className="w-full sm:w-auto">
                       <a
-                        href={`mailto:credibble.xyz@gmail.com?subject=${encodeURIComponent(
+                        href={`mailto:careers@credible.app?subject=${encodeURIComponent(
                           job.title
                         )}%20Application`}
                       >

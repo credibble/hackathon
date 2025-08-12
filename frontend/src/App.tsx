@@ -30,6 +30,7 @@ import FaucetPage from "./pages/app/FaucetPage";
 import NotFound from "./pages/NotFound";
 import ScrollToTop from "./components/ScrollToTop";
 import CookieConsent from "./components/ui/cookie-consent";
+import WaitlistPage from "./pages/WaitlistPage";
 
 const queryClient = new QueryClient();
 
@@ -52,6 +53,7 @@ const App = () => (
             <Route path="/privacy" element={<PrivacyPolicyPage />} />
             <Route path="/risk-compliance" element={<RiskCompliancePage />} />
             <Route path="/careers" element={<CareersPage />} />
+            <Route path="/waitlist" element={<WaitlistPage />} />
 
             {/* App Pages */}
             <Route path="/app" element={<AppLayout />}>

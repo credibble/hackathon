@@ -237,8 +237,8 @@ const FAQPage = () => {
       <LandingHeader />
 
       {/* Hero Section */}
-      <section className="py-20 bg-gradient-to-br from-background via-accent-light to-background">
-        <div className="container mx-auto px-6">
+      <section className="py-section bg-gradient-to-br from-background via-accent-light to-background">
+        <div className="container  mx-auto px-6">
           <div className="max-w-4xl mx-auto text-center">
             <motion.div
               initial={{ opacity: 0, y: 20 }}

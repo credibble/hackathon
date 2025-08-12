@@ -74,7 +74,7 @@ const PartnersPage = () => {
     <div className="min-h-screen bg-background">
       <LandingHeader />
 
-      <main className="pt-20">
+      <main>
         {/* Hero Section */}
         <section className="py-section bg-gradient-to-br from-background via-accent-light to-background">
           <div className="container mx-auto px-6">
