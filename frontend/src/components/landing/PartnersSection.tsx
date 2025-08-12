@@ -29,7 +29,7 @@ const PartnersSection = () => {
             ? Array.from({ length: 3 }).map((_, index) => (
                 <Shimmer key={index} className="h-48" />
               ))
-            : (data?.data?.data ?? []).map((partner, index) => (
+            : (data?.data?.data ?? []).slice(0, 3).map((partner, index) => (
                 <motion.div
                   key={partner.id}
                   initial={{ opacity: 0, y: 20 }}

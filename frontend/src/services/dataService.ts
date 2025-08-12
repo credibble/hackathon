@@ -341,25 +341,27 @@ export class DataService {
   // Impact Stats
   async getImpactStats(): Promise<ImpactStats> {
     return {
-      totalFunded: 0,
-      borrowersReached: 0,
-      partnerOrgsOnboarded: 0,
-      loansOriginated: 0,
-      averageLoanAmount: 0,
+      totalFunded: 2250000,
+      borrowersReached: 1250,
+      partnerOrgsOnboarded: 8,
+      loansOriginated: 856,
+      averageLoanAmount: 2627,
       impactStories: [
         {
-          title: "Fueling Tech Education for Women",
+          title: "Maria's University Dreams",
           description:
-            "A microloan funded via Credible allowed a group of young women to enroll in a six-month software development bootcamp.",
-          location: "Nairobi, Kenya",
-          amount: 3000,
+            "With a $2,500 education loan, Maria from Brazil completed her engineering degree and now works at a renewable energy company.",
+          image: "/impact/maria.jpg",
+          location: "São Paulo, Brazil",
+          amount: 2500,
         },
         {
-          title: "Supporting Rural Solar Power Projects",
+          title: "Farmer Collective Success",
           description:
-            "Funds raised through Credibble's platform helped install solar panels in an off-grid village, providing reliable electricity for homes and a small health clinic.",
-          location: "Bamako, Mali",
-          amount: 4500,
+            "A group of 15 farmers in Kenya used $18,000 in agricultural loans to purchase modern equipment, increasing yields by 40%.",
+          image: "/impact/farmers.jpg",
+          location: "Nairobi, Kenya",
+          amount: 18000,
         },
       ],
     };
