@@ -35,11 +35,10 @@ const LoanPoolCards = () => {
 
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6 md:gap-8">
           {isLoading
-            ? // Loading shimmer
-              Array.from({ length: 3 }).map((_, index) => (
+            ? Array.from({ length: 3 }).map((_, index) => (
                 <Shimmer key={index} className="h-80" />
               ))
-            : featuredPools.data.data?.map((pool, index) => {
+            : featuredPools?.data?.data?.map((pool, index) => {
                 const token = dataService.getToken(pool.asset);
                 const expectedAPY = computeExpectedAPY(pool);
 
