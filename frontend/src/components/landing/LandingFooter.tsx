@@ -23,7 +23,7 @@ const LandingFooter = () => {
   };
 
   const socialLinks = [
-    { name: "X (Twitter)", href: "#", icon: Twitter },
+    { name: "X (Twitter)", href: "https://x.com/credibble_fi", icon: Twitter },
     { name: "Discord", href: "#", icon: MessageCircle },
   ];
 
