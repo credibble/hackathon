@@ -46,6 +46,18 @@ export const QUERY_CREDIT_INFOS = `
         withdrawDelay
         asset
         totalShares
+        positionContract { 
+          id address createdAt 
+          positions { 
+            id 
+            borrower { id credit { metadata } }
+            tokenId 
+            amount 
+            dueAmount 
+            timestamp 
+            createdAt 
+          }
+        }
       }
       used
       createdAt
