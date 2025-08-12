@@ -596,8 +596,11 @@ const PoolDetailPage = () => {
                         <Badge variant="outline" className="mt-1">
                           {formatLargeNumber(
                             Number(
-                              formatEther(position.amount + position.dueAmount)
-                            )
+                              formatUnits(position.amount, token?.decimals)
+                            ) +
+                              Number(
+                                formatUnits(position.dueAmount, token?.decimals)
+                              )
                           )}{" "}
                           {token?.symbol}
                         </Badge>
