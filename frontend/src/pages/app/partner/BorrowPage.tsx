@@ -19,7 +19,11 @@ const BorrowPage = () => {
   const [isBorrowModalOpen, setIsBorrowModalOpen] = useState(false);
   const [selectedPool, setSelectedPool] = useState<Pool | null>(null);
 
-  const { data: borrowerData, isLoading: loading } = useBorrower(address);
+  const {
+    data: borrowerData,
+    isLoading: loading,
+    refetch: refetchBorrower,
+  } = useBorrower(address);
 
   if (loading) {
     return (
@@ -274,7 +278,10 @@ const BorrowPage = () => {
       {selectedPool && borrowerData?.data && (
         <BorrowModal
           isOpen={isBorrowModalOpen}
-          onClose={() => setIsBorrowModalOpen(false)}
+          onClose={() => {
+            setIsBorrowModalOpen(false);
+            refetchBorrower();
+          }}
           pool={selectedPool}
           availableCredits={Number(formatEther(borrowerData?.data.available))}
         />
