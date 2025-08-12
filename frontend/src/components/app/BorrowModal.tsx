@@ -82,6 +82,7 @@ const BorrowModal = ({
 
   const handleBorrow = () => {
     const amount = parseFloat(borrowAmount);
+
     if (!amount || amount <= 0) {
       toast({
         title: "Invalid amount",
@@ -112,7 +113,7 @@ const BorrowModal = ({
     }
 
     borrowAsync({
-      address: pool.contractAddress,
+      address: pool.id,
       abi: poolAbi,
       functionName: "borrow",
       args: [parseUnits(borrowAmount, token?.decimals)],

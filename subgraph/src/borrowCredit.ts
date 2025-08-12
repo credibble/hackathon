@@ -162,11 +162,9 @@ export function handleAddedAccessiblePool(
   let credit = CreditInfo.load(user.id);
   if (!credit) return;
 
-  if (!credit.accessiblePools || !credit.accessiblePools.length) {
-    credit.accessiblePools = [event.params.pool.toHex()];
-  } else {
-    credit.accessiblePools.push(event.params.pool.toHex());
-  }
+  let pools = credit.accessiblePools || [];
+  pools.push(event.params.pool.toHex());
+  credit.accessiblePools = pools;
 
   credit.lastUpdated = event.block.timestamp;
   credit.save();
