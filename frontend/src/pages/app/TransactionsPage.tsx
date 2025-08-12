@@ -276,7 +276,7 @@ const TransactionsPage = () => {
                                 className="p-1"
                               >
                                 <a
-                                  href={`https://etherscan.io/tx/${tx.txHash}`}
+                                  href={`https://scan.test2.btcs.network/tx/${tx.txHash}`}
                                   target="_blank"
                                   rel="noopener noreferrer"
                                 >
