@@ -666,7 +666,8 @@ const PoolDetailPage = () => {
                       <div>
                         <div className="font-medium">{doc.name}</div>
                         <div className="text-sm text-muted-foreground">
-                          {doc.type} • {doc.size} • {doc.date}
+                          {doc.type} • {(doc.size / (100 * 1024)).toFixed(2)}mb
+                          • {doc.date}
                         </div>
                       </div>
                     </div>
