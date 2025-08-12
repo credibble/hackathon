@@ -280,7 +280,7 @@ const AppSidebar = () => {
                         if (isMobile) setOpenMobile(false);
                       }}
                     >
-                      CORE Faucet (external)
+                      CORE Faucet (official)
                     </DropdownMenuItem>
                   </DropdownMenuContent>
                 </DropdownMenu>

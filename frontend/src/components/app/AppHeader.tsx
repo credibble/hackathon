@@ -121,7 +121,7 @@ const AppHeader = () => {
                   )
                 }
               >
-                CORE Faucet (external)
+                CORE Faucet (official)
               </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>
