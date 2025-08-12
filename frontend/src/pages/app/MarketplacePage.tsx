@@ -45,7 +45,11 @@ const MarketplacePage = () => {
   const [currentPage, setCurrentPage] = useState(1);
 
   const { data: allPools } = useAllPools();
-  const { data: listings, isLoading } = useMarketplaceListings(
+  const {
+    data: listings,
+    isLoading,
+    refetch: refetchListings,
+  } = useMarketplaceListings(
     currentPage,
     PER_PAGE,
     {
@@ -176,15 +180,16 @@ const MarketplacePage = () => {
                           Price per Share
                         </p>
                         <p className="font-semibold text-sm md:text-base">
-                          {formatLargeNumber(
-                            Number(formatEther(listing.share.amount)) /
-                              Number(
-                                formatUnits(
-                                  listing.price,
-                                  paymentToken.decimals
-                                )
-                              )
-                          )}{" "}
+                          {listing.status == "sold"
+                            ? 0
+                            : `${formatLargeNumber(
+                                Number(
+                                  formatUnits(
+                                    listing.price,
+                                    paymentToken.decimals
+                                  )
+                                ) / Number(formatEther(listing.share.amount))
+                              )}`}{" "}
                           {paymentToken.symbol}
                         </p>
                       </div>
@@ -346,7 +351,10 @@ const MarketplacePage = () => {
       {selectedListing && (
         <BuySharesModal
           isOpen={isBuyModalOpen}
-          onClose={() => setIsBuyModalOpen(false)}
+          onClose={() => {
+            setIsBuyModalOpen(false);
+            refetchListings();
+          }}
           listing={selectedListing}
         />
       )}

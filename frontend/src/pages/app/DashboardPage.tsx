@@ -307,7 +307,7 @@ const DashboardPage = () => {
                             Unit Value
                           </p>
                           <p className="text-sm md:text-lg font-bold">
-                            {currentValue.toFixed(3)}{" "}
+                            {formatLargeNumber(currentValue)}{" "}
                             {
                               dataService.getToken(share.contract.pool.asset)
                                 .symbol

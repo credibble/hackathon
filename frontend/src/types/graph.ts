@@ -90,7 +90,7 @@ export interface Transaction {
 }
 
 export interface MarketListing {
-  id: Hex;
+  id: number;
   vault: Hex;
   seller: {
     id: Hex;

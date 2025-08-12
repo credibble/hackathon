@@ -313,7 +313,7 @@ export const QUERY_MARKET_LISTINGS = `
       }
       shares {
         address
-        pool { id name symbol }
+        pool { id name symbol asset totalTVL totalBorrowed totalShares lockPeriod borrowAPY }
       }
       seller {
         id

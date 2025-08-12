@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import {
   Dialog,
   DialogContent,
@@ -23,8 +23,22 @@ import { MarketListing } from "@/types/graph";
 import { computePoolShareValue } from "@/lib/typeslibs";
 import { dataService } from "@/services/dataService";
 import { formatLargeNumber } from "@/lib/utils";
-import { formatUnits, zeroAddress } from "viem";
-import { useAccount, useBalance } from "wagmi";
+import {
+  formatEther,
+  formatUnits,
+  zeroAddress,
+  erc20Abi,
+  parseUnits,
+} from "viem";
+import {
+  useAccount,
+  useBalance,
+  useWaitForTransactionReceipt,
+  useWriteContract,
+} from "wagmi";
+import { marketAbi, marketAddress } from "@/abis";
+import { Token } from "@/types";
+import { toast as toastComponent } from "sonner";
 
 interface BuySharesModalProps {
   isOpen: boolean;
@@ -34,19 +48,79 @@ interface BuySharesModalProps {
 
 const BuySharesModal = ({ isOpen, onClose, listing }: BuySharesModalProps) => {
   const { address } = useAccount();
-  const [buyAmount, setBuyAmount] = useState("");
-  const [selectedToken, setSelectedToken] = useState("");
-  const [isLoading, setIsLoading] = useState(false);
+  const token = dataService.getToken(listing.shares.pool.asset);
+  const [selectedToken, setSelectedToken] = useState<Token | undefined>(
+    dataService.getToken(listing.paymentToken)
+  );
   const { toast } = useToast();
 
+  const buyAmount = formatUnits(listing.price, selectedToken?.decimals);
+
   const shareValue = computePoolShareValue(listing.shares.pool);
-  const estimatedShares = parseFloat(buyAmount) / shareValue;
-  const token = dataService.getToken(listing.shares.pool.asset);
-  const paymentToken = dataService.getToken(listing.paymentToken);
   const balance = useBalance({
     address,
-    token: token.address == zeroAddress ? undefined : token.address,
+    token:
+      selectedToken.address == zeroAddress ? undefined : selectedToken.address,
   });
+
+  const {
+    writeContractAsync: approveAsync,
+    data: approveHash,
+    isPending,
+  } = useWriteContract();
+  const {
+    writeContractAsync: buyAsync,
+    data: buyHash,
+    isPending: isPending2,
+  } = useWriteContract();
+
+  const { isPending: isApprovePending, isSuccess: isApproveSuccess } =
+    useWaitForTransactionReceipt({
+      hash: approveHash,
+      confirmations: 2,
+    });
+
+  const {
+    isPending: isBuyPending,
+    isSuccess: isBuySuccess,
+    isError: isBuyError,
+  } = useWaitForTransactionReceipt({
+    hash: buyHash,
+    confirmations: 4,
+  });
+
+  useEffect(() => {
+    if (isApproveSuccess) {
+      toastComponent.success("Token approved successfully!");
+
+      buyAsync({
+        address: marketAddress,
+        abi: marketAbi,
+        functionName: "purchase",
+        args: [BigInt(listing.id)],
+        value:
+          token?.address === zeroAddress
+            ? parseUnits(buyAmount, selectedToken?.decimals)
+            : undefined,
+        chain: undefined,
+        account: address,
+      });
+    }
+  }, [isApproveSuccess]);
+
+  useEffect(() => {
+    if (isBuySuccess) {
+      toast({
+        title: "Shares Purchased!",
+        description: `Successfully purchased ${formatLargeNumber(
+          Number(formatEther(listing.share.amount))
+        )} shares with ${buyAmount} ${selectedToken}`,
+      });
+      onClose();
+    } else if (isBuyError) {
+      toastComponent.error("Buy failed");
+    }
+  }, [isBuySuccess, isBuyError]);
 
   const handleBuy = async () => {
     if (!buyAmount || parseFloat(buyAmount) <= 0 || !selectedToken) {
@@ -58,20 +132,29 @@ const BuySharesModal = ({ isOpen, onClose, listing }: BuySharesModalProps) => {
       return;
     }
 
-    setIsLoading(true);
-
-    // Simulate buy transaction
-    await new Promise((resolve) => setTimeout(resolve, 2000));
-
-    toast({
-      title: "Shares Purchased!",
-      description: `Successfully purchased ${estimatedShares.toFixed(
-        2
-      )} shares with ${buyAmount} ${selectedToken}`,
-    });
-
-    setIsLoading(false);
-    onClose();
+    if (selectedToken?.address != zeroAddress) {
+      approveAsync({
+        address: selectedToken?.address,
+        abi: erc20Abi,
+        functionName: "approve",
+        args: [marketAddress, parseUnits(buyAmount, selectedToken?.decimals)],
+        chain: undefined,
+        account: address,
+      });
+    } else {
+      buyAsync({
+        address: marketAddress,
+        abi: marketAbi,
+        functionName: "purchase",
+        args: [BigInt(listing.id)],
+        value:
+          selectedToken?.address === zeroAddress
+            ? parseUnits(buyAmount, selectedToken?.decimals)
+            : undefined,
+        chain: undefined,
+        account: address,
+      });
+    }
   };
 
   return (
@@ -99,8 +182,7 @@ const BuySharesModal = ({ isOpen, onClose, listing }: BuySharesModalProps) => {
               <span className="text-sm text-muted-foreground">Share Value</span>
               <span className="font-medium">
                 {formatLargeNumber(
-                  shareValue *
-                    Number(formatUnits(listing.share.amount, token.decimals))
+                  shareValue * Number(formatEther(listing.share.amount))
                 )}{" "}
                 {token.symbol}
               </span>
@@ -110,22 +192,31 @@ const BuySharesModal = ({ isOpen, onClose, listing }: BuySharesModalProps) => {
           {/* Token Selection */}
           <div className="space-y-2">
             <Label htmlFor="token">Payment Token</Label>
-            <Select value={selectedToken} onValueChange={setSelectedToken}>
+            <Select
+              onValueChange={(tokenSymbol) => {
+                if (selectedToken?.symbol === tokenSymbol) {
+                  setSelectedToken(selectedToken);
+                }
+              }}
+              defaultValue={selectedToken?.symbol}
+            >
               <SelectTrigger className="neuro-button">
                 <SelectValue placeholder="Select a token" />
               </SelectTrigger>
               <SelectContent className="neuro-card">
-                <SelectItem value={paymentToken.symbol}>
+                <SelectItem value={selectedToken?.symbol}>
                   <div className="flex items-center space-x-3">
                     <div className="w-6 h-6 rounded-full overflow-hidden flex items-center justify-center bg-muted">
                       <img
-                        src={paymentToken.image}
-                        alt={paymentToken.symbol}
+                        src={selectedToken?.image}
+                        alt={selectedToken?.symbol}
                         className="w-full h-full object-cover"
                       />
                     </div>
                     <div className="flex gap-2 items-center">
-                      <span className="font-medium">{paymentToken.symbol}</span>
+                      <span className="font-medium">
+                        {selectedToken?.symbol}
+                      </span>
                       <span className="text-xs text-muted-foreground">
                         Balance:{" "}
                         {formatLargeNumber(
@@ -146,44 +237,16 @@ const BuySharesModal = ({ isOpen, onClose, listing }: BuySharesModalProps) => {
 
           {/* Buy Amount Input */}
           <div className="space-y-2">
-            <Label htmlFor="buyAmount">Amount to Invest</Label>
+            <Label htmlFor="buyAmount">Price ({selectedToken?.symbol})</Label>
             <div className="relative">
               <Input
                 id="buyAmount"
                 type="number"
+                disabled
                 placeholder="0.00"
                 value={buyAmount}
-                onChange={(e) => setBuyAmount(e.target.value)}
                 className="pr-16"
               />
-              <Button
-                variant="ghost"
-                size="sm"
-                className="absolute right-1 top-1/2 -translate-y-1/2 h-8 px-2 text-xs"
-                onClick={() => {
-                  if (
-                    paymentToken &&
-                    Number(
-                      formatUnits(
-                        balance?.data?.value ?? 0n,
-                        balance?.data?.decimals ?? 18
-                      )
-                    )
-                  ) {
-                    setBuyAmount(
-                      (
-                        formatUnits(
-                          balance?.data?.value ?? 0n,
-                          balance?.data?.decimals ?? 18
-                        ) || 0
-                      ).toString()
-                    );
-                  }
-                }}
-                disabled={!paymentToken}
-              >
-                Max
-              </Button>
             </div>
           </div>
 
@@ -196,16 +259,21 @@ const BuySharesModal = ({ isOpen, onClose, listing }: BuySharesModalProps) => {
                 </span>
                 <div className="flex items-center">
                   <span className="font-bold text-success">
-                    {formatLargeNumber(estimatedShares)} shares
+                    {formatLargeNumber(
+                      Number(formatEther(listing.share.amount))
+                    )}{" "}
+                    shares
                   </span>
                 </div>
               </div>
               <div className="flex items-center justify-between">
                 <span className="text-sm text-muted-foreground">Value</span>
                 <div className="flex items-center">
-                  <DollarSign className="h-4 w-4 mr-1 text-success" />
                   <span className="font-medium">
-                    {formatLargeNumber(estimatedShares * shareValue)}
+                    {formatLargeNumber(
+                      Number(formatEther(listing.share.amount)) * shareValue
+                    )}{" "}
+                    {token?.symbol}
                   </span>
                 </div>
               </div>
@@ -214,7 +282,7 @@ const BuySharesModal = ({ isOpen, onClose, listing }: BuySharesModalProps) => {
 
           {/* Gas Fee Estimate */}
           <div className="text-xs text-muted-foreground p-2 bg-muted rounded">
-            <span>Estimated gas fee: ~$3.00</span>
+            <span>Credibble fee: ~0.00 {selectedToken?.symbol}</span>
           </div>
 
           {/* Action Buttons */}
@@ -225,14 +293,21 @@ const BuySharesModal = ({ isOpen, onClose, listing }: BuySharesModalProps) => {
             <Button
               onClick={handleBuy}
               disabled={
-                isLoading ||
+                isPending ||
+                isPending2 ||
                 !buyAmount ||
                 parseFloat(buyAmount) <= 0 ||
-                !selectedToken
+                !selectedToken ||
+                (approveHash && isApprovePending) ||
+                (buyHash && isBuyPending)
               }
               className="flex-1"
             >
-              {isLoading ? "Purchasing..." : "Buy Shares"}
+              {(approveHash && isApprovePending) || (buyHash && isBuyPending)
+                ? isApprovePending
+                  ? "Approving..."
+                  : "Buying..."
+                : "Buy Shares"}
             </Button>
           </div>
         </div>
