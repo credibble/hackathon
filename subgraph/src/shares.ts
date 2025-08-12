@@ -30,7 +30,7 @@ export function handleAddedShares(event: AddedSharesEvent): void {
     share.amount = share.amount.plus(event.params.amount);
   }
 
-  share.timestamp = event.block.timestamp;
+  share.timestamp = event.params.timestamp;
   share.save();
 }
 

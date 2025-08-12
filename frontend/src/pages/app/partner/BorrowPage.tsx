@@ -149,9 +149,7 @@ const BorrowPage = () => {
 
       {/* Available Pools */}
       <div>
-        <h2 className="text-xl sm:text-2xl font-bold mb-2">
-          Available Loan Pools
-        </h2>
+        <h2 className="text-xl sm:text-2xl font-bold mb-2">Accesible Pools</h2>
         <p className="text-sm text-muted-foreground mb-4">
           Choose from our diverse range of loan pools with competitive rates and
           flexible terms. Each pool is designed to meet specific funding needs.
