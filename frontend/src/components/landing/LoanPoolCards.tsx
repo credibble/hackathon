@@ -56,7 +56,7 @@ const LoanPoolCards = () => {
                       <CardHeader className="pb-3">
                         <div className="flex justify-between items-start gap-2 mb-2">
                           <Badge variant="outline" className="font-mono">
-                            {pool.lockPeriod / 86400} DAYS
+                            Lock period {pool.lockPeriod / 86400}d
                           </Badge>
                         </div>
                         <CardTitle className="text-lg leading-tight mb-2 group-hover:text-primary transition-colors">
@@ -130,7 +130,7 @@ const LoanPoolCards = () => {
                         </div>
 
                         {/* CTA */}
-                        <Link to={`/app/loan-pools/${pool.symbol}`}>
+                        <Link to={`/pools/${pool.symbol.toLowerCase()}`}>
                           <Button
                             className="w-full text-xs md:text-sm mt-4"
                             variant="outline"
@@ -152,7 +152,7 @@ const LoanPoolCards = () => {
           viewport={{ once: true }}
           className="text-center mt-8 md:mt-12"
         >
-          <Link to="/app/loan-pools">
+          <Link to="/app">
             <Button size="lg" className="font-semibold">
               Explore All Opportunities
             </Button>

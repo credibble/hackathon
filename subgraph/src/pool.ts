@@ -9,6 +9,8 @@ import {
   SetBorrowApy as SetBorrowApyEvent,
   SetWithdrawDelay as SetWithdrawDelayEvent,
   SetLockPeriod as SetLockPeriodEvent,
+  Paused as PausedEvent,
+  Unpaused as UnpausedEvent,
 } from "../generated/templates/Pool/Pool";
 import {
   Pool,
@@ -265,6 +267,26 @@ export function handleSetLockPeriod(event: SetLockPeriodEvent): void {
   if (!pool) return;
 
   pool.lockPeriod = event.params.lockPeriod;
+  pool.lastUpdated = event.block.timestamp;
+  pool.save();
+}
+
+export function handlePaused(event: PausedEvent): void {
+  let poolAddress = event.address;
+  let pool = Pool.load(poolAddress.toHexString());
+  if (!pool) return;
+
+  pool.status = "paused";
+  pool.lastUpdated = event.block.timestamp;
+  pool.save();
+}
+
+export function handleUnPaused(event: UnpausedEvent): void {
+  let poolAddress = event.address;
+  let pool = Pool.load(poolAddress.toHexString());
+  if (!pool) return;
+
+  pool.status = "live";
   pool.lastUpdated = event.block.timestamp;
   pool.save();
 }

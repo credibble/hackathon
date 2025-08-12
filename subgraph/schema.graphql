@@ -8,6 +8,7 @@ type Pool @entity(immutable: false) {
   name: String!
   description: String!
   symbol: String!
+  status: String!
   documents: String!
   terms: String!
   contractAddress: Bytes!

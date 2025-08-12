@@ -236,7 +236,7 @@ const MarketplacePage = () => {
                           className="text-xs"
                         >
                           <Link
-                            to={`/app/loan-pools/${listing.shares.pool.symbol}`}
+                            to={`/pools/${listing.shares.pool.symbol.toLowerCase()}`}
                           >
                             View Pool
                           </Link>

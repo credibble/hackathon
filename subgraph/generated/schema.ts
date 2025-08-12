@@ -136,6 +136,19 @@ export class Pool extends Entity {
     this.set("symbol", Value.fromString(value));
   }
 
+  get status(): string {
+    let value = this.get("status");
+    if (!value || value.kind == ValueKind.NULL) {
+      throw new Error("Cannot return null for a required field.");
+    } else {
+      return value.toString();
+    }
+  }
+
+  set status(value: string) {
+    this.set("status", Value.fromString(value));
+  }
+
   get documents(): string {
     let value = this.get("documents");
     if (!value || value.kind == ValueKind.NULL) {

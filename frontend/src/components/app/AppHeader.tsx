@@ -50,11 +50,10 @@ const AppHeader = () => {
   const getPageTitle = () => {
     const path = location.pathname;
     switch (path) {
-      case "/app":
       case "/app/dashboard":
         return "Dashboard";
-      case "/app/loan-pools":
-        return "Loan Pools";
+      case "/app":
+        return "Pools";
       case "/app/marketplace":
         return "Marketplace";
       case "/app/transactions":
@@ -66,7 +65,7 @@ const AppHeader = () => {
       case "/app/partner/positions":
         return "Loan Positions";
       default:
-        if (path.startsWith("/app/loan-pools/")) {
+        if (path.startsWith("/pools/")) {
           return "Pool Details";
         }
         return "Dashboard";

@@ -153,6 +153,10 @@ templates:
           handler: handleSetWithdrawDelay
         - event: SetLockPeriod(uint256)
           handler: handleSetLockPeriod
+        - event: Paused(address)
+          handler: handlePaused
+        - event: Unpaused(address)
+          handler: handleUnpaused
 
   - name: Shares
     kind: ethereum/contract

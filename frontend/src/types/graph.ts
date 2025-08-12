@@ -5,6 +5,7 @@ export interface Pool {
   name: string;
   description: string;
   symbol: string;
+  status: "live" | "paused";
   documents: string;
   terms: string;
   contractAddress: Hex;

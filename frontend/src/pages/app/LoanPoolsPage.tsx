@@ -44,12 +44,12 @@ import { dataService } from "@/services/dataService";
 import { computeExpectedAPY, computeUtilizationRate } from "@/lib/typeslibs";
 
 const PER_PAGE = 10;
+type Tab = "all" | "live" | "paused";
 
 const LoanPoolsPage = () => {
   const [searchQuery, setSearchQuery] = useState("");
   const [sortBy, setSortBy] = useState<PoolSort>("borrowAPY");
-  const [filterRisk, setFilterRisk] = useState("default");
-  const [activeTab, setActiveTab] = useState("all");
+  const [activeTab, setActiveTab] = useState<Tab>("all");
   const [viewMode, setViewMode] = useState<"grid" | "list">("grid");
   const [currentPage, setCurrentPage] = useState(1);
 
@@ -60,7 +60,10 @@ const LoanPoolsPage = () => {
       sortBy,
       sortOrder: sortBy === "name" || sortBy === "lockPeriod" ? "asc" : "desc",
     },
-    searchQuery === "" ? undefined : { name_contains_nocase: searchQuery }
+    {
+      ...(searchQuery ? { name_contains_nocase: searchQuery } : {}),
+      ...(activeTab !== "all" ? { status: activeTab } : {}),
+    }
   );
   const totalPages = Math.ceil((pools?.data?.total || 0) / PER_PAGE);
 
@@ -68,9 +71,7 @@ const LoanPoolsPage = () => {
     switch (status) {
       case "live":
         return "bg-green-50 text-green-700 border-green-200";
-      case "upcoming":
-        return "bg-blue-50 text-blue-700 border-blue-200";
-      case "ended":
+      case "paused":
         return "bg-gray-50 text-gray-700 border-gray-200";
       default:
         return "bg-gray-50 text-gray-700 border-gray-200";
@@ -128,20 +129,14 @@ const LoanPoolsPage = () => {
               <SelectItem value="name">Name (A-Z)</SelectItem>
             </SelectContent>
           </Select>
-
-          <Select value={filterRisk} onValueChange={setFilterRisk}>
-            <SelectTrigger className="w-full md:w-32 text-sm">
-              <SelectValue placeholder="Risk" />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectItem value="default">Default Risk</SelectItem>
-            </SelectContent>
-          </Select>
         </div>
       </div>
 
       {/* Status Tabs */}
-      <Tabs value={activeTab} onValueChange={setActiveTab}>
+      <Tabs
+        value={activeTab}
+        onValueChange={(value) => setActiveTab(value as Tab)}
+      >
         <TabsList className="w-full md:w-auto">
           <TabsTrigger value="all" className="text-xs md:text-sm">
             All Pools
@@ -149,11 +144,8 @@ const LoanPoolsPage = () => {
           <TabsTrigger value="live" className="text-xs md:text-sm">
             Live
           </TabsTrigger>
-          <TabsTrigger value="upcoming" className="text-xs md:text-sm">
-            Upcoming
-          </TabsTrigger>
-          <TabsTrigger value="ended" className="text-xs md:text-sm">
-            Ended
+          <TabsTrigger value="paused" className="text-xs md:text-sm">
+            Paused
           </TabsTrigger>
         </TabsList>
 
@@ -212,10 +204,10 @@ const LoanPoolsPage = () => {
                                   </Badge>
                                   <Badge
                                     className={`${getStatusColor(
-                                      "live"
+                                      pool.status
                                     )} border text-xs`}
                                   >
-                                    {"live"}
+                                    {pool.status}
                                   </Badge>
                                 </div>
                                 <div className="text-right">
@@ -328,7 +320,7 @@ const LoanPoolsPage = () => {
                               {/* CTA */}
                               <div className="mt-auto">
                                 <Link
-                                  to={`/app/loan-pools/${pool.symbol.toLowerCase()}`}
+                                  to={`/pools/${pool.symbol.toLowerCase()}`}
                                 >
                                   <Button
                                     className="w-full group text-sm"
@@ -353,10 +345,10 @@ const LoanPoolsPage = () => {
                                 </Badge>
                                 <Badge
                                   className={`${getStatusColor(
-                                    "live"
+                                    pool.status
                                   )} border text-xs`}
                                 >
-                                  {"live"}
+                                  {pool.status}
                                 </Badge>
                               </div>
                               <CardTitle className="text-base md:text-lg group-hover:text-primary transition-colors mb-1">
@@ -405,7 +397,7 @@ const LoanPoolsPage = () => {
                                   Lock Period
                                 </div>
                               </div>
-                              <Link to={`/app/loan-pools/${pool.id}`}>
+                              <Link to={`/pools/${pool.symbol.toLowerCase()}`}>
                                 <Button
                                   className="group text-sm"
                                   variant="outline"
@@ -416,9 +408,7 @@ const LoanPoolsPage = () => {
                               </Link>
                             </div>
                             <div className="md:hidden ml-4">
-                              <Link
-                                to={`/app/loan-pools/${pool.symbol.toLowerCase()}`}
-                              >
+                              <Link to={`/pools/${pool.symbol.toLowerCase()}`}>
                                 <Button
                                   className="group text-sm"
                                   size="sm"

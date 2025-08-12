@@ -5,7 +5,7 @@ const LandingFooter = () => {
   const footerLinks = {
     Platform: [
       { name: "How It Works", href: "/how-it-works" },
-      { name: "Loan Pools", href: "/app/loan-pools" },
+      { name: "Pools", href: "/app" },
       { name: "Marketplace", href: "/app/marketplace" },
       { name: "Partners", href: "/partners" },
     ],

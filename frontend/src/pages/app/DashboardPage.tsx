@@ -50,6 +50,17 @@ const DashboardPage = () => {
     { owner_: { id: address?.toLowerCase() } }
   );
 
+  if (!address) {
+    return (
+      <div className="text-center py-12">
+        <div className="text-muted-foreground mb-2">No wallet connected</div>
+        <p className="text-sm text-muted-foreground">
+          Connect your wallet to see your shares and earnings.
+        </p>
+      </div>
+    );
+  }
+
   return (
     <div className="space-y-6">
       <div>
@@ -366,7 +377,7 @@ const DashboardPage = () => {
                           Sell
                         </Button>
                         <Link
-                          to={`/app/loan-pools/${share.contract.pool.symbol}`}
+                          to={`/pools/${share.contract.pool.symbol.toLowerCase()}`}
                         >
                           <Button
                             size="sm"

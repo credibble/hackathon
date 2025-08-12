@@ -54,7 +54,7 @@ const BorrowPage = () => {
     );
   }
 
-  if (!borrowerData?.data) {
+  if (!address || !borrowerData?.data) {
     return (
       <div className="text-center py-12">
         <div className="text-muted-foreground mb-2">No profile found</div>

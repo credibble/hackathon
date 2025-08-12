@@ -15,6 +15,7 @@ export function handlePoolCreated(event: CreatedPoolEvent): void {
   pool.name = event.params.name;
   pool.description = event.params.description;
   pool.symbol = event.params.symbol;
+  pool.status = "live";
   pool.documents = event.params.documents.value;
   pool.terms = event.params.terms.__html;
   pool.contractAddress = event.params.pool;

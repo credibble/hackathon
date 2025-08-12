@@ -880,6 +880,36 @@ export class RepayCall__Outputs {
   }
 }
 
+export class RepayAllCall extends ethereum.Call {
+  get inputs(): RepayAllCall__Inputs {
+    return new RepayAllCall__Inputs(this);
+  }
+
+  get outputs(): RepayAllCall__Outputs {
+    return new RepayAllCall__Outputs(this);
+  }
+}
+
+export class RepayAllCall__Inputs {
+  _call: RepayAllCall;
+
+  constructor(call: RepayAllCall) {
+    this._call = call;
+  }
+
+  get tokenId(): BigInt {
+    return this._call.inputValues[0].value.toBigInt();
+  }
+}
+
+export class RepayAllCall__Outputs {
+  _call: RepayAllCall;
+
+  constructor(call: RepayAllCall) {
+    this._call = call;
+  }
+}
+
 export class RequestWithdrawCall extends ethereum.Call {
   get inputs(): RequestWithdrawCall__Inputs {
     return new RequestWithdrawCall__Inputs(this);

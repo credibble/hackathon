@@ -55,9 +55,9 @@ const App = () => (
 
             {/* App Pages */}
             <Route path="/app" element={<AppLayout />}>
-              <Route index element={<DashboardPage />} />
-              <Route path="loan-pools" element={<LoanPoolsPage />} />
-              <Route path="loan-pools/:poolId" element={<PoolDetailPage />} />
+              <Route index element={<LoanPoolsPage />} />
+              <Route path="dashboard" element={<DashboardPage />} />
+              <Route path="pools/:poolId" element={<PoolDetailPage />} />
               <Route path="dashboard" element={<DashboardPage />} />
               <Route path="transactions" element={<TransactionsPage />} />
               <Route path="marketplace" element={<MarketplacePage />} />

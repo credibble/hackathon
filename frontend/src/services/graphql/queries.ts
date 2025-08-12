@@ -37,6 +37,7 @@ export const QUERY_ALL_POOLS = `
       id
       name
       description
+      status
       symbol
       documents
       terms
@@ -78,6 +79,7 @@ export const QUERY_POOLS = `
       id
       name
       description
+      status
       symbol
       documents
       terms
@@ -116,6 +118,7 @@ export const QUERY_POOL_BY_SYMBOL = `
       id
       name
       description
+      status
       symbol
       documents
       terms

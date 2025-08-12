@@ -222,6 +222,58 @@ export class Transfer__Params {
   }
 }
 
+export class Shares__getInfoResult {
+  value0: BigInt;
+  value1: BigInt;
+  value2: BigInt;
+  value3: boolean;
+  value4: BigInt;
+
+  constructor(
+    value0: BigInt,
+    value1: BigInt,
+    value2: BigInt,
+    value3: boolean,
+    value4: BigInt,
+  ) {
+    this.value0 = value0;
+    this.value1 = value1;
+    this.value2 = value2;
+    this.value3 = value3;
+    this.value4 = value4;
+  }
+
+  toMap(): TypedMap<string, ethereum.Value> {
+    let map = new TypedMap<string, ethereum.Value>();
+    map.set("value0", ethereum.Value.fromUnsignedBigInt(this.value0));
+    map.set("value1", ethereum.Value.fromUnsignedBigInt(this.value1));
+    map.set("value2", ethereum.Value.fromUnsignedBigInt(this.value2));
+    map.set("value3", ethereum.Value.fromBoolean(this.value3));
+    map.set("value4", ethereum.Value.fromUnsignedBigInt(this.value4));
+    return map;
+  }
+
+  getValue0(): BigInt {
+    return this.value0;
+  }
+
+  getValue1(): BigInt {
+    return this.value1;
+  }
+
+  getValue2(): BigInt {
+    return this.value2;
+  }
+
+  getValue3(): boolean {
+    return this.value3;
+  }
+
+  getValue4(): BigInt {
+    return this.value4;
+  }
+}
+
 export class Shares__sharesInfoResult {
   value0: BigInt;
   value1: BigInt;
@@ -346,6 +398,43 @@ export class Shares extends ethereum.SmartContract {
     }
     let value = result.value;
     return ethereum.CallResult.fromValue(value[0].toAddress());
+  }
+
+  getInfo(tokenId: BigInt): Shares__getInfoResult {
+    let result = super.call(
+      "getInfo",
+      "getInfo(uint256):(uint256,uint256,uint256,bool,uint256)",
+      [ethereum.Value.fromUnsignedBigInt(tokenId)],
+    );
+
+    return new Shares__getInfoResult(
+      result[0].toBigInt(),
+      result[1].toBigInt(),
+      result[2].toBigInt(),
+      result[3].toBoolean(),
+      result[4].toBigInt(),
+    );
+  }
+
+  try_getInfo(tokenId: BigInt): ethereum.CallResult<Shares__getInfoResult> {
+    let result = super.tryCall(
+      "getInfo",
+      "getInfo(uint256):(uint256,uint256,uint256,bool,uint256)",
+      [ethereum.Value.fromUnsignedBigInt(tokenId)],
+    );
+    if (result.reverted) {
+      return new ethereum.CallResult();
+    }
+    let value = result.value;
+    return ethereum.CallResult.fromValue(
+      new Shares__getInfoResult(
+        value[0].toBigInt(),
+        value[1].toBigInt(),
+        value[2].toBigInt(),
+        value[3].toBoolean(),
+        value[4].toBigInt(),
+      ),
+    );
   }
 
   getSharesTokenId(owner: Address): BigInt {
@@ -565,25 +654,6 @@ export class Shares extends ethereum.SmartContract {
     }
     let value = result.value;
     return ethereum.CallResult.fromValue(value[0].toString());
-  }
-
-  tokenIdOf(owner: Address): BigInt {
-    let result = super.call("tokenIdOf", "tokenIdOf(address):(uint256)", [
-      ethereum.Value.fromAddress(owner),
-    ]);
-
-    return result[0].toBigInt();
-  }
-
-  try_tokenIdOf(owner: Address): ethereum.CallResult<BigInt> {
-    let result = super.tryCall("tokenIdOf", "tokenIdOf(address):(uint256)", [
-      ethereum.Value.fromAddress(owner),
-    ]);
-    if (result.reverted) {
-      return new ethereum.CallResult();
-    }
-    let value = result.value;
-    return ethereum.CallResult.fromValue(value[0].toBigInt());
   }
 
   tokenURI(tokenId: BigInt): string {

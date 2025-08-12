@@ -77,9 +77,7 @@ const PoolDetailPage = () => {
     switch (status) {
       case "live":
         return "bg-green-50 text-green-700 border-green-200";
-      case "upcoming":
-        return "bg-blue-50 text-blue-700 border-blue-200";
-      case "ended":
+      case "paused":
         return "bg-gray-50 text-gray-700 border-gray-200";
       default:
         return "bg-gray-50 text-gray-700 border-gray-200";
@@ -90,7 +88,7 @@ const PoolDetailPage = () => {
     return (
       <div className="space-y-4 sm:space-y-6">
         <div className="flex items-center justify-between">
-          <Link to="/app/loan-pools">
+          <Link to="/app">
             <Button variant="outline" size="sm">
               <ArrowLeft className="mr-2 h-4 w-4" />
               Back to Pools
@@ -127,7 +125,7 @@ const PoolDetailPage = () => {
         <p className="text-muted-foreground mb-4">
           The requested loan pool could not be found.
         </p>
-        <Link to="/app/loan-pools">
+        <Link to="/app">
           <Button>
             <ArrowLeft className="mr-2 h-4 w-4" />
             Back to Pools
@@ -147,7 +145,7 @@ const PoolDetailPage = () => {
       {/* Header */}
       <div className="flex items-center justify-between">
         <div className="flex items-center space-x-4">
-          <Link to="/app/loan-pools">
+          <Link to="/app">
             <Button variant="outline" size="sm">
               <ArrowLeft className="mr-2 h-4 w-4" />
               Back to Pools
@@ -169,8 +167,8 @@ const PoolDetailPage = () => {
                 <Badge variant="outline" className="border">
                   {Math.round(pool.data.lockPeriod / 86400)}d lock period
                 </Badge>
-                <Badge className={`${getStatusColor("live")} border`}>
-                  {"live"}
+                <Badge className={`${getStatusColor(pool.data.status)} border`}>
+                  {pool.data.status}
                 </Badge>
               </div>
 

@@ -46,8 +46,8 @@ const AppSidebar = () => {
   const isMobile = useIsMobile();
 
   const menuItems = [
-    { title: "Loan Pools", url: "/app/loan-pools", icon: TrendingUp },
     { title: "Dashboard", url: "/app/dashboard", icon: LayoutDashboard },
+    { title: "Pools", url: "/app", icon: TrendingUp },
     { title: "Transactions", url: "/app/transactions", icon: History },
     { title: "Marketplace", url: "/app/marketplace", icon: ShoppingCart },
   ];

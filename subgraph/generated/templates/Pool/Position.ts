@@ -180,6 +180,38 @@ export class Position__borrowInfoResult {
   }
 }
 
+export class Position__getInfoResult {
+  value0: BigInt;
+  value1: BigInt;
+  value2: BigInt;
+
+  constructor(value0: BigInt, value1: BigInt, value2: BigInt) {
+    this.value0 = value0;
+    this.value1 = value1;
+    this.value2 = value2;
+  }
+
+  toMap(): TypedMap<string, ethereum.Value> {
+    let map = new TypedMap<string, ethereum.Value>();
+    map.set("value0", ethereum.Value.fromUnsignedBigInt(this.value0));
+    map.set("value1", ethereum.Value.fromUnsignedBigInt(this.value1));
+    map.set("value2", ethereum.Value.fromUnsignedBigInt(this.value2));
+    return map;
+  }
+
+  getValue0(): BigInt {
+    return this.value0;
+  }
+
+  getValue1(): BigInt {
+    return this.value1;
+  }
+
+  getValue2(): BigInt {
+    return this.value2;
+  }
+}
+
 export class Position extends ethereum.SmartContract {
   static bind(address: Address): Position {
     return new Position("Position", address);
@@ -281,6 +313,39 @@ export class Position extends ethereum.SmartContract {
     }
     let value = result.value;
     return ethereum.CallResult.fromValue(value[0].toAddress());
+  }
+
+  getInfo(tokenId: BigInt): Position__getInfoResult {
+    let result = super.call(
+      "getInfo",
+      "getInfo(uint256):(uint256,uint256,uint256)",
+      [ethereum.Value.fromUnsignedBigInt(tokenId)],
+    );
+
+    return new Position__getInfoResult(
+      result[0].toBigInt(),
+      result[1].toBigInt(),
+      result[2].toBigInt(),
+    );
+  }
+
+  try_getInfo(tokenId: BigInt): ethereum.CallResult<Position__getInfoResult> {
+    let result = super.tryCall(
+      "getInfo",
+      "getInfo(uint256):(uint256,uint256,uint256)",
+      [ethereum.Value.fromUnsignedBigInt(tokenId)],
+    );
+    if (result.reverted) {
+      return new ethereum.CallResult();
+    }
+    let value = result.value;
+    return ethereum.CallResult.fromValue(
+      new Position__getInfoResult(
+        value[0].toBigInt(),
+        value[1].toBigInt(),
+        value[2].toBigInt(),
+      ),
+    );
   }
 
   getPositionTokenId(borrower: Address): BigInt {
