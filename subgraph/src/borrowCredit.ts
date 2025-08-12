@@ -162,7 +162,12 @@ export function handleAddedAccessiblePool(
   let credit = CreditInfo.load(user.id);
   if (!credit) return;
 
-  credit.accessiblePools.push(event.params.pool.toHex());
+  if (!credit.accessiblePools || !credit.accessiblePools.length) {
+    credit.accessiblePools = [event.params.pool.toHex()];
+  } else {
+    credit.accessiblePools.push(event.params.pool.toHex());
+  }
+
   credit.lastUpdated = event.block.timestamp;
   credit.save();
 }
@@ -173,6 +178,7 @@ export function handleRemovedAccessiblePool(
   let user = getOrCreateUser(event.params.to);
   let credit = CreditInfo.load(user.id);
   if (!credit) return;
+  if (!credit.accessiblePools || !credit.accessiblePools.length) return;
 
   let index = credit.accessiblePools.indexOf(event.params.pool.toHex());
   if (index >= 0) {
