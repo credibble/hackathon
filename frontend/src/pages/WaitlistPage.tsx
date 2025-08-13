@@ -97,16 +97,16 @@ const WaitlistPage = () => {
       const data = await res.json();
       if (!res.ok) throw new Error(data?.error || "Verification failed");
 
+      setVerificationCode("");
+      setEmail("");
+      setName("");
+
       if (data?.is_verified) {
         setShowVerifyModal(false);
         setShowFollowModal(true);
       }
 
       toast.success(data?.message || "Verified!");
-
-      setVerificationCode("");
-      setEmail("");
-      setName("");
     } catch (err) {
       toast.error(err?.message || "Verification failed");
     } finally {
