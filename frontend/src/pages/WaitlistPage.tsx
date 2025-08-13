@@ -15,9 +15,11 @@ import {
   DialogDescription,
   DialogHeader,
   DialogTitle,
+  DialogFooter,
 } from "@/components/ui/dialog";
-import LandingHeader from "@/components/landing/LandingHeader";
 import LandingFooter from "@/components/landing/LandingFooter";
+import LandingHeader from "@/components/landing/LandingHeader";
+import { toast } from "sonner";
 
 const targetDate = new Date("2025-10-15T00:00:00");
 
@@ -46,39 +48,64 @@ const WaitlistPage = () => {
   const [name, setName] = useState("");
   const [submitting, setSubmitting] = useState(false);
   const [showFollowModal, setShowFollowModal] = useState(false);
+  const [showVerifyModal, setShowVerifyModal] = useState(false);
+  const [verificationCode, setVerificationCode] = useState("");
+  const [verifying, setVerifying] = useState(false);
 
-  useEffect(() => {
-    const title = "Join Credibble Waitlist | Testnet Airdrop Oct 15";
-    document.title = title;
-
-    const descContent =
-      "Join the Credibble waitlist for the Oct 15 testnet airdrop. 10 winners share a $50 USDT pool.";
-    let meta = document.querySelector('meta[name="description"]');
-    if (!meta) {
-      meta = document.createElement("meta");
-      meta.setAttribute("name", "description");
-      document.head.appendChild(meta);
-    }
-    meta.setAttribute("content", descContent);
-
-    let canonical = document.querySelector('link[rel="canonical"]');
-    if (!canonical) {
-      canonical = document.createElement("link");
-      canonical.setAttribute("rel", "canonical");
-      document.head.appendChild(canonical);
-    }
-    canonical.setAttribute("href", `${window.location.origin}/waitlist`);
-  }, []);
-
-  const onSubmit = (e: React.FormEvent) => {
+  const onSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     if (!email) return;
     setSubmitting(true);
-    // Simulate network latency
-    setTimeout(() => {
+
+    try {
+      const res = await fetch(`${import.meta.env.VITE_WAITLIST_API}/join`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ name, email }),
+      });
+      const data = await res.json();
+      if (!res.ok) throw new Error(data?.error || "Failed to join waitlist");
+
+      toast.info(data?.message);
+
+      if (data?.is_verified) {
+        setShowFollowModal(true);
+      } else {
+        setShowVerifyModal(true);
+      }
+    } catch (err) {
+      toast.error(err?.message || "Something went wrong");
+    } finally {
       setSubmitting(false);
-      setShowFollowModal(true);
-    }, 700);
+    }
+  };
+
+  const handleVerify = async () => {
+    if (!verificationCode) return;
+    setVerifying(true);
+
+    try {
+      const params = new URLSearchParams({
+        email: email.trim().toLowerCase(),
+        code: verificationCode.trim().toUpperCase(),
+      });
+      const res = await fetch(
+        `${import.meta.env.VITE_WAITLIST_API}/verify?${params.toString()}`
+      );
+      const data = await res.json();
+      if (!res.ok) throw new Error(data?.error || "Verification failed");
+
+      if (data?.is_verified) {
+        setShowVerifyModal(false);
+        setShowFollowModal(true);
+      }
+
+      toast.success(data?.message || "Verified!");
+    } catch (err) {
+      toast.error(err?.message || "Verification failed");
+    } finally {
+      setVerifying(false);
+    }
   };
 
   return (
@@ -204,6 +231,44 @@ const WaitlistPage = () => {
         </section>
       </main>
 
+      {/* Verification Modal */}
+      <Dialog open={showVerifyModal} onOpenChange={setShowVerifyModal}>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>Verify your email</DialogTitle>
+            <DialogDescription>
+              Enter the 6-character code we sent to {email}.
+            </DialogDescription>
+          </DialogHeader>
+          <div className="grid gap-3 pt-2">
+            <label className="text-sm text-muted-foreground">
+              Verification code
+            </label>
+            <Input
+              value={verificationCode}
+              onChange={(e) =>
+                setVerificationCode(e.target.value.toUpperCase())
+              }
+              placeholder="ABC123"
+              maxLength={6}
+              autoFocus
+              aria-label="Verification code"
+            />
+          </div>
+          <DialogFooter>
+            <Button variant="ghost" onClick={() => setShowVerifyModal(false)}>
+              Cancel
+            </Button>
+            <Button
+              onClick={handleVerify}
+              disabled={verifying || verificationCode.length < 6}
+            >
+              {verifying ? "Verifying…" : "Verify"}
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
+
       {/* Follow Modal */}
       <Dialog open={showFollowModal} onOpenChange={setShowFollowModal}>
         <DialogContent>
@@ -217,7 +282,7 @@ const WaitlistPage = () => {
           <div className="flex flex-col sm:flex-row gap-3 pt-2">
             <Button asChild className="flex-1">
               <a
-                href="https://x.com/intent/follow?screen_name=credibble_fi"
+                href="https://twitter.com/intent/follow?screen_name=credibble"
                 target="_blank"
                 rel="noopener noreferrer"
               >
