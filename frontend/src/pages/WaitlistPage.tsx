@@ -124,7 +124,7 @@ const WaitlistPage = () => {
             Join the Credibble Waitlist
           </h1>
           <p className="mt-2 text-muted-foreground max-w-2xl">
-            Be first to access our upcoming testnet. We’re picking 10 random
+            Be first to access our upcoming testnet. We're picking 10 random
             supporters to share a $50 USDT pool. Opt in below and stay tuned.
           </p>
         </div>
@@ -189,7 +189,7 @@ const WaitlistPage = () => {
             <CardHeader>
               <CardTitle>Get Early Access</CardTitle>
               <CardDescription>
-                Join the list and we’ll keep you posted.
+                Join the list and we'll keep you posted.
               </CardDescription>
             </CardHeader>
             <CardContent>
@@ -288,7 +288,7 @@ const WaitlistPage = () => {
           <div className="flex flex-col sm:flex-row gap-3 pt-2">
             <Button asChild className="flex-1">
               <a
-                href="https://twitter.com/intent/follow?screen_name=credibble"
+                href="https://x.com/intent/follow?screen_name=credibble_fi"
                 target="_blank"
                 rel="noopener noreferrer"
               >
