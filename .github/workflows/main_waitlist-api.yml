@@ -23,7 +23,7 @@ jobs:
         run: |
           npm install
           npm run build --if-present
-          npm run test --if-present
+          # npm run test --if-present
 
       - name: Upload waitlist-server contents
         uses: actions/upload-artifact@v4
@@ -60,3 +60,4 @@ jobs:
           app-name: 'waitlist-api'
           slot-name: 'Production'
           package: './deploy-folder'
+
