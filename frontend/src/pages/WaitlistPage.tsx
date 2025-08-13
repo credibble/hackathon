@@ -20,6 +20,7 @@ import {
 import LandingFooter from "@/components/landing/LandingFooter";
 import LandingHeader from "@/components/landing/LandingHeader";
 import { toast } from "sonner";
+import { set } from "zod";
 
 const targetDate = new Date("2025-10-15T00:00:00");
 
@@ -92,6 +93,7 @@ const WaitlistPage = () => {
       const res = await fetch(
         `${import.meta.env.VITE_WAITLIST_API}/verify?${params.toString()}`
       );
+
       const data = await res.json();
       if (!res.ok) throw new Error(data?.error || "Verification failed");
 
@@ -101,6 +103,10 @@ const WaitlistPage = () => {
       }
 
       toast.success(data?.message || "Verified!");
+
+      setVerificationCode("");
+      setEmail("");
+      setName("");
     } catch (err) {
       toast.error(err?.message || "Verification failed");
     } finally {
