@@ -2,41 +2,35 @@ name: Build and deploy Node.js app to Azure Web App - waitlist-api
 
 on:
   push:
-    branches:
-      - main
-    paths:
-      - 'waitlist-server/**'  # Only trigger when changes are in waitlist-server
+    branches: [ main ]
+    paths: [ 'waitlist-server/**' ]
   workflow_dispatch:
 
 jobs:
   build:
     runs-on: ubuntu-latest
-    permissions:
-      contents: read
-
+    permissions: { contents: read }
     steps:
       - uses: actions/checkout@v4
 
-      - name: Set up Node.js version
+      - name: Setup Node.js
         uses: actions/setup-node@v3
         with:
           node-version: '20.x'
 
-      - name: Navigate to waitlist-server directory
-        run: cd waitlist-server
-        shell: bash
-
-      - name: npm install, build, and test
+      - name: Build in waitlist-server
+        working-directory: waitlist-server
         run: |
           npm install
           npm run build --if-present
           npm run test --if-present
 
-      - name: Upload artifact for deployment job
+      - name: Upload waitlist-server contents
         uses: actions/upload-artifact@v4
         with:
           name: node-app
           path: waitlist-server
+          # This uploads the folder contents, preserving structure
 
   deploy:
     runs-on: ubuntu-latest
@@ -44,25 +38,25 @@ jobs:
     permissions:
       id-token: write
       contents: read
-
     steps:
-      - name: Download artifact from build job
+      - name: Download artifact
         uses: actions/download-artifact@v4
         with:
           name: node-app
-          path: waitlist-server
+          path: ./deploy-folder
+          # Now the content of waitlist-server ends up at ./deploy-folder/*
 
-      - name: Login to Azure
+      - name: Azure Login
         uses: azure/login@v2
         with:
           client-id: ${{ secrets.AZUREAPPSERVICE_CLIENTID_E6B30B2627D54335B7C40A8C787102DD }}
           tenant-id: ${{ secrets.AZUREAPPSERVICE_TENANTID_561413E5CFF4403CA2CC59DBB5765D48 }}
           subscription-id: ${{ secrets.AZUREAPPSERVICE_SUBSCRIPTIONID_4A62C1FD126F448E9B1EFCF27E5A1555 }}
 
-      - name: 'Deploy to Azure Web App'
+      - name: Deploy to Azure Web App
         id: deploy-to-webapp
         uses: azure/webapps-deploy@v3
         with:
           app-name: 'waitlist-api'
           slot-name: 'Production'
-          package: waitlist-server
+          package: './deploy-folder'
