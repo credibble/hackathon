@@ -158,10 +158,10 @@ const PositionsPage = () => {
           </CardHeader>
           <CardContent>
             <div className="text-xl sm:text-2xl font-bold">
-              {totalBorrowed.toLocaleString()}{" "}
               <span className="text-base sm:text-lg text-muted-foreground">
-                USDC
+                $
               </span>
+              {formatLargeNumber(0)}
             </div>
             <p className="text-xs text-muted-foreground">
               Across {activeLoanCount} active loans
@@ -176,10 +176,10 @@ const PositionsPage = () => {
           </CardHeader>
           <CardContent>
             <div className="text-xl sm:text-2xl font-bold text-orange-600">
-              {totalInterestOwed.toLocaleString()}{" "}
               <span className="text-base sm:text-lg text-muted-foreground">
-                USDC
+                $
               </span>
+              {formatLargeNumber(0)}
             </div>
             <p className="text-xs text-muted-foreground">
               Accrued interest charges
@@ -209,9 +209,9 @@ const PositionsPage = () => {
         <div className="space-y-4">
           {positions?.data?.data?.map((position) => {
             const token = dataService.getToken(position.contract.pool.asset);
-            const totalAmount = Number(
-              formatUnits(position.amount + position.dueAmount, token.decimals)
-            );
+            const totalAmount =
+              Number(formatUnits(position.amount, token.decimals)) +
+              Number(formatUnits(position.dueAmount, token.decimals));
             const timeElapsed = Number(
               Math.ceil(Date.now() / 1000) - position.timestamp
             );
@@ -302,7 +302,7 @@ const PositionsPage = () => {
 
                   <div className="flex flex-col sm:flex-row gap-2">
                     <Button
-                      className="flex-1 h-10 sm:h-auto"
+                      className="flex-1"
                       size="sm"
                       onClick={() => {
                         setSelectedPosition(position);
@@ -314,7 +314,7 @@ const PositionsPage = () => {
                     </Button>
                     <Button
                       variant="outline"
-                      className="flex-1 h-10 sm:h-auto"
+                      className="flex-1"
                       size="sm"
                       onClick={() =>
                         navigate(

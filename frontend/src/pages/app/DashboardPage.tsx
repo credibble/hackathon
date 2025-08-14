@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -18,7 +18,6 @@ import {
   TrendingDown,
   Info,
 } from "lucide-react";
-import { useDashboardStats } from "@/hooks/useDashboard";
 import { useUserShares } from "@/hooks/useShares";
 import { formatLargeNumber } from "@/lib/utils";
 import SellSharesModal from "@/components/app/SellSharesModal";
@@ -36,8 +35,6 @@ import { useAllPools } from "@/hooks/useLoans";
 
 const DashboardPage = () => {
   const { address } = useAccount();
-
-  const { data: dashboardStats, isLoading: statsLoading } = useDashboardStats();
 
   const { data: allPools } = useAllPools();
   const [isSellModalOpen, setIsSellModalOpen] = useState(false);
@@ -106,10 +103,10 @@ const DashboardPage = () => {
               </CardHeader>
               <CardContent className="pt-0">
                 <div className="text-lg md:text-2xl font-bold">
-                  ${formatLargeNumber(dashboardStats?.totalPortfolioValue || 0)}
+                  ${formatLargeNumber(0)}
                 </div>
                 <p className="text-xs text-muted-foreground">
-                  +12.3% from last month
+                  +0.0% from last month
                 </p>
               </CardContent>
             </Card>
@@ -135,11 +132,9 @@ const DashboardPage = () => {
               </CardHeader>
               <CardContent className="pt-0">
                 <div className="text-lg md:text-2xl font-bold">
-                  ${formatLargeNumber(dashboardStats?.totalEarnedYield || 0)}
+                  ${formatLargeNumber(0)}
                 </div>
-                <p className="text-xs text-muted-foreground">
-                  {dashboardStats?.portfolioAPY || 0}% APY
-                </p>
+                <p className="text-xs text-muted-foreground">{0}% APY</p>
               </CardContent>
             </Card>
 
@@ -194,10 +189,10 @@ const DashboardPage = () => {
               </CardHeader>
               <CardContent className="pt-0">
                 <div className="text-lg md:text-2xl font-bold">
-                  ${formatLargeNumber(dashboardStats?.monthlyEarnings || 0)}
+                  ${formatLargeNumber(0)}
                 </div>
                 <p className="text-xs text-muted-foreground">
-                  +8.2% from last month
+                  +0.0% from last month
                 </p>
               </CardContent>
             </Card>
