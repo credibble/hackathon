@@ -210,6 +210,7 @@ const PoolDetailPage = () => {
                       {token?.symbol}
                     </span>
                   </span>
+
                   <Tooltip>
                     <TooltipTrigger>
                       <Info className="h-4 w-4 text-muted-foreground" />
@@ -219,6 +220,7 @@ const PoolDetailPage = () => {
                     </TooltipContent>
                   </Tooltip>
                 </div>
+
                 <div className="text-sm text-muted-foreground">
                   Total Value Locked
                 </div>
@@ -594,6 +596,7 @@ const PoolDetailPage = () => {
                       <div>
                         <CardTitle>{meta.name}</CardTitle>
                         <Badge variant="outline" className="mt-1">
+                          Position:{" "}
                           {formatLargeNumber(
                             Number(
                               formatUnits(position.amount, token?.decimals)
