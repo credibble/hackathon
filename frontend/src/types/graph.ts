@@ -82,7 +82,9 @@ export interface Transaction {
     | "repay"
     | "withdrawRequest"
     | "withdrawCancel"
-    | "credits";
+    | "spend_credits"
+    | "create_credits"
+    | "replenish_credits";
   txHash: Hex;
   amount: bigint;
   tokenId?: number;

@@ -19,6 +19,7 @@ import {
   DollarSign,
   Trophy,
   Clock,
+  CreditCard,
 } from "lucide-react";
 import { ShimmerTable } from "@/components/ui/shimmer";
 import { useTransactions } from "@/hooks/useTransactions";
@@ -213,6 +214,12 @@ const TransactionsPage = () => {
                                 <DollarSign className="h-3 w-3 md:h-4 md:w-4 text-blue-600 mr-1 md:mr-2" />
                               ) : tx.type === "withdrawRequest" ? (
                                 <Clock className="h-3 w-3 md:h-4 md:w-4 text-orange-600 mr-1 md:mr-2" />
+                              ) : tx.type === "replenish_credits" ? (
+                                <CreditCard className="h-3 w-3 md:h-4 md:w-4 text-yellow-600 mr-1 md:mr-2" />
+                              ) : tx.type === "spend_credits" ? (
+                                <CreditCard className="h-3 w-3 md:h-4 md:w-4 text-orange-600 mr-1 md:mr-2" />
+                              ) : tx.type === "create_credits" ? (
+                                <CreditCard className="h-3 w-3 md:h-4 md:w-4 text-green-600 mr-1 md:mr-2" />
                               ) : (
                                 <ArrowUpRight className="h-3 w-3 md:h-4 md:w-4 text-orange-600 mr-1 md:mr-2" />
                               )}
@@ -262,7 +269,7 @@ const TransactionsPage = () => {
                               className={`text-xs ${
                                 tx.type !== "withdrawRequest" &&
                                 tx.type !== "withdrawCancel" &&
-                                tx.type !== "credits"
+                                tx.type !== "create_credits"
                                   ? "bg-green-100 text-green-800"
                                   : "bg-yellow-100 text-yellow-800"
                               }`}
@@ -300,6 +307,17 @@ const TransactionsPage = () => {
                   )}
                 </tbody>
               </table>
+
+              {!isLoading && (transactions?.data?.data?.length || 0) === 0 && (
+                <div className="text-center py-12">
+                  <div className="text-muted-foreground mb-2">
+                    No transactions found
+                  </div>
+                  <p className="text-sm text-muted-foreground">
+                    Try adjusting your filters
+                  </p>
+                </div>
+              )}
             </div>
           </div>
 

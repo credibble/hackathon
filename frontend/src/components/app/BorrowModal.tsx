@@ -53,8 +53,11 @@ const BorrowModal = ({
   const hasEnoughCredits = creditsRequired <= availableCredits;
   const maxBorrowAmount = availableCredits / rate;
 
-  const { writeContractAsync: borrowAsync, data: borrowHash } =
-    useWriteContract();
+  const {
+    writeContractAsync: borrowAsync,
+    data: borrowHash,
+    isPending,
+  } = useWriteContract();
 
   const {
     isPending: isBorrowPending,
@@ -260,6 +263,7 @@ const BorrowModal = ({
               onClick={handleBorrow}
               className="flex-1"
               disabled={
+                isPending ||
                 !borrowAmount ||
                 !hasEnoughCredits ||
                 parseFloat(borrowAmount) <= 0 ||

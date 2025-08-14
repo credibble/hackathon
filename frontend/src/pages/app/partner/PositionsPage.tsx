@@ -303,7 +303,7 @@ const PositionsPage = () => {
                   <div className="flex flex-col sm:flex-row gap-2">
                     <Button
                       className="flex-1"
-                      size="sm"
+                      size="default"
                       onClick={() => {
                         setSelectedPosition(position);
                         setIsRepayModalOpen(true);
@@ -315,7 +315,7 @@ const PositionsPage = () => {
                     <Button
                       variant="outline"
                       className="flex-1"
-                      size="sm"
+                      size="default"
                       onClick={() =>
                         navigate(
                           `/app/pools/${position.contract.pool.symbol.toLowerCase()}`
