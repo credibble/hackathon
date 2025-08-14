@@ -40,7 +40,7 @@ export default function CareersPage() {
         </div>
       </header>
 
-      <section className="container mx-auto  py-8 md:py-section">
+      <section className="container mx-auto py-8 md:py-section">
         <div className="grid gap-6 md:grid-cols-2">
           {jobs.map((job) => (
             <article key={job.id} className="contents">
