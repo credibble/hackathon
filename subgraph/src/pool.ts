@@ -160,7 +160,6 @@ export function handleWithdrawRequested(event: RequestedWithdrawEvent): void {
   let userAddress = event.params.owner;
   let user = getOrCreateUser(userAddress);
 
-  // Create transaction
   let tx = Transaction.load(
     user.id.concat(pool.id).concat(event.params.tokenId.toHex())
   );
@@ -178,6 +177,7 @@ export function handleWithdrawRequested(event: RequestedWithdrawEvent): void {
   tx.amount = tx.amount.plus(event.params.shares);
   tx.token = Bytes.empty();
   tx.txHash = event.transaction.hash;
+  tx.tokenId = event.params.tokenId;
   tx.timestamp = event.block.timestamp;
   tx.blockNumber = event.block.number;
   tx.save();

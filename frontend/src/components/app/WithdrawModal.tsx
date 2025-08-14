@@ -47,9 +47,8 @@ const WithdrawModal = ({
   const currentValue = computePoolShareValue(pool);
   const maxWithdrawable = Number(formatEther(share.amount));
   const shareValue = (parseFloat(withdrawAmount) || 0) * currentValue;
-  const outputAmount = shareValue * currentValue;
   const isLockPeriodOver =
-    Date.now() > share.timestamp * 1000 + pool.lockPeriod;
+    Date.now() / 1000 >= Number(share.timestamp) + Number(pool.lockPeriod);
 
   const {
     writeContractAsync: withdrawAsync,
@@ -191,7 +190,7 @@ const WithdrawModal = ({
               <span className="text-sm text-muted-foreground">Share Value</span>
               <div className="flex items-center">
                 <span className="text-lg font-bold text-green-600">
-                  {formatLargeNumber(outputAmount)}
+                  {formatLargeNumber(shareValue)}
                 </span>
                 <span className="text-sm text-muted-foreground ml-1">
                   {token.symbol}

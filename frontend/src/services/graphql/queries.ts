@@ -334,13 +334,20 @@ export const QUERY_TRANSACTIONS = `
       txHash
       pool { 
         id 
-        name 
-        symbol 
+        name  
         asset
+        lockPeriod
+        symbol
+        totalTVL
+        totalBorrowed
+        totalShares
+        withdrawDelay
+        borrowAPY
       }
       user { id }
       amount
       token
+      tokenId
       timestamp
     }
     transactionsCount: transactions(where: $where) {

@@ -151,6 +151,8 @@ templates:
           handler: handleWithdrawRequested
         - event: ClaimedWithdrawPool(indexed address,uint256,uint256)
           handler: handleWithdrawClaimed
+        - event: WithdrawCancelledPool(indexed address,uint256,uint256)
+          handler: handleWithdrawCancelled
         - event: SetBorrowApy(uint256)
           handler: handleSetBorrowApy
         - event: SetWithdrawDelay(uint256)

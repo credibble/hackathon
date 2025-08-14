@@ -10,14 +10,13 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import CopyableAddress from "@/components/ui/copyable-address";
-import ClaimRewardModal from "@/components/app/ClaimRewardModal";
+import ClaimWithdrawModal from "@/components/app/ClaimWithdrawModal";
 import { InfoTooltip } from "@/components/ui/info-tooltip";
 import {
   ExternalLink,
   ArrowUpRight,
   ArrowDownLeft,
   DollarSign,
-  Filter,
   Trophy,
   Clock,
 } from "lucide-react";
@@ -29,19 +28,25 @@ import { TransactionType } from "@/types";
 import { useAccount } from "wagmi";
 import { formatUnits, zeroAddress } from "viem";
 import { formatLargeNumber } from "@/lib/utils";
+import { Transaction } from "@/types/graph";
 
 const PER_PAGE = 10;
 
 const TransactionsPage = () => {
-  const { address, isConnected } = useAccount();
+  const { address } = useAccount();
 
   const [filterPool, setFilterPool] = useState("all");
   const [filterType, setFilterType] = useState<TransactionType>("all");
   const [currentPage, setCurrentPage] = useState(1);
-  const [isClaimModalOpen, setIsClaimModalOpen] = useState(false);
+  const [selectedTransaction, setSelectedTransaction] =
+    useState<Transaction | null>(null);
 
   const { data: allPools } = useAllPools();
-  const { data: transactions, isLoading } = useTransactions(
+  const {
+    data: transactions,
+    isLoading,
+    refetch: refetchTransactions,
+  } = useTransactions(
     currentPage,
     PER_PAGE,
     {
@@ -222,7 +227,7 @@ const TransactionsPage = () => {
                                   variant="ghost"
                                   size="sm"
                                   className="ml-2 p-1 h-6"
-                                  onClick={() => setIsClaimModalOpen(true)}
+                                  onClick={() => setSelectedTransaction(tx)}
                                 >
                                   <Trophy className="h-3 w-3" />
                                 </Button>
@@ -233,11 +238,15 @@ const TransactionsPage = () => {
                             <div className="flex items-center">
                               <div className="w-5 h-5 md:w-6 md:h-6 bg-muted rounded-full flex items-center justify-center mr-1 md:mr-2">
                                 <span className="text-xs font-medium">
-                                  {token?.symbol?.charAt(0) || "X"}
+                                  {tx?.tokenId
+                                    ? tx?.pool?.symbol?.charAt(0)
+                                    : token?.symbol?.charAt(0) || "C"}
                                 </span>
                               </div>
                               <span className="text-xs md:text-sm">
-                                {token?.symbol}
+                                {tx?.tokenId
+                                  ? tx?.pool?.symbol
+                                  : token?.symbol || "CRDT"}
                               </span>
                             </div>
                           </td>
@@ -381,12 +390,16 @@ const TransactionsPage = () => {
       </Card>
 
       {/* Claim Pending Withdrawal Modal */}
-      <ClaimRewardModal
-        isOpen={isClaimModalOpen}
-        onClose={() => setIsClaimModalOpen(false)}
-        pendingRewards={45.2}
-        poolName="Student Education Fund - Series A"
-      />
+      {selectedTransaction && (
+        <ClaimWithdrawModal
+          isOpen={selectedTransaction !== null}
+          onClose={() => {
+            setSelectedTransaction(null);
+            refetchTransactions();
+          }}
+          transaction={selectedTransaction}
+        />
+      )}
     </div>
   );
 };

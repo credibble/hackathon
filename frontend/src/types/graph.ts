@@ -85,6 +85,7 @@ export interface Transaction {
     | "credits";
   txHash: Hex;
   amount: bigint;
+  tokenId?: number;
   token: Hex;
   timestamp: number;
 }

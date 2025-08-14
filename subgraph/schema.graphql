@@ -87,6 +87,7 @@ type Transaction @entity(immutable: false) {
   amount: BigInt!
   token: Bytes!
   txHash: Bytes!
+  tokenId: BigInt
   timestamp: BigInt!
   blockNumber: BigInt!
 }
