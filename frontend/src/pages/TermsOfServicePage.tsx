@@ -20,7 +20,7 @@ const TermsOfServicePage = () => {
                 Terms of Service
               </h1>
               <p className="text-base md:text-lg text-muted-foreground">
-                Last updated: January 2024
+                Last updated: August 2025
               </p>
             </div>
 

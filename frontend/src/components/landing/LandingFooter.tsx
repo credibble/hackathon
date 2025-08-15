@@ -83,7 +83,7 @@ const LandingFooter = () => {
 
         <div className="border-t border-border mt-12 pt-8 flex flex-col md:flex-row justify-between items-center">
           <p className="text-muted-foreground text-sm">
-            © 2024 Credibble. Built on Core DAO. All rights reserved.
+            © 2025 Credibble. Built on Core DAO. All rights reserved.
           </p>
           <p className="text-muted-foreground text-sm mt-2 md:mt-0">
             Invest responsibly. Past performance does not guarantee future

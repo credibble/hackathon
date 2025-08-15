@@ -40,61 +40,6 @@ const PositionsPage = () => {
     { borrower_: { id: address?.toLowerCase() } }
   );
 
-  // Mock loan positions data
-  const loanPositions = [
-    {
-      id: "loan-1",
-      tokenId: "LOAN-001",
-      poolId: "pool-1",
-      poolName: "Agricultural Finance Pool",
-      principalAmount: 50000,
-      currentBalance: 48500,
-      interestRate: 12.5,
-      interestOwed: 2100,
-      borrowDate: "2024-01-15",
-      status: "active",
-      nextPaymentAmount: 8500,
-    },
-    {
-      id: "loan-2",
-      tokenId: "LOAN-002",
-      poolId: "pool-2",
-      poolName: "Small Business Growth Fund",
-      principalAmount: 75000,
-      currentBalance: 71200,
-      interestRate: 10.8,
-      interestOwed: 1850,
-      borrowDate: "2023-11-20",
-      status: "active",
-      nextPaymentAmount: 12800,
-    },
-    {
-      id: "loan-3",
-      tokenId: "LOAN-003",
-      poolId: "pool-3",
-      poolName: "Micro Enterprise Support",
-      principalAmount: 25000,
-      currentBalance: 8500,
-      interestRate: 15.2,
-      interestOwed: 650,
-      borrowDate: "2023-08-10",
-      status: "overdue",
-      nextPaymentAmount: 9150,
-    },
-  ];
-
-  const totalBorrowed = loanPositions.reduce(
-    (sum, loan) => sum + loan.currentBalance,
-    0
-  );
-  const totalInterestOwed = loanPositions.reduce(
-    (sum, loan) => sum + loan.interestOwed,
-    0
-  );
-  const activeLoanCount = loanPositions.filter(
-    (loan) => loan.status === "active"
-  ).length;
-
   if (loading || isPositionsLoading) {
     return (
       <div className="space-y-4 sm:space-y-6">
@@ -164,7 +109,7 @@ const PositionsPage = () => {
               {formatLargeNumber(0)}
             </div>
             <p className="text-xs text-muted-foreground">
-              Across {activeLoanCount} active loans
+              Across {positions.data.le} active loans
             </p>
           </CardContent>
         </Card>
