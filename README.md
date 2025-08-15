@@ -1,5 +1,8 @@
 # Credibble
 
+<img width="734" height="253" alt="credibble_flow_2 drawio" src="https://github.com/user-attachments/assets/545e8ac0-2a0d-4913-8d48-81cfdae6324a" />
+
+
 # Deployments
 
 ## Subgraph
