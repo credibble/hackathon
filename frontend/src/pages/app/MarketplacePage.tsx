@@ -226,6 +226,7 @@ const MarketplacePage = () => {
                     <div className="flex gap-2 mt-auto">
                       <Button
                         className="flex-1 text-xs md:text-sm"
+                        disabled={listing.status === "sold"}
                         onClick={() => {
                           setSelectedListing(listing);
                           setIsBuyModalOpen(true);
