@@ -33,7 +33,7 @@ async function main() {
   // Deploy NGN
   const NGN = await ethers.getContractFactory("NGN");
   const ngn = await NGN.deploy();
-  console.log("USDT deployed at:", await ngn.getAddress());
+  console.log("NGN deployed at:", await ngn.getAddress());
 
   // Faucet USDT
   await usdt.faucet(deployer.address, ethers.parseUnits("1000", 6));
