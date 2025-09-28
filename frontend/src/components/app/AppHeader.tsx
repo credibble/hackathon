@@ -115,7 +115,7 @@ const AppHeader = () => {
               <DropdownMenuItem
                 onClick={() =>
                   window.open(
-                    "https://scan.test2.btcs.network/faucet",
+                    "https://portal.hedera.com/faucet",
                     "_blank",
                     "noopener,noreferrer"
                   )
@@ -153,7 +153,7 @@ const AppHeader = () => {
             </DropdownMenu>
           ) : (
             <Button
-              onClick={connectWallet}
+              onClick={() => connectWallet({})}
               className="flex items-center space-x-0 md:space-x-2 text-xs md:text-sm px-2 md:px-4 h-8 md:h-9"
             >
               <Wallet className="w-3 h-3 md:w-4 md:h-4 hidden sm:inline" />
