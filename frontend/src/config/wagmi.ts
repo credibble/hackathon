@@ -1,9 +1,9 @@
 import { http, createConfig } from "wagmi";
-import { coreTestnet2 } from "viem/chains";
+import { hederaTestnet } from "viem/chains";
 
 export const config = createConfig({
-  chains: [coreTestnet2],
+  chains: [hederaTestnet],
   transports: {
-    [coreTestnet2.id]: http(),
+    [hederaTestnet.id]: http(),
   },
 });

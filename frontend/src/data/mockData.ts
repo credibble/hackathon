@@ -10,9 +10,16 @@ export const mockTokens: Token[] = [
     address: "0xcd8de66e0ab126d008d0c7ab824d2b27c0cf6e70",
   },
   {
+    name: "Nigerian Naira",
+    symbol: "NGN",
+    image: "/tokens/ngn.png",
+    decimals: 6,
+    address: "0xcd8de66e0ab126d008d0c7ab824d2b27c0cf6e70",
+  },
+  {
     name: "Hedera",
     symbol: "HBAR",
-    image: "/tokens/core.png",
+    image: "/tokens/habr.png",
     decimals: 18,
     address: zeroAddress,
   },

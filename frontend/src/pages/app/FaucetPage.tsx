@@ -5,7 +5,7 @@ import { Input } from "@/components/ui/input";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { toast } from "sonner";
 import { parseUnits } from "viem";
-import { coreTestnet2 } from "viem/chains";
+import { hederaTestnet } from "viem/chains";
 import { dataService } from "@/services/dataService";
 
 const ERC20_MINT_ABI = [
@@ -78,7 +78,7 @@ export default function FaucetPage() {
         functionName: "faucet",
         args: [address as `0x${string}`, parsedAmount],
         account: address as `0x${string}`,
-        chain: coreTestnet2,
+        chain: hederaTestnet,
       });
 
       toast.info("Transaction submitted. Waiting for confirmation...", {
