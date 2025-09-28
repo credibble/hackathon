@@ -273,7 +273,7 @@ const AppSidebar = () => {
                     <DropdownMenuItem
                       onClick={() => {
                         window.open(
-                          "https://scan.test2.btcs.network/faucet",
+                          "https://hashscan.io/testnet/faucet",
                           "_blank",
                           "noopener,noreferrer"
                         );

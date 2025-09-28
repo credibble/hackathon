@@ -292,7 +292,7 @@ const TransactionsPage = () => {
                                 className="p-1"
                               >
                                 <a
-                                  href={`https://scan.test2.btcs.network/tx/${tx.txHash}`}
+                                  href={`https://hashscan.io/testnet/tx/${tx.txHash}`}
                                   target="_blank"
                                   rel="noopener noreferrer"
                                 >

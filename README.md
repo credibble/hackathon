@@ -47,16 +47,16 @@ https://waitlist-api-hxeqb8fygvd9f0h5.canadacentral-01.azurewebsites.net
 
 ### Contracts
 
-Deployer - https://scan.test2.btcs.network/address/0xae1023bf9b9dd69bdf1f5fee8389a5680eb2fb68
+Deployer - https://hashscan.io/testnet/address/0xae1023bf9b9dd69bdf1f5fee8389a5680eb2fb68
 
-Mock USDT - https://scan.test2.btcs.network/address/0xcd8de66e0ab126d008d0c7ab824d2b27c0cf6e70#code
+Mock USDT - https://hashscan.io/testnet/address/0xcd8de66e0ab126d008d0c7ab824d2b27c0cf6e70#code
 
-Oracle - https://scan.test2.btcs.network/address/0x1d989d28d206a777a055a4017a6be2296649fffd#code
+Oracle - https://hashscan.io/testnet/address/0x1d989d28d206a777a055a4017a6be2296649fffd#code
 
-BorrowCredit - https://scan.test2.btcs.network/address/0x9a2f9b67e31f90dcf2b1bf8458220da1b4568c5b#code
+BorrowCredit - https://hashscan.io/testnet/address/0x9a2f9b67e31f90dcf2b1bf8458220da1b4568c5b#code
 
-PoolFactory - https://scan.test2.btcs.network/address/0xe51bf3555bb2d2be89ca58b994f0826f040c6f8a#code
+PoolFactory - https://hashscan.io/testnet/address/0xe51bf3555bb2d2be89ca58b994f0826f040c6f8a#code
 
-Marketplace - https://scan.test2.btcs.network/address/0xd55654e62f6a839619a50c5f333b80e573ff2d36#code
+Marketplace - https://hashscan.io/testnet/address/0xd55654e62f6a839619a50c5f333b80e573ff2d36#code
 
 

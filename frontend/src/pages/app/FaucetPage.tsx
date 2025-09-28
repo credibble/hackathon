@@ -125,7 +125,7 @@ export default function FaucetPage() {
                 <span className="text-muted-foreground">Contract</span>
                 <a
                   className="font-medium underline underline-offset-4"
-                  href={`https://scan.test2.btcs.network/address/${token.address}`}
+                  href={`https://hashscan.io/testnet/address/${token.address}`}
                   target="_blank"
                   rel="noreferrer"
                 >

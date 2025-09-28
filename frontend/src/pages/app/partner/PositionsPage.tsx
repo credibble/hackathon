@@ -175,7 +175,7 @@ const PositionsPage = () => {
                 <Tooltip>
                   <TooltipTrigger asChild>
                     <a
-                      href={`https://scan.test2.btcs.network/nft/${position.contract.address}/${position.tokenId}`}
+                      href={`https://hashscan.io/testnet/nft/${position.contract.address}/${position.tokenId}`}
                       target="_blank"
                       rel="noopener noreferrer"
                       className="absolute top-3 right-3 flex items-center gap-1 hover:opacity-70 transition-opacity cursor-pointer"
