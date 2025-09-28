@@ -43,7 +43,7 @@ const HowItWorksPage = () => {
     {
       icon: CreditCard,
       title: "Deposit & Earn",
-      description: "Deposit USDT, USDC, CORE, or WBTC to receive NFT shares",
+      description: "Deposit USDT, USDC, HBAR, or WBTC to receive NFT shares",
       details:
         "Get tokenized shares representing your portion of the loan pool",
     },
@@ -111,7 +111,7 @@ const HowItWorksPage = () => {
     },
     {
       title: "Multi-Token Support",
-      description: "Deposit with USDT, USDC, CORE, or WBTC",
+      description: "Deposit with USDT, USDC, HBAR, or WBTC",
       benefit: "Flexibility to use your preferred assets",
     },
     {

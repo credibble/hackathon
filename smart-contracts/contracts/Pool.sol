@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: UNLICENSED
-pragma solidity 0.8.22;
+pragma solidity ^0.8.28;
 
 import {IBorrowCredit} from "./interfaces/IBorrowCredit.sol";
 import {PoolHelper} from "./libs/PoolHelper.sol";

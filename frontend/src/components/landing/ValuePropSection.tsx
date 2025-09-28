@@ -6,24 +6,27 @@ const ValuePropSection = () => {
     {
       number: "01",
       title: "Select Loan Pool",
-      description: "Choose from vetted loan pools supporting education, agriculture, or small business financing.",
+      description:
+        "Choose from vetted loan pools supporting education, agriculture, or small business financing.",
       icon: DollarSign,
-      color: "bg-blue-50 border-blue-200 text-blue-600"
+      color: "bg-blue-50 border-blue-200 text-blue-600",
     },
     {
-      number: "02", 
+      number: "02",
       title: "Purchase NFT Share",
-      description: "Deposit USDT, USDC, CORE, or WBTC to receive tokenized shares representing your loan exposure.",
+      description:
+        "Deposit USDT, USDC, HBAR, or WBTC to receive tokenized shares representing your loan exposure.",
       icon: Shield,
-      color: "bg-green-50 border-green-200 text-green-600"
+      color: "bg-green-50 border-green-200 text-green-600",
     },
     {
       number: "03",
       title: "Earn Yield or Sell Early",
-      description: "Collect regular yield payments or trade your NFT shares on the marketplace for early exit.",
+      description:
+        "Collect regular yield payments or trade your NFT shares on the marketplace for early exit.",
       icon: BarChart3,
-      color: "bg-purple-50 border-purple-200 text-purple-600"
-    }
+      color: "bg-purple-50 border-purple-200 text-purple-600",
+    },
   ];
 
   return (
@@ -42,7 +45,8 @@ const ValuePropSection = () => {
               Simple Process, Real Impact
             </h2>
             <p className="text-base md:text-lg text-muted-foreground max-w-2xl mx-auto px-2">
-              Our streamlined platform makes it easy to start earning yield while supporting borrowers worldwide.
+              Our streamlined platform makes it easy to start earning yield
+              while supporting borrowers worldwide.
             </p>
           </motion.div>
 
@@ -77,7 +81,9 @@ const ValuePropSection = () => {
                 {/* Visual */}
                 <div className="flex-1 flex justify-center">
                   <div className="neuro-card p-6 md:p-8 w-48 h-48 md:w-56 md:h-56 lg:w-64 lg:h-64 flex flex-col items-center justify-center">
-                    <div className={`w-14 h-14 md:w-16 md:h-16 lg:w-20 lg:h-20 rounded-2xl border-2 ${step.color} flex items-center justify-center mb-3 md:mb-4`}>
+                    <div
+                      className={`w-14 h-14 md:w-16 md:h-16 lg:w-20 lg:h-20 rounded-2xl border-2 ${step.color} flex items-center justify-center mb-3 md:mb-4`}
+                    >
                       <step.icon className="w-7 h-7 md:w-8 md:h-8 lg:w-10 lg:h-10" />
                     </div>
                     <div className="text-center">
@@ -90,7 +96,6 @@ const ValuePropSection = () => {
                     </div>
                   </div>
                 </div>
-
               </motion.div>
             ))}
           </div>

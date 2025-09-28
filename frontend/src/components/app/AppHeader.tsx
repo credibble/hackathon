@@ -121,7 +121,7 @@ const AppHeader = () => {
                   )
                 }
               >
-                CORE Faucet (official)
+                HBAR Faucet (official)
               </DropdownMenuItem>
             </DropdownMenuContent>
           </DropdownMenu>

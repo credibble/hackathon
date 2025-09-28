@@ -1,12 +1,18 @@
-import hre from "hardhat";
-import { Hex } from "viem";
-import "@nomicfoundation/hardhat-viem";
+import { network } from "hardhat";
 
-async function addAccessiblePool(credit: Hex, borrower: Hex, pools: Hex[]) {
-  const borrowCredit = await hre.viem.getContractAt("BorrowCredit", credit);
+async function addAccessiblePool(
+  credit: string,
+  borrower: string,
+  pools: string[]
+) {
+  const { ethers } = await network.connect({
+    network: "testnet",
+  });
+
+  const borrowCredit = await ethers.getContractAt("BorrowCredit", credit);
 
   for (const pool of pools) {
-    const hash = await borrowCredit.write.addAccessiblePool([borrower, pool]);
+    const hash = await borrowCredit.addAccessiblePool(borrower, pool);
     console.log(`Added ${pool} of ${borrower} in ${hash}`);
   }
 }

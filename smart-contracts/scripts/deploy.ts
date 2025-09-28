@@ -1,52 +1,63 @@
-import hre from "hardhat";
-import { Hex, parseEther, parseUnits, zeroAddress } from "viem";
-import "@nomicfoundation/hardhat-viem";
+import { network } from "hardhat";
 
-async function verify(contractAddress: string, constructorArgs: any) {
-  console.log(`Verifying contract at ${contractAddress}...`);
-  try {
-    await hre.run("verify:verify", {
-      address: contractAddress,
-      constructorArguments: constructorArgs,
-    });
-  } catch (e: any) {
-    if (e?.message?.toLowerCase().includes("already verified")) {
-      console.log("Already verified!");
-    } else {
-      console.error(e);
-    }
-  }
-}
+// async function verify(contractAddress: string, constructorArgs: any) {
+//   console.log(`Verifying contract at ${contractAddress}...`);
+//   try {
+//     await hre.run("verify:verify", {
+//       address: contractAddress,
+//       constructorArguments: constructorArgs,
+//     });
+//   } catch (e: any) {
+//     if (e?.message?.toLowerCase().includes("already verified")) {
+//       console.log("Already verified!");
+//     } else {
+//       console.error(e);
+//     }
+//   }
+// }
 
 async function main() {
-  // Get deployer wallet client
-  const [deployer] = await hre.viem.getWalletClients();
-  console.log("Deploying contracts with account:", deployer.account.address);
+  const { ethers } = await network.connect({
+    network: "testnet",
+  });
+
+  const [deployer] = await ethers.getSigners();
+
+  console.log("Deploying contracts with:", deployer.address);
 
   // Deploy USDT
-  const usdt = await hre.viem.deployContract("USDT");
-  console.log("USDT deployed at:", usdt.address);
+  const USDT = await ethers.getContractFactory("USDT");
+  const usdt = await USDT.deploy();
+  console.log("USDT deployed at:", await usdt.getAddress());
+
+  // Deploy NGN
+  const NGN = await ethers.getContractFactory("NGN");
+  const ngn = await NGN.deploy();
+  console.log("USDT deployed at:", await ngn.getAddress());
 
   // Faucet USDT
-  await usdt.write.faucet([deployer.account.address, parseUnits("1000", 6)]);
+  await usdt.faucet(deployer.address, ethers.parseUnits("1000", 6));
+
+  // Faucet USDT
+  await ngn.faucet(deployer.address, ethers.parseUnits("1000", 2));
 
   // Deploy Oracle
-  const oracle = await hre.viem.deployContract("Oracle");
-  console.log("Oracle deployed at:", oracle.address);
+  const Oracle = await ethers.getContractFactory("Oracle");
+  const oracle = await Oracle.deploy();
+  console.log("Oracle deployed at:", await oracle.getAddress());
 
   // Set credit to asset rates
-  await oracle.write.setCreditToAsset([usdt.address, parseEther("0.98")]);
-  await oracle.write.setCreditToAsset([zeroAddress, parseEther("0.52")]);
+  await oracle.setCreditToAsset(usdt.getAddress(), ethers.parseEther("0.98"));
+  await oracle.setCreditToAsset(ethers.ZeroAddress, ethers.parseEther("0.52"));
 
   // Deploy BorrowCredit
-  const borrowCredit = await hre.viem.deployContract("BorrowCredit", [
-    oracle.address,
-  ]);
-  console.log("BorrowCredit deployed at:", borrowCredit.address);
+  const BorrowCredit = await ethers.getContractFactory("BorrowCredit");
+  const borrowCredit = await BorrowCredit.deploy(await oracle.getAddress());
+  console.log("BorrowCredit deployed at:", borrowCredit.getAddress());
 
   // Partner data
   const partners: Array<{
-    address: Hex;
+    address: string;
     credits: bigint;
     meta: {
       name: string;
@@ -61,7 +72,7 @@ async function main() {
   }> = [
     {
       address: "0x081E56Ea7935e04Cc8B250D49486162c232091be",
-      credits: parseEther("1000000"),
+      credits: ethers.parseEther("1000000"),
       meta: {
         name: "EduFund Africa",
         logo: "/partners/edufund-africa.png",
@@ -75,7 +86,7 @@ async function main() {
     },
     {
       address: "0x3E646e062F05e01e1860eA53a6DC81e7E9162DE6",
-      credits: parseEther("750000"),
+      credits: ethers.parseEther("750000"),
       meta: {
         name: "Green Harvest Co-op",
         logo: "/partners/green-harvest-coop.png",
@@ -89,7 +100,7 @@ async function main() {
     },
     {
       address: "0xf9210606957C32E5add4580aa6b56b9CDD2C766f",
-      credits: parseEther("500000"),
+      credits: ethers.parseEther("500000"),
       meta: {
         name: "Micro Enterprise Network",
         logo: "/partners/micro-enterprise-network.png",
@@ -104,18 +115,19 @@ async function main() {
   ];
 
   for (const p of partners) {
-    await borrowCredit.write.createCredits([
+    await borrowCredit.createCredits(
       p.address,
       { value: JSON.stringify(p.meta) },
       p.credits,
-      [],
-    ]);
+      []
+    );
     console.log("Credits created for partner:", p.meta.name);
   }
 
   // Deploy PoolFactory
-  const poolFactory = await hre.viem.deployContract("PoolFactory");
-  console.log("PoolFactory deployed at:", poolFactory.address);
+  const PoolFactory = await ethers.getContractFactory("PoolFactory");
+  const poolFactory = await PoolFactory.deploy();
+  console.log("PoolFactory deployed at:", await poolFactory.getAddress());
 
   const documentsJSON = JSON.stringify([
     {
@@ -163,7 +175,7 @@ async function main() {
       symbol: "SEF-A",
       lockPeriodDays: 365,
       borrowAPY: 8.5,
-      asset: usdt.address,
+      asset: await usdt.getAddress(),
     },
     {
       name: "Agricultural Development Pool",
@@ -172,7 +184,7 @@ async function main() {
       symbol: "ADP-1",
       lockPeriodDays: 180,
       borrowAPY: 9.8,
-      asset: zeroAddress,
+      asset: await ngn.getAddress(),
     },
     {
       name: "Micro Enterprise Growth",
@@ -181,7 +193,7 @@ async function main() {
       symbol: "MEG-1",
       lockPeriodDays: 270,
       borrowAPY: 12.5,
-      asset: usdt.address,
+      asset: usdt.getAddress(),
     },
     {
       name: "Infrastructure Development Bond",
@@ -189,7 +201,7 @@ async function main() {
       symbol: "IDB-1",
       lockPeriodDays: 730,
       borrowAPY: 5.2,
-      asset: zeroAddress,
+      asset: await ngn.getAddress(),
     },
     {
       name: "Green Energy Initiative",
@@ -197,7 +209,7 @@ async function main() {
       symbol: "GEI-1",
       lockPeriodDays: 456,
       borrowAPY: 7.8,
-      asset: zeroAddress,
+      asset: ethers.ZeroAddress,
     },
   ];
 
@@ -206,7 +218,7 @@ async function main() {
     const lockPeriodSeconds = p.lockPeriodDays * 24 * 60 * 60;
     const withdrawDelaySeconds = 7 * 24 * 60 * 60;
 
-    await poolFactory.write.create([
+    await poolFactory.create(
       p.name,
       p.description,
       { value: documentsJSON },
@@ -233,27 +245,28 @@ async function main() {
       {
         symbol: p.symbol,
         asset: p.asset,
-        credit: borrowCredit.address,
+        credit: await borrowCredit.getAddress(),
         lockPeriod: BigInt(lockPeriodSeconds),
         withdrawDelay: BigInt(withdrawDelaySeconds),
         borrowAPY: BigInt(borrowApyScaled),
-      },
-    ]);
+      }
+    );
 
     console.log("Pool created:", p.name);
   }
 
   // Deploy MarketPlace
-  const marketplace = await hre.viem.deployContract("MarketPlace");
-  console.log("MarketPlace deployed at:", marketplace.address);
+  const MarketPlace = await ethers.getContractFactory("MarketPlace");
+  const marketplace = await MarketPlace.deploy();
+  console.log("MarketPlace deployed at:", await marketplace.getAddress());
 
   // Verify all
-  await verify(usdt.address, []);
-  await verify(oracle.address, []);
-  await verify(borrowCredit.address, [oracle.address]);
-  await verify(borrowCredit.address, [oracle.address]);
-  await verify(poolFactory.address, []);
-  await verify(marketplace.address, []);
+  // await verify(usdt.address, []);
+  // await verify(oracle.address, []);
+  // await verify(borrowCredit.address, [oracle.address]);
+  // await verify(borrowCredit.address, [oracle.address]);
+  // await verify(poolFactory.address, []);
+  // await verify(marketplace.address, []);
 }
 
 main();

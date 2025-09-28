@@ -46,8 +46,8 @@ const TermsOfServicePage = () => {
                     Credibble is a decentralized finance (DeFi) platform that
                     connects investors with real-world lending opportunities
                     through tokenized loan shares. The platform operates on the
-                    Core DAO blockchain and facilitates investment in various
-                    loan pools.
+                    Hedera blockchain and facilitates investment in various loan
+                    pools.
                   </p>
                 </section>
 

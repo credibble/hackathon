@@ -1,12 +1,14 @@
-import hre from "hardhat";
-import { Hex } from "viem";
-import "@nomicfoundation/hardhat-viem";
+import { network } from "hardhat";
 
-async function whiteListPools(credit: Hex, pools: Hex[]) {
-  const borrowCredit = await hre.viem.getContractAt("BorrowCredit", credit);
+async function whiteListPools(credit: string, pools: string[]) {
+  const { ethers } = await network.connect({
+    network: "testnet",
+  });
+
+  const borrowCredit = await ethers.getContractAt("BorrowCredit", credit);
 
   for (const pool of pools) {
-    const hash = await borrowCredit.write.addToWhitelist([pool]);
+    const hash = await borrowCredit.addToWhitelist(pool);
     console.log(`Added ${pool} in ${hash}`);
   }
 }

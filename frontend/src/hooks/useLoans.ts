@@ -1,4 +1,4 @@
-import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
+import { useQuery } from "@tanstack/react-query";
 import { dataService } from "@/services/dataService";
 import { PoolFilters } from "@/types";
 import { Hex, zeroAddress } from "viem";

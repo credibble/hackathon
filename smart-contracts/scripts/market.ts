@@ -1,12 +1,14 @@
-import hre from "hardhat";
-import { Hex } from "viem";
-import "@nomicfoundation/hardhat-viem";
+import { network } from "hardhat";
 
-async function whiteListShares(market: Hex, shares: Hex[]) {
-  const marketPlace = await hre.viem.getContractAt("MarketPlace", market);
+async function whiteListShares(market: string, shares: string[]) {
+  const { ethers } = await network.connect({
+    network: "testnet",
+  });
+
+  const marketPlace = await ethers.getContractAt("MarketPlace", market);
 
   for (const share of shares) {
-    const hash = await marketPlace.write.addAllowed([share]);
+    const hash = await marketPlace.addAllowed(share);
     console.log(`Added ${share} in ${hash}`);
   }
 }

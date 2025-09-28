@@ -73,7 +73,7 @@ const HeroSection = () => {
           >
             <div className="w-1.5 h-1.5 md:w-2 md:h-2 bg-success rounded-full animate-pulse" />
             <span className="text-xs md:text-sm font-medium text-accent-foreground">
-              Live on Core DAO Testnet 2
+              Live on Hedera Testnet
             </span>
           </motion.div>
 

@@ -10,8 +10,8 @@ export const mockTokens: Token[] = [
     address: "0xcd8de66e0ab126d008d0c7ab824d2b27c0cf6e70",
   },
   {
-    name: "Core DAO",
-    symbol: "CORE",
+    name: "Hedera",
+    symbol: "HBAR",
     image: "/tokens/core.png",
     decimals: 18,
     address: zeroAddress,

@@ -23,7 +23,7 @@ const FAQSection = () => {
     {
       question: "What tokens can I use to invest?",
       answer:
-        "We accept USDT, USDC, CORE, and WBTC. All deposits are converted to USD-equivalent for loan origination, and you receive yields in your deposited token.",
+        "We accept USDT, USDC, HBAR, and WBTC. All deposits are converted to USD-equivalent for loan origination, and you receive yields in your deposited token.",
     },
     {
       question: "How are partner organizations vetted?",

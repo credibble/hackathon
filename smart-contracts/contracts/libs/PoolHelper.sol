@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: UNLICENSED
-pragma solidity 0.8.22;
+pragma solidity ^0.8.28;
 
 interface PoolHelper {
     event InitializedPool(address sharesToken, address positionToken);

@@ -49,7 +49,7 @@ const FAQPage = () => {
         {
           question: "What do I need to start using Credibble?",
           answer:
-            "You need a Web3 wallet (like MetaMask), cryptocurrency (USDT, USDC, CORE, or WBTC), and to be connected to the Core DAO network. Minimum investment varies by loan but typically starts at $10-50 equivalent, making it accessible for smaller investors.",
+            "You need a Web3 wallet (like MetaMask), cryptocurrency (USDT, USDC, HBAR, or WBTC), and to be connected to the Hedera network. Minimum investment varies by loan but typically starts at $10-50 equivalent, making it accessible for smaller investors.",
         },
         {
           question: "Is Credibble available in my country?",
@@ -206,7 +206,7 @@ const FAQPage = () => {
         {
           question: "What blockchain does Credibble use?",
           answer:
-            "Credibble operates on Core DAO, a Bitcoin-secured blockchain that offers low fees, fast transactions, and strong security. This allows us to provide efficient DeFi services while maintaining the security of Bitcoin's network.",
+            "Credibble operates on Hedera, a Bitcoin-secured blockchain that offers low fees, fast transactions, and strong security. This allows us to provide efficient DeFi services while maintaining the security of Bitcoin's network.",
         },
         {
           question: "Are my investments insured?",

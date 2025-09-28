@@ -1,5 +1,5 @@
 // SPDX-License-Identifier: UNLICENSED
-pragma solidity 0.8.22;
+pragma solidity ^0.8.28;
 
 import {Pool} from "./Pool.sol";
 import {Types} from "./libs/Types.sol";

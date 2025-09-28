@@ -32,7 +32,7 @@ const SettingsPage = () => {
     toast({
       title: `Switched to ${checked ? "Mainnet" : "Testnet"}`,
       description: `You are now connected to ${
-        checked ? "Core DAO Mainnet" : "Core DAO Testnet 2"
+        checked ? "Hedera Mainnet" : "Hedera Testnet"
       }`,
     });
   };
@@ -154,7 +154,7 @@ const SettingsPage = () => {
               <div className="flex items-center justify-between">
                 <div className="space-y-0.5">
                   <Label htmlFor="network-toggle" className="text-base">
-                    Core DAO Network
+                    Hedera Network
                   </Label>
                   <div className="text-sm text-muted-foreground">
                     Switch between testnet and mainnet environments
@@ -186,7 +186,7 @@ const SettingsPage = () => {
                 <div className="text-sm">
                   <div className="font-medium">Current Network:</div>
                   <div className="text-muted-foreground">
-                    Core DAO Testnet 2 (Chain ID: 1114)
+                    Hedera Testnet (Chain ID: 1114)
                   </div>
                 </div>
               </div>

@@ -1,11 +1,17 @@
-import hre from "hardhat";
-import { Hex, parseEther } from "viem";
-import "@nomicfoundation/hardhat-viem";
+import { network } from "hardhat";
 
-async function withdraw(pool: Hex, tokenId: bigint, amount: bigint) {
-  const poolContract = await hre.viem.getContractAt("Pool", pool);
+async function withdraw(pool: string, tokenId: bigint, amount: bigint) {
+  const { ethers } = await network.connect({
+    network: "testnet",
+  });
 
-  await poolContract.write.requestWithdraw([tokenId, amount]);
+  const poolContract = await ethers.getContractAt("Pool", pool);
+
+  await poolContract.requestWithdraw(tokenId, amount);
 }
 
-withdraw("0x08eca161d186f2fc81de6af8bd76ed3dbab4fe77", 1n, parseEther("1000"));
+// withdraw(
+//   "0x08eca161d186f2fc81de6af8bd76ed3dbab4fe77",
+//   1n,
+//   ethers.parseEther("1000")
+// );
