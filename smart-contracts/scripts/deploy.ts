@@ -38,7 +38,7 @@ async function main() {
   // Faucet USDT
   await usdt.faucet(deployer.address, ethers.parseUnits("1000", 6));
 
-  // Faucet USDT
+  // Faucet NGN
   await ngn.faucet(deployer.address, ethers.parseUnits("1000", 2));
 
   // Deploy Oracle
@@ -47,13 +47,20 @@ async function main() {
   console.log("Oracle deployed at:", await oracle.getAddress());
 
   // Set credit to asset rates
-  await oracle.setCreditToAsset(usdt.getAddress(), ethers.parseEther("0.98"));
+  await oracle.setCreditToAsset(
+    await usdt.getAddress(),
+    ethers.parseEther("0.98")
+  );
+  await oracle.setCreditToAsset(
+    await ngn.getAddress(),
+    ethers.parseEther("0.23")
+  );
   await oracle.setCreditToAsset(ethers.ZeroAddress, ethers.parseEther("0.52"));
 
   // Deploy BorrowCredit
   const BorrowCredit = await ethers.getContractFactory("BorrowCredit");
   const borrowCredit = await BorrowCredit.deploy(await oracle.getAddress());
-  console.log("BorrowCredit deployed at:", borrowCredit.getAddress());
+  console.log("BorrowCredit deployed at:", await borrowCredit.getAddress());
 
   // Partner data
   const partners: Array<{
@@ -193,7 +200,7 @@ async function main() {
       symbol: "MEG-1",
       lockPeriodDays: 270,
       borrowAPY: 12.5,
-      asset: usdt.getAddress(),
+      asset: await usdt.getAddress(),
     },
     {
       name: "Infrastructure Development Bond",
@@ -261,12 +268,12 @@ async function main() {
   console.log("MarketPlace deployed at:", await marketplace.getAddress());
 
   // Verify all
-  // await verify(usdt.address, []);
-  // await verify(oracle.address, []);
-  // await verify(borrowCredit.address, [oracle.address]);
-  // await verify(borrowCredit.address, [oracle.address]);
-  // await verify(poolFactory.address, []);
-  // await verify(marketplace.address, []);
+  // await verify(await usdt.getAddress(), []);
+  // await verify(await oracle.getAddress(), []);
+  // await verify(await borrowCredit.getAddress(), [await oracle.getAddress()]);
+  // await verify(await borrowCredit.getAddress(), [await oracle.getAddress()]);
+  // await verify(await poolFactory.getAddress(), []);
+  // await verify(await marketplace.getAddress(), []);
 }
 
 main();
